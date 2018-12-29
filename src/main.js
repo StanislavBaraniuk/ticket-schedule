@@ -7,6 +7,10 @@ import 'vuetify/dist/vuetify.min.css'
 import 'vue-resize/dist/vue-resize.css'
 import VueResize from 'vue-resize'
 import store from './store'
+import axios from 'axios'
+
+window.axios = axios;
+window.store = store;
 
 Vue.use(Vuetify);
 Vue.use(VueResize);
@@ -17,7 +21,6 @@ const routes = {
   '/': App,
   '/login': Login
 };
-
 
 new Vue({
   el: '#app',

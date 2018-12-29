@@ -40,6 +40,9 @@ export default {
     handleResize () {
       document.getElementById('way-block').style.marginTop = (window.innerHeight/2 - document.querySelector('#way-block').clientHeight/2+20) +"px";
     }
+  },
+  created() {
+
   }
 }
 </script>

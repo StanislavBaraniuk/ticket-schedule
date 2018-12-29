@@ -87,34 +87,27 @@
 
 <script>
 
-    let tickets = [
-        {NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 0, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] },
-        {NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 1, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] },
-        {NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 0, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] },
-        {NAME: "142П Бахмут — Львов", FROM: "Lviv", PRICE: 200, TO: "Kiev", TYPE: 1, FROM_TIME: "6:00", TO_TIME: "21:15", WAY_TIME: "12:15", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] }
-                    ];
+    // let tickets = [
+    //     {NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 0, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] },
+    //     {NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 1, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] },
+    //     {NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 0, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] },
+    //     {NAME: "142П Бахмут — Львов", FROM: "Lviv", PRICE: 200, TO: "Kiev", TYPE: 1, FROM_TIME: "6:00", TO_TIME: "21:15", WAY_TIME: "12:15", STATIONS: [{TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}, {TYPE: "Станція", NAME: "Ужгород"}] }
+    //                 ];
+    import { mapGetters } from 'vuex';
+
 
     export default {
         name: "ContentBlock",
         data: () => ({
-            tickets,
-            isListEmpty: (!(typeof tickets != "undefined" && tickets != null && tickets.length != null && tickets.length > 0)),
-            ticketsLandscape: window.innerWidth <= 960
+            // tickets,
+            // isListEmpty: (!(typeof tickets != "undefined" && tickets != null && tickets.length != null && tickets.length > 0)),
+            // ticketsLandscape: window.innerWidth <= 960
         }),
         computed: {
-            setMarginTop () {
-                // let marg = '';
-                // if (window.innerWidth > 960) {
-                //     marg = window.innerHeight/1.35
-                // } else {
-                //     marg = window.innerHeight
-                // }
-
-                // alert(marg);
-                return {
-                    // marginTop: `${marg}px`
-                }
-            }
+            ...mapGetters({
+                tickets: 'GET_LIST',
+                isListEmpty: 'IS_LIST_EMPTY'
+            })
         }
     }
 </script>

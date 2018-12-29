@@ -5,8 +5,8 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-xs-only">
-            <v-btn v-on:click="setActive(1)" :style="isActive(1)" flat><i class="material-icons">directions_railway</i><span class="icon-text">Потяг</span></v-btn>
-            <v-btn v-on:click="setActive(2)" :style="isActive(2)" flat><i class="material-icons">directions_bus</i><span class="icon-text">Автобус</span></v-btn>
+            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><i class="material-icons">directions_railway</i><span class="icon-text">Потяг</span></v-btn>
+            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><i class="material-icons">directions_bus</i><span class="icon-text">Автобус</span></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -72,6 +72,8 @@
 
 <script>
 
+    import { mapGetters } from 'vuex';
+
     export default {
         name: 'myHeader',
         data() {
@@ -87,7 +89,7 @@
 
                 ],
 
-                activeIndex: 1,
+                // activeIndex: 1,
                 direction: 'bottom',
                 fab: false,
                 fling: false,
@@ -101,19 +103,24 @@
             };
         },
         methods: {
-            setActive: function (index) {
-                this.activeIndex = index;
-            },
-            isActive: function (index) {
-                let style = 'none';
-                if (this.activeIndex === index) {
-                    style = '3px solid white';
+            // setActive: function (index) {
+            //     this.activeIndex = index;
+            // },
+            getActiveStyle: function (index) {
+                if (index === this.def_type) {
+                    return true
+                } else {
+                    return false
                 }
-                return "border-bottom: "+style+";"
+            },
+            setActive: function (value) {
+                this.$store.commit('SET_TYPE', value)
             }
         },
         computed: {
-
+            ...mapGetters({
+                def_type: 'GET_TYPE'
+            }),
         }
     }
 </script>

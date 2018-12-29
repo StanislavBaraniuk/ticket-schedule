@@ -59,4 +59,8 @@
   width: 5px;
 }
 
+.activeMenu {
+  border-bottom: 3px solid white;
+}
+
 /*# sourceMappingURL=main.css.map */

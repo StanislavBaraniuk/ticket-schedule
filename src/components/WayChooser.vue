@@ -12,6 +12,7 @@
                                         label="З відки?"
                                         placeholder="Місто відправки"
                                         append-icon="place"
+                                        v-model="from"
                                 ></v-text-field>
                             </v-flex>
 
@@ -25,12 +26,12 @@
                                         label="Куди?"
                                         placeholder="Місто прибуття"
                                         append-icon="place"
+                                        v-model="to"
                                 ></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm12 lg1 md1>
                                 <i class="material-icons" style="margin-top: 30px">event</i>
                             </v-flex>
-                            <!--<div style="width: 20px"></div>-->
                             <v-flex xs12 sm12 lg2 md2 class="way-input">
                                 <v-menu :close-on-content-click="false" :nudge-right="40"
                                         lazy
@@ -90,10 +91,11 @@
 
 <script>
 
+    import { mapGetters } from 'vuex';
+
     export default {
         name: "WayChooser",
         data: () => ({
-            date: '',
             dialog: false
         }),
         watch: {
@@ -105,8 +107,8 @@
         },
         methods: {
             loadTickets: function () {
-                this.store.commit('setActivePage');
-                // this.$store.state.display.isActive = true;
+                this.$store.commit('setActivePage');
+                this.$store.state.display.isActive = true;
             }
         },
         mutations: {
@@ -127,7 +129,36 @@
                 return {
                     marginTop: `${marg}px`,
                 }
-            }
+            },
+            from: {
+                get () {
+                    return this.def_from;
+                },
+                set (value) {
+                    this.$store.commit('SET_FROM', value)
+                }
+            },
+            to: {
+                get () {
+                    return this.def_to;
+                },
+                set (value) {
+                    this.$store.commit('SET_TO', value)
+                }
+            },
+            date: {
+                get () {
+                    return this.def_date;
+                },
+                set (value) {
+                    this.$store.commit('SET_DATE', value)
+                }
+            },
+            ...mapGetters({
+                def_from: 'GET_FROM',
+                def_to: "GET_TO",
+                def_date: "GET_DATE"
+            })
         }
     }
 
