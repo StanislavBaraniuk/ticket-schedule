@@ -1,40 +1,44 @@
 <template>
   <v-app>
+    <resize-observer @notify="handleResize" />
     <back-photo></back-photo>
-    <my-header></my-header>
+    <header-block></header-block>
     <way-chooser></way-chooser>
     <content-block></content-block>
+    <footer-block></footer-block>
+
   </v-app>
 </template>
 
 <script>
-import myHeader from './components/Header'
+import HeaderBlock from './components/Header'
 import BackPhoto from './components/BackPhoto'
 import WayChooser from './components/WayChooser'
 import ContentBlock from './components/ContentBlock'
-
-import WebFontLoader from 'webfontloader'
+import FooterBlock from './components/Footer'
+import './style/style.css'
+// import WebFontLoader from 'webfontloader'
 
 export default {
   name: 'app',
-  mounted () {
-
-    WebFontLoader.load({
-      google: {
-        families: ['Roboto:100,300,400,500,700,900']
-      },
-      active: this.setFontLoaded
-    })
-  },
   components: {
-    myHeader,
+    HeaderBlock,
     BackPhoto,
     WayChooser,
-    ContentBlock
+    ContentBlock,
+    FooterBlock
+  },
+  data: function () {
+    return {
+      windowWidth: window.innerWidth
+    };
   },
   methods: {
     setFontLoaded () {
       this.$emit('font-loaded')
+    },
+    handleResize () {
+      document.getElementById('way-block').style.marginTop = (window.innerHeight/2 - document.querySelector('#way-block').clientHeight/2+20) +"px";
     }
   }
 }

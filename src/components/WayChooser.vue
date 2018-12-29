@@ -1,15 +1,17 @@
+<!--:style="setMarginTop"-->
 <template>
-    <div class="way-block" :style="setMarginTop">
+    <div id="way-block" class="way-block" :style="setMarginTop">
     <v-container grid-list-md text-md-center style=" z-index: 999;" >
         <v-layout row align-center fill-height class="test">
             <v-flex xs12 sm12 md12 lg8  offset-lg2>
-                <v-card color="rgba(0, 128, 0, 0.86)" style="color: white">
+                <v-card color="green darken-2" style="color: white">
                     <v-container grid-list-md text-md-center>
                         <v-layout row wrap>
                             <v-flex xs12 sm12 lg4 md4 class="way-input">
                                 <v-text-field
                                         label="З відки?"
-                                        placeholder="Місце відправки"
+                                        placeholder="Місто відправки"
+                                        append-icon="place"
                                 ></v-text-field>
                             </v-flex>
 
@@ -20,8 +22,9 @@
                             </v-flex>
                             <v-flex xs12 sm12 lg4 md4 class="way-input" >
                                 <v-text-field
-                                        label="З відки?"
-                                        placeholder="Місце відправки"
+                                        label="Куди?"
+                                        placeholder="Місто прибуття"
+                                        append-icon="place"
                                 ></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm12 lg1 md1>
@@ -29,7 +32,7 @@
                             </v-flex>
                             <!--<div style="width: 20px"></div>-->
                             <v-flex xs12 sm12 lg2 md2 class="way-input">
-                                <v-menu :close-on-content-click="false" v-model="menu2" :nudge-right="40"
+                                <v-menu :close-on-content-click="false" :nudge-right="40"
                                         lazy
                                         transition="scale-transition"
                                         offset-y
@@ -43,14 +46,41 @@
                                             placeholder="День відправки"
                                             readonly
                                     ></v-text-field>
-                                    <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                                    <v-date-picker v-model="date"></v-date-picker>
                                 </v-menu>
                             </v-flex>
                         </v-layout>
                     </v-container>
                 </v-card>
                 <v-flex xs12>
-                    <v-btn color="warning" dark><span style="font-size: 12px">Знайти квиток</span><v-icon>arrow_forward</v-icon></v-btn>
+                    <v-btn color="warning" dark
+                           @click="loadTickets"
+                           :disabled="dialog"
+                           :loading="dialog"
+                    >
+                        <span style="font-size: 12px">Знайти квиток</span>
+                        <v-icon>arrow_forward</v-icon>
+                    </v-btn>
+                    <v-dialog
+                            v-model="dialog"
+                            hide-overlay
+                            persistent
+                            width="300"
+                    >
+                        <v-card
+                                color="primary"
+                                dark
+                        >
+                            <v-card-text>
+                                Відбувається загрузка білетів
+                                <v-progress-linear
+                                        indeterminate
+                                        color="white"
+                                        class="mb-0"
+                                ></v-progress-linear>
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -64,22 +94,34 @@
         name: "WayChooser",
         data: () => ({
             date: '',
-            menu: false,
-            modal: false,
-            menu2: false,
+            dialog: false
         }),
+        watch: {
+            dialog (val) {
+                if (!val) return
+
+                setTimeout(() => (this.dialog = false), 4000)
+            }
+        },
         methods: {
-            setRight () {
-                // alert(document.querySelector('#tt').getBoundingClientRect().right)
+            loadTickets: function () {
+                this.store.commit('setActivePage');
+                // this.$store.state.display.isActive = true;
+            }
+        },
+        mutations: {
+            dialogC: function () {
+                this.dialog = true;
             }
         },
         computed: {
             setMarginTop () {
+
                 let marg = '';
                 if (window.innerWidth > 960) {
-                    marg = window.innerHeight/2-160
+                    marg = window.innerHeight/2-100
                 } else {
-                    marg = window.innerHeight/6
+                    marg = window.innerHeight/10
                 }
 
                 return {

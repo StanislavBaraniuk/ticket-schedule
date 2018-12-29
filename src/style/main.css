@@ -1,0 +1,62 @@
+#back-photo .back-photo {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  position: absolute;
+  background-image: url("https://znaj.ua/images/2018/09/25/IcXKNfRpuvkrvkgYodOhx7p1WD107ndNP6XMKLjT.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#back-photo .back-photo-black {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.p100 {
+  height: 100vh;
+}
+
+.p50 {
+  height: 50vh;
+}
+
+/*______SCROLL______________ */
+::-webkit-scrollbar-button {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background-color: #00b33f;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(193, 193, 194, 0.9);
+}
+
+/*background-color: whitesmoke; */
+::-webkit-resizer {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/*# sourceMappingURL=main.css.map */
