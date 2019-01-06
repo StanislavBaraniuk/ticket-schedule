@@ -1,17 +1,15 @@
 <template>
     <v-app>
-        <back-photo></back-photo>
-        <my-header></my-header>
-        <way-chooser></way-chooser>
-        <content-block></content-block>
+        <my-header way ></my-header>
+        <authorization></authorization>
+        <footer-block></footer-block>
     </v-app>
 </template>
 
 <script>
-    import myHeader from './components/Header'
-    import BackPhoto from './components/BackPhoto'
-    import WayChooser from './components/WayChooser'
-    import ContentBlock from './components/ContentBlock'
+    import myHeader from './components/standart/Header'
+    import Authorization from './components/authorization/Authorization'
+    import FooterBlock from './components/standart/Footer'
 
     import WebFontLoader from 'webfontloader'
 
@@ -27,10 +25,9 @@
             })
         },
         components: {
+            Authorization,
             myHeader,
-            BackPhoto,
-            WayChooser,
-            ContentBlock
+            FooterBlock
         },
         methods: {
             setFontLoaded () {
@@ -40,19 +37,20 @@
     }
 </script>
 
-<style>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin: 0;
-        padding: 0;
-    }
+<style lang="sass" scoped>
+    #app
+        font-family: 'Avenir', Helvetica, Arial, sans-serif
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
+        text-align: center
+        color: #2c3e50
+        margin: 0
+        padding: 0
 
-    body {
-        padding: 0;
-        margin: 0;
-    }
+
+    body
+        padding: 0
+        margin: 0
+
+
 </style>

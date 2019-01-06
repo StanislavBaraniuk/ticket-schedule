@@ -1,37 +1,32 @@
-// const display = {
-//     state: {
-//         isActive: true,
-//         dialog: false
-//     },
-//     mutations: {
-//         setActivePage () {
-//             this.state.isActive = true;
-//         }
-//     },
-//     actions: {
-//         setActivePage () {
-//             display.commit('setActivePage');
-//         }
-//     },
-//     getters: {
-//
-//     }
-// };
-
 const state = {
     isActive: false,
-    dialog: false
+    dialog: false,
+    activeAE: 1,
+    activeAEN: ["Статистика", "Інструменти"]
 };
-const getters = {};
-const mutations = {
-    setActivePage () {
-        this.state.isActive = true;
+
+const getters = {
+    GET_AVTIVE_ADMIN_ELEMENT: state => {
+        return state.activeAE
+    },
+    GET_AVTIVE_ADMIN_ELEMENT_NAMES: state => {
+        return state.activeAEN[state.activeAE]
     }
 };
+
+const mutations = {
+    C_ACTIVE_PAGE () {
+        this.state.isActive = true;
+    },
+    C_ACTIVE_ADMIN_ELEMENT (state, value) {
+        state.activeAE = value
+    },
+};
+
 const actions = {
     setActivePage () {
-        this.commit('setActivePage');
-    }
+        this.commit('C_ACTIVE_PAGE');
+    },
 };
 
 export default {
