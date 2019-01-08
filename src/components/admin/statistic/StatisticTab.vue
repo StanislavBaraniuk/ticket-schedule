@@ -42,14 +42,14 @@
             }),
             computed: {
                     ...mapGetters({
-                            def_profit_list: 'GET_PROFIT_LIST',
-                            def_sales_list: 'GET_SALES_LIST',
-                            def_user_list: 'GET_USER_LIST',
-                            def_time_lapse_list: 'GET_TIME_LAPSE_LIST',
-                            def_users_sex: 'GET_USERS_SEX',
-                            def_users_sex_keys: 'GET_USERS_SEX_KEYS',
-                            def_ways: 'GET_WAYS',
-                            def_ways_keys: 'GET_WAYS_KEYS'
+                            def_profit_list: 'GET_STATISTIC_PROFIT_LIST',
+                            def_sales_list: 'GET_STATISTIC_SALES_LIST',
+                            def_user_list: 'GET_STATISTIC_USER_LIST',
+                            def_time_lapse_list: 'GET_STATISTIC_TIME_LAPSE_LIST',
+                            def_users_sex: 'GET_STATISTIC_USERS_SEX',
+                            def_users_sex_keys: 'GET_STATISTIC_USERS_SEX_KEYS',
+                            def_ways: 'GET_STATISTIC_WAYS',
+                            def_ways_keys: 'GET_STATISTIC_WAYS_KEYS'
                     }),
             }
         };

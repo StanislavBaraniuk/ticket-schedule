@@ -1,7 +1,7 @@
 <template>
     <v-container style="margin-top: -30px">
         <v-flex xs12 sm12 md12 lg12 >
-            <v-btn flat @click="addActive = !addActive" :class="{activeBtn: addActive}">Додати місто</v-btn>
+            <v-btn flat @click="addActive = !addActive" :class="{activeBtn: addActive}">Додати користувача</v-btn>
         </v-flex>
         <city-add :add-active="{v: addActive}"></city-add>
         <city-list :stations="stations"></city-list>
@@ -9,11 +9,11 @@
 </template>
 
 <script>
-    import CityAdd from './CityAdd'
-    import CityList from './CityList'
+    import CityAdd from './UsersAdd'
+    import CityList from './UsersList'
 
     export default {
-        name: "CityMenu",
+        name: "UsersMenu",
         components: {
             CityAdd,
             CityList
@@ -25,7 +25,7 @@
         },
         data: function () {
             return {
-                addActive: false
+                addActive: true
             }
         },
         methods: {
