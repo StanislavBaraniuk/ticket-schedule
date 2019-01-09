@@ -15,6 +15,7 @@
                             <v-autocomplete
                                     :items="search_rows"
                                     :search-input.sync="search"
+                                    :readonly="false"
                                     v-model="select"
                                     cache-items
                                     flat
@@ -45,15 +46,18 @@
                             <v-btn flat @click="activeBlock = 0">квитки</v-btn>
                             <v-btn flat @click="activeBlock = 1">міста</v-btn>
                             <v-btn flat @click="activeBlock = 2">користувачі</v-btn>
-                            <v-btn flat @click="activeBlock = 3">сайт</v-btn>
+                            <v-btn flat @click="activeBlock = 3">замовлення</v-btn>
+                            <v-btn flat @click="activeBlock = 4">сайт</v-btn>
                         </v-flex>
 
                     </v-layout>
                 </v-card>
             </v-container>
-            <ticket-menu v-if="activeBlock === 0" :items="def_stations" :tickets="def_tickets"></ticket-menu>
+            <ticket-menu v-if="activeBlock === 0" :items="def_stations_way" :tickets="def_tickets"></ticket-menu>
             <city-menu v-if="activeBlock === 1" :stations="def_stations"></city-menu>
             <users-menu v-if="activeBlock === 2" :stations="def_user_list"></users-menu>
+            <orders-menu v-if="activeBlock === 3" :orders="def_orders" :tickets="def_tickets" :users="def_user_list"></orders-menu>
+            <site-menu v-if="activeBlock === 4" :status="{v: site_status}"></site-menu>
         </v-layout>
     </v-container>
 </template>
@@ -63,13 +67,17 @@
     import TicketMenu from './Ticket/TicketMenu';
     import CityMenu from './City/CityMenu';
     import UsersMenu from './Users/UsersMenu';
+    import SiteMenu from './Site/SiteMenu';
+    import OrdersMenu from "./Orders/OrdersMenu";
 
     export default {
         name: "ToolTab",
         components: {
+            OrdersMenu,
             UsersMenu,
             TicketMenu,
-            CityMenu
+            CityMenu,
+            SiteMenu
         },
         data () {
             return {
@@ -78,7 +86,7 @@
                 modal_a: false,
                 menu_d: false,
                 modal_d: false,
-                activeBlock: 2
+                activeBlock: 0
             }
         },
         methods: {
@@ -88,7 +96,10 @@
             ...mapGetters({
                 def_tickets: 'GET_ALL_TICKETS',
                 def_stations: 'GET_STATIONS',
+                def_stations_way: 'GET_STATIONS_WAY',
                 def_user_list: 'GET_USER_LIST',
+                site_status: 'GET_SITE_STATUS',
+                def_orders: 'GET_ORDERS'
             }),
         }
 

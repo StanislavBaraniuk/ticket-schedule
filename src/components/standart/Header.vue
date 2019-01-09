@@ -1,12 +1,12 @@
 <template>
     <v-toolbar class="transparent" dark flat absolute :class="{p100 : drawer}">
-        <v-toolbar-items  v-if="!$props.home" v-on:click="rd('/')">
+        <v-toolbar-items class="hidden-xs-only"  v-if="!$props.home" v-on:click="rd('/')">
             <v-btn flat><i class="material-icons">home</i></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-xs-only" v-if="!$props.way">
-            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><i class="material-icons">directions_railway</i><span class="icon-text">Потяг</span></v-btn>
-            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><i class="material-icons">directions_bus</i><span class="icon-text">Автобус</span></v-btn>
+        <v-toolbar-items v-if="!$props.way">
+            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><i class="material-icons">directions_railway</i><span class="icon-text hidden-xs-only">Потяг</span></v-btn>
+            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><i class="material-icons">directions_bus</i><span class="icon-text hidden-xs-only">Автобус</span></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -93,15 +93,6 @@
         data() {
             return {
                 drawer: null,
-                items: [
-                    { title: 'Ввійти', icon: 'fas fa-sign-in-alt' },
-                    { title: 'Зареєструватись', icon: 'question_answer' },
-                    { title: 'Налаштування', icon: 'settings_applications' },
-                    { title: 'Адмін панель', icon: 'fas fa-tools' },
-                    { title: 'Вихід', icon: 'fas fa-sign-out-alt' },
-                    { title: 'Корзина', icon: 'fas fa-shopping-cart' }
-
-                ],
                 direction: 'bottom',
                 fab: false,
                 fling: false,
@@ -141,6 +132,7 @@
 <style lang="sass" scoped>
     .activeMenu
         border-bottom: 3px solid white
+
     .v-btn
         transition: 1s
 

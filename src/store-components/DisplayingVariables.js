@@ -1,7 +1,7 @@
 const state = {
-    isActive: false,
+    isActive: true,
     dialog: false,
-    activeAE: 1,
+    activeAE: 0,
     activeAEN: ["Статистика", "Інструменти"]
 };
 

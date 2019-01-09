@@ -2,10 +2,10 @@
   <v-app>
     <div :class="{vh100 : !this.$store.state.display.isActive, pr100: this.$store.state.display.isActive}">
     <!--<resize-observer @notify="handleResize" />-->
-    <back-photo></back-photo>
-    <header-block ></header-block>
-    <way-chooser></way-chooser>
-    <content-block></content-block>
+      <back-photo></back-photo>
+      <header-block></header-block>
+      <way-chooser></way-chooser>
+      <content-block></content-block>
     </div>
     <footer-block></footer-block>
   </v-app>

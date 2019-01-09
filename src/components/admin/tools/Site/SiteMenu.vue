@@ -1,25 +1,23 @@
 <template>
     <v-container style="margin-top: -30px">
         <v-flex xs12 sm12 md12 lg12 >
-            <v-btn flat @click="addActive = !addActive" :class="{activeBtn: addActive}">Додати користувача</v-btn>
+            <v-btn @click="turn_c" flat>{{ !$props.status.v ? "Ввімкнути сайт" : "Вимкнути сайт" }}</v-btn>
         </v-flex>
-        <city-add :add-active="{v: addActive}"></city-add>
-        <city-list :stations="stations"></city-list>
+        <v-flex xs12 sm12 md12 lg12 >
+            <h1>Mode: {{ $props.status.v ? "online" : "offline" }} for users</h1>
+        </v-flex>
     </v-container>
 </template>
 
 <script>
-    import CityAdd from './UsersAdd'
-    import CityList from './UsersList'
 
     export default {
-        name: "UsersMenu",
+        name: "CityMenu",
         components: {
-            CityAdd,
-            CityList
+
         },
         props: {
-            stations:{
+            status: {
 
             }
         },
@@ -29,6 +27,9 @@
             }
         },
         methods: {
+            turn_c: function () {
+                this.$store.commit('SET_SITE_STATUS', !this.$props.status.v)
+            },
             redaction: function (item) {
                 alert(item.toString());
             },

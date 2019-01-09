@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Login from './Login'
 import Tools from './Tools'
+import Account from './Account'
 import NotFound from './404'
 
 import Vuetify from 'vuetify'
@@ -11,6 +12,7 @@ import VueResize from 'vue-resize'
 import store from './store'
 import axios from 'axios'
 import VueApexCharts from 'vue-apexcharts'
+
 Vue.use(VueApexCharts);
 Vue.component('apexchart', VueApexCharts);
 
@@ -24,7 +26,8 @@ Vue.config.productionTip = false;
 const routes = {
   '/': App,
   '/login': Login,
-  '/tools': Tools
+  '/tools': Tools,
+  '/account': Account
 };
 
 new Vue({

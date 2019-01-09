@@ -30,8 +30,6 @@
                         ></v-text-field>
                     </v-flex>
 
-
-
                     <v-flex xs12 sm12 md12 lg6>
                         <v-text-field
                                 label="Імя"
@@ -45,11 +43,12 @@
                     </v-flex>
 
                     <v-flex xs12 sm12 md12 lg12>
-                        <v-select
+                        <v-autocomplete
                                 v-model="sex_item[sex_select]"
                                 :items="sex_item"
                                 label="Стать"
-                        ></v-select>
+                                :readonly="false"
+                        ></v-autocomplete>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -57,7 +56,7 @@
 
         <v-flex xs12>
             <v-btn dark color="indigo" v-on:click="f.v(-1)"><v-icon>close</v-icon></v-btn>
-        </v-flex>git
+        </v-flex>
 
     </v-card>
 </template>

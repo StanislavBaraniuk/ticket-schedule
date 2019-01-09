@@ -19,11 +19,12 @@
                 </v-flex>
 
                 <v-flex xs12 sm12 md12 lg8>
-                    <v-select
+                    <v-autocomplete
                             :items="items"
 
                             label="Місце відправлення"
-                    ></v-select>
+                            :readonly="false"
+                    ></v-autocomplete>
                 </v-flex>
 
                 <v-flex xs12 sm12 md6 lg2>
@@ -65,11 +66,11 @@
                 </v-flex>
 
                 <v-flex xs12 sm12 md12 lg8>
-                    <v-select
+                    <v-autocomplete
                             :items="items"
-
+                            :readonly="false"
                             label="Місце прибуття"
-                    ></v-select>
+                    ></v-autocomplete>
                 </v-flex>
 
                 <v-flex xs12 sm12 md6 lg2>
@@ -125,7 +126,7 @@
                                 close
                                 @input="remove(data.item)"
                         >
-                            <strong>{{ data.item }}</strong>&nbsp;
+                            <strong>{{ data.item.NAME }}</strong>&nbsp;
                             <span></span>
                         </v-chip>
                     </template>

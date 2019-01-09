@@ -8,12 +8,13 @@
                     <v-container grid-list-md text-md-center>
                         <v-layout row wrap>
                             <v-flex xs12 sm12 lg4 md4 class="way-input">
-                                <v-text-field
+                                <v-autocomplete
                                         label="З відки?"
+                                        :items="def_stations_way"
                                         placeholder="Місто відправки"
                                         append-icon="place"
                                         v-model="from"
-                                ></v-text-field>
+                                ></v-autocomplete>
                             </v-flex>
 
                             <v-flex xs12 sm0 lg1 md1>
@@ -22,12 +23,13 @@
                                 </i>
                             </v-flex>
                             <v-flex xs12 sm12 lg4 md4 class="way-input" >
-                                <v-text-field
+                                <v-autocomplete
                                         label="Куди?"
+                                        :items="def_stations_way"
                                         placeholder="Місто прибуття"
                                         append-icon="place"
                                         v-model="to"
-                                ></v-text-field>
+                                ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12 sm12 lg1 md1>
                                 <i class="material-icons" style="margin-top: 30px">event</i>
@@ -144,7 +146,8 @@
             ...mapGetters({
                 def_from: 'GET_FROM',
                 def_to: "GET_TO",
-                def_date: "GET_DATE"
+                def_date: "GET_DATE",
+                def_stations_way: 'GET_STATIONS_WAY',
             })
         }
     }
