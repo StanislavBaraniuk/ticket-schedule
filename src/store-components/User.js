@@ -23,9 +23,7 @@ const state = {
         { title: 'Ввійти', icon: 'fas fa-sign-in-alt', path: "/login" },
         { title: 'Аккаунт', icon: 'account_circle', path: "/account"  },
         { title: 'Адмін панель', icon: 'fas fa-tools', path: "/tools"  },
-        { title: 'Вихід', icon: 'fas fa-sign-out-alt', path: "/logout"  },
-        { title: 'Корзина', icon: 'fas fa-shopping-cart', path: "/book"  }
-
+        { title: 'Вихід', icon: 'fas fa-sign-out-alt', path: "/logout"  }
     ]
 };
 const getters = {

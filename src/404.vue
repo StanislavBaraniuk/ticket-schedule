@@ -1,10 +1,19 @@
 <template>
-    <div>404</div>
+    <div>
+        <div style="height: 65px; background-color: #333333; width: 100vw; position: absolute"></div>
+        <my-header way></my-header>
+        <div style="background-image: url('https://www.sageisland.com/wp-content/uploads/2015/04/creative-404-error-page-design-marketing-assets.jpg'); width: 100vw; height: 100vh; background-size: 70%; background-position: center; background-color: #d5edef"></div>
+    </div>
 </template>
 
 <script>
+    import MyHeader from './components/standart/Header'
+
     export default {
-        name: "404"
+        name: "404",
+        components: {
+            MyHeader
+        }
     }
 </script>
 

@@ -23,7 +23,7 @@
                                 ></v-text-field>
                             </v-flex>
                             <div style="height: 30px"></div>
-                            <v-btn depressed dark style="margin-top: -70px; background-color: #009888">Ввійти</v-btn>
+                            <v-btn depressed dark style="margin-top: -70px; background-color: #38863d">Ввійти</v-btn>
                             <div  style="height: 30px"></div>
                         </v-card-text>
 
@@ -43,7 +43,7 @@
                                 ></v-text-field>
                             </v-flex>
                             <div style="height: 30px"></div>
-                            <v-btn depressed dark style="margin-top: -70px; background-color: #009888">Зареєструватись</v-btn>
+                            <v-btn depressed dark style="margin-top: -70px; background-color: #38863d">Зареєструватись</v-btn>
                             <div  style="height: 30px"></div>
                         </v-card-text>
 
@@ -57,7 +57,7 @@
                                 ></v-text-field>
                             </v-flex>
                             <div style="height: 30px"></div>
-                            <v-btn depressed dark style="margin-top: -70px; background-color: #009888">Відновити доступ</v-btn>
+                            <v-btn depressed dark style="margin-top: -70px; background-color: #38863d">Відновити доступ</v-btn>
                             <div  style="height: 30px"></div>
                         </v-card-text>
 
@@ -103,8 +103,8 @@
     .auth-page
         width: 100vw
         height: 100vh
-        background-color: #009888
+        background-color: #38863d
 
     .button
-        background-color: #009888
+        background-color: #38863d
 </style>
