@@ -1,9 +1,9 @@
 <template>
     <v-card style="padding: 10px 10px 10px 10px; background-color: whitesmoke" class="padding600">
         <v-layout row wrap>
-            <h3 style="margin-bottom: 10px" class="animated bounce"><v-chip text-color="white" color="red"><v-icon>shopping_cart</v-icon> {{ all_orders.filter(function( obj ) { return obj.USER_ID === user.ID }).length }}</v-chip>  Активні бронювання</h3>
+            <h3 style="margin-bottom: 10px" class="animated bounce delay-2s"><v-chip text-color="white" color="red"><v-icon>shopping_cart</v-icon> {{ all_orders.filter(function( obj ) { return obj.USER_ID === user.ID }).length }}</v-chip>  Активні бронювання</h3>
             <v-flex xs12>
-                <v-flex xs12 sm12 md12 lg12  v-for=" (item , index) in getActiveOrders(all_orders, tickets, user)" :key="index" class="animated bounce">
+                <v-flex xs12 sm12 md12 lg12  v-for=" (item , index) in getActiveOrders(all_orders, tickets, user)" :key="index" class="animated bounce delay-2s">
                     <v-card>
                         <v-container grid-list-md text-xs-center style="padding: 10px 0 0;">
                             <v-layout row wrap>

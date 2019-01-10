@@ -1,11 +1,13 @@
 <template>
     <v-expansion-panel style="margin-top: 20px">
         <v-expansion-panel-content
-                v-for="(item,index) in $props.items"
+                v-for="(item,index) in orders.filter(function(obj) {
+                  return obj[search_s] == search_t || search_t.length < 1
+                })"
                 :key="index"
         >
             <div slot="header">#{{ item.ID }} : {{ item.DATE }}</div>
-            <v-card v-if="activeTicketRedactId !== item.ID">
+            <v-card>
                 <v-card-text>Бронювання</v-card-text>
                 <v-card-text  style="margin-left: 20px">
                     <v-layout row wrap>
@@ -108,10 +110,12 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
         name: "OrdersList",
         props: {
-            items:{
+            orders:{
 
             },
             tickets: {
@@ -120,6 +124,12 @@
             users: {
 
             }
+        },
+        computed:{
+            ...mapGetters({
+                search_t: "GET_ADMIN_SEARCH_TEXT",
+                search_s: "GET_ADMIN_SEARCH_SELECT"
+            })
         }
     }
 </script>

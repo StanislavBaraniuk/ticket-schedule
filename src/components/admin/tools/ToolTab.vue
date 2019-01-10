@@ -1,7 +1,6 @@
 <template>
     <v-container grid-list-md class="tool-block">
         <v-layout row wrap>
-
             <v-container>
                 <v-card
                         dark
@@ -13,11 +12,9 @@
 
                         <v-flex xs10 sm5 md5 lg5 offset-xs1>
                             <v-autocomplete
-                                    :items="search_rows"
-                                    :search-input.sync="search"
+                                    :items="search[activeBlock]"
                                     :readonly="false"
                                     v-model="select"
-                                    cache-items
                                     flat
                                     hide-no-data
                                     hide-details
@@ -28,8 +25,7 @@
                         </v-flex>
                         <v-flex xs10 sm5 md5 lg5 offset-xs1 offset-sm0>
                             <v-text-field
-                                    :search-input.sync="search"
-                                    v-model="select"
+                                    v-model="text"
                                     cache-items
                                     class="mx-2"
                                     flat
@@ -53,11 +49,17 @@
                     </v-layout>
                 </v-card>
             </v-container>
+
             <ticket-menu v-if="activeBlock === 0" :items="def_stations_way" :tickets="def_tickets"></ticket-menu>
+
             <city-menu v-if="activeBlock === 1" :stations="def_stations"></city-menu>
+
             <users-menu v-if="activeBlock === 2" :stations="def_user_list"></users-menu>
+
             <orders-menu v-if="activeBlock === 3" :orders="def_orders" :tickets="def_tickets" :users="def_user_list"></orders-menu>
+
             <site-menu v-if="activeBlock === 4" :status="{v: site_status}"></site-menu>
+
         </v-layout>
     </v-container>
 </template>
@@ -81,25 +83,40 @@
         },
         data () {
             return {
-                search_rows: ['id','test','zalupka'],
                 menu_a: false,
                 modal_a: false,
                 menu_d: false,
                 modal_d: false,
-                activeBlock: 0
+                activeBlock: 0,
             }
         },
-        methods: {
-
-        },
         computed: {
+            text: {
+                get () {
+                    return this.search_t;
+                },
+                set (value) {
+                    this.$store.commit('SET_ADMIN_SEARCH_TEXT', value)
+                }
+            },
+            select: {
+                get () {
+                    return this.search_s;
+                },
+                set (value) {
+                    this.$store.commit('SET_ADMIN_SEARCH_SELECT', value)
+                }
+            },
             ...mapGetters({
                 def_tickets: 'GET_ALL_TICKETS',
                 def_stations: 'GET_STATIONS',
                 def_stations_way: 'GET_STATIONS_WAY',
                 def_user_list: 'GET_USER_LIST',
                 site_status: 'GET_SITE_STATUS',
-                def_orders: 'GET_ORDERS'
+                def_orders: 'GET_ORDERS',
+                search: "GET_ADMIN_SEARCH",
+                search_t: "GET_ADMIN_SEARCH_TEXT",
+                search_s: "GET_ADMIN_SEARCH_SELECT"
             }),
         }
 

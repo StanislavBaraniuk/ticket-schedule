@@ -1,82 +1,78 @@
 const state = {
-    type: 1,
-    from: '',
-    to: '',
-    date: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
-    new_time_d: new Date().getHours() + ":" + new Date().getMinutes(),
-    new_time_a: new Date().getHours() + ":" + new Date().getMinutes(),
-    new_date_d: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
-    new_date_a: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
-    new_name: null,
-    new_price: null,
 
-    all_ways: ["Киев","Киев1","Киев2","Киев3","Киев4","Киев5","Киев6","Киев7","Киев8","Киев9","Киев10","Киев11"],
-    list: [
-        {ID: 0, NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 0, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: ["Uzhgorod", "Lviv", "Kiev"] },
-        {ID: 3, NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 1, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: ["Uzhgorod", "Lviv", "Kiev"] },
-        {ID: 5, NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM: "Uzhgorod", TO: "Kiev", TYPE: 0, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: ["Uzhgorod", "Lviv", "Kiev"] },
-        {ID: 13, NAME: "142П Бахмут — Львов", FROM: "Lviv", PRICE: 200, TO: "Kiev", TYPE: 1, FROM_TIME: "6:00", TO_TIME: "21:15", WAY_TIME: "12:15", STATIONS: ["Uzhgorod", "Lviv", "Kiev"]}
-    ]
+    main_filter: {
+        FROM: "",
+        TO: "",
+        DATE: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
+        TRANSPORT: 1,
+    },
+
+    new_ticket: {
+        dates: {
+            d_time: new Date().getHours() + ":" + new Date().getMinutes(),
+            a_time: new Date().getHours() + ":" + new Date().getMinutes(),
+            d_date: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
+            a_date: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
+        },
+        name: null,
+        price: null
+    }
+
+    // all_ways: ["Киев","Киев1","Киев2","Киев3","Киев4","Киев5","Киев6","Киев7","Киев8","Киев9","Киев10","Киев11"],
 };
 const getters = {
-    IS_LIST_EMPTY: state => {
-        return !(typeof state.list != "undefined" && state.list != null && state.list.length != null && state.list.length > 0);
-    },
-    GET_LIST: state => {
-        return state.list;
-    },
     GET_TYPE: state => {
-        return state.type;
+        return state.main_filter.TRANSPORT;
     },
     GET_FROM: state => {
-        return state.from;
+        return state.main_filter.FROM;
     },
     GET_TO: state => {
-        return state.to;
+        return state.main_filter.TO;
     },
     GET_DATE: state => {
-        return state.date;
+        return state.main_filter.DATE;
     },
     GET_D_TIME: state => {
-        return state.new_time_d
+        return state.new_ticket.dates.d_time
     },
     GET_A_TIME: state => {
-        return state.new_time_a
+        return state.new_ticket.dates.a_time
     },
     GET_A_DATE: state => {
-        return state.new_date_a
+        return state.new_ticket.dates.a_date
     },
     GET_D_DATE: state => {
-        return state.new_date_d
+        return state.new_ticket.dates.d_date
     },
-    GET_ALL_WAYS: state => {
-        return state.all_ways
+    GET_FILTER: state => {
+        return state.main_filter
     }
 };
 const mutations = {
     SET_A_TIME (state, data) {
-        state.new_time_a = data;
+        state.new_ticket.dates.a_time = data;
     },
     SET_A_DATE (state, data) {
-        state.new_date_a = data;
+        state.new_ticket.dates.a_date = data;
     },
     SET_D_TIME (state, data) {
-        state.new_time_d = data;
+        state.new_ticket.dates.d_time = data;
     },
     SET_D_DATE (state, data) {
-        state.new_date_d = data;
+        state.new_ticket.dates.d_date = data;
     },
     SET_TYPE (state, data) {
-        state.type =  data;
+        state.main_filter.TRANSPORT =  data;
     },
     SET_FROM (state, data) {
-        state.from = data;
+        state.main_filter.FROM = data;
     },
     SET_TO (state, data) {
-        state.to = data;
+        state.main_filter.TO = data;
     },
     SET_DATE (state, data) {
-        state.date = data;
+        state.main_filter.DATE = data;
     },
     CLEAR_LIST (state) {
         state.list = [];

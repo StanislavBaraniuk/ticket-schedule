@@ -7,6 +7,7 @@
                             class="hide-overflow"
 
                     >
+
                         <v-card-text class="text-xs-center" v-if="activeBtn === 0">
                             <h1>Вхід</h1>
 
@@ -14,16 +15,23 @@
                                 <v-text-field
                                         label="Емайл"
                                         outline
+                                        :rules="emailRules"
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs12 style="margin-top: -20px">
+
+                            <v-flex xs12>
                                 <v-text-field
                                         label="Пароль"
                                         outline
+                                        type="password"
+                                        :rules="passwordRules"
                                 ></v-text-field>
                             </v-flex>
+
                             <div style="height: 30px"></div>
-                            <v-btn depressed dark style="margin-top: -70px; background-color: #38863d">Ввійти</v-btn>
+
+                            <v-btn depressed dark style="margin-top: -50px; background-color: #38863d">Ввійти</v-btn>
+
                             <div  style="height: 30px"></div>
                         </v-card-text>
 
@@ -34,16 +42,22 @@
                                 <v-text-field
                                         label="Емайл"
                                         outline
+                                        :rules="emailRules"
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs12 style="margin-top: -20px">
+
+                            <v-flex xs12 style="">
                                 <v-text-field
                                         label="Пароль"
                                         outline
+                                        :rules="passwordRules"
                                 ></v-text-field>
                             </v-flex>
+
                             <div style="height: 30px"></div>
-                            <v-btn depressed dark style="margin-top: -70px; background-color: #38863d">Зареєструватись</v-btn>
+
+                            <v-btn depressed dark style="margin-top: -50px; background-color: #38863d">Зареєструватись</v-btn>
+
                             <div  style="height: 30px"></div>
                         </v-card-text>
 
@@ -54,10 +68,14 @@
                                 <v-text-field
                                         label="Емайл"
                                         outline
+                                        :rules="emailRules"
                                 ></v-text-field>
                             </v-flex>
+
                             <div style="height: 30px"></div>
-                            <v-btn depressed dark style="margin-top: -70px; background-color: #38863d">Відновити доступ</v-btn>
+
+                            <v-btn depressed dark style="margin-top: -50px; background-color: #38863d">Відновити доступ</v-btn>
+
                             <div  style="height: 30px"></div>
                         </v-card-text>
 
@@ -93,9 +111,32 @@
     export default {
         name: "Authorization",
         data: () => ({
-                activeBtn: 2,
-                showNav: true
-        })
+            activeBtn: 0,
+            showNav: true,
+            emailRules: [
+                v => !!v || 'E-mail є обовязковим',
+                v => /.[a-zA-Z/.]{}@[a-z]{1,}[.][a-z]{2,}/.test(v) || 'E-mail повинен бути вірним'
+            ],
+            passwordRules: [
+                v => !!v || 'Пароль є обовязковим',
+                v => /.(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(v) || 'Пароль повинен містити 8 символів та складатись з символів a-z, A-Z, 0-9'
+            ]
+        }),
+        methods: {
+            checkPassword(pass) {
+                let is_numb = false, is_az = false, is_AZ = false;
+
+                if (pass.length >= 8) {
+                    for (let i = 0; i < pass.length; i++) {
+                        is_numb = pass[i].match(/\d/) ? true : is_numb;
+                        is_az = pass[i].match(/\d/) ? true : is_az;
+                        is_AZ = pass[i].match(/\d/) ? true : is_AZ;
+                    }
+                } else {
+                    return pass
+                }
+            }
+        }
     }
 </script>
 

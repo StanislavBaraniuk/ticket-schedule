@@ -1,11 +1,11 @@
 <template>
-    <v-container>
-        <div v-if="!this.$store.state.display.isActive" style="position: absolute; width: 100%; margin-right: auto; margin-left: auto;">
+    <v-container style="margin-top: -50px">
+        <div v-if="!isActive" style="position: absolute; width: 100%; margin-right: auto; margin-left: auto;">
 
         </div>
-        <v-container v-if="this.$store.state.display.isActive" grid-list-md text-xs-center style="padding: 0px">
+        <v-container v-if="isActive" grid-list-md text-xs-center style="padding: 0px">
             <v-layout row wrap>
-                <v-flex xs12 sm12 md12 lg8 offset-lg2  v-for=" (item , index) in tickets" :key="index">
+                <v-flex xs12 sm12 md12 lg8 offset-lg2  v-for=" (item , index) in tickets.filter(function(obj) { return obj.FROM === filter.FROM && obj.TO === filter.TO && obj.FROM_DATE === filter.DATE && obj.TYPE === filter.TRANSPORT})" :key="index">
                     <v-card style="margin-top: 20px">
                         <v-container grid-list-md text-xs-center style="padding: 10px 0 0;">
                             <v-layout row wrap>
@@ -73,11 +73,13 @@
                 </v-flex>
             </v-layout>
         </v-container>
-        <v-container v-if="isListEmpty" grid-list-md text-xs-center style="padding: 0px">
+        <v-container v-if="tickets.filter(function(obj) { return obj.FROM === filter.FROM && obj.TO === filter.TO && obj.FROM_DATE === filter.DATE }).length < 1 && isActive" grid-list-md text-xs-center style="padding: 0px">
             <v-layout row wrap>
                 <v-flex xs12 sm12 md12 lg8 offset-lg2>
-                    <div class="text-xs-center">
-                        qwdas
+                    <div class="text-xs-center" style="margin-top: 6vh">
+                        <v-chip color="orange" text-color="white" style="padding: 10px">
+                            <h1>Квитків не знайдено</h1>
+                        </v-chip>
                     </div>
                 </v-flex>
             </v-layout>
@@ -96,8 +98,9 @@
         }),
         computed: {
             ...mapGetters({
-                tickets: 'GET_LIST',
-                isListEmpty: 'IS_LIST_EMPTY'
+                tickets: "GET_ALL_TICKETS",
+                filter: "GET_FILTER",
+                isActive: "GET_IS_ACTIVE"
             })
         }
     }

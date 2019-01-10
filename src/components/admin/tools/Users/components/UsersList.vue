@@ -1,7 +1,9 @@
 <template>
     <v-expansion-panel style="margin-top: 20px">
         <v-expansion-panel-content
-                v-for="(item,index) in $props.stations"
+                v-for="(item,index) in stations.filter(function(obj) {
+                  return obj[search_s] == search_t || search_t.length < 1
+                })"
                 :key="index"
         >
             <div slot="header">#{{ item.ID }} : {{ item.EMAIL }}</div>
@@ -28,6 +30,7 @@
 
 <script>
     import UserRedaction from './UserRedaction'
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "UsersList",
@@ -52,6 +55,12 @@
             stations:{
 
             }
+        },
+        computed:{
+            ...mapGetters({
+                search_t: "GET_ADMIN_SEARCH_TEXT",
+                search_s: "GET_ADMIN_SEARCH_SELECT"
+            })
         }
     }
 </script>

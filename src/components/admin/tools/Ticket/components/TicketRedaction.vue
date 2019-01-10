@@ -1,27 +1,38 @@
 <template>
-    <!--<v-container v-if="addActive.v">-->
+    <v-container v-if="activeTicketRedactId.v === item.ID">
 
-        <v-card style="padding: 30px" v-if="addActive.v">
+        <v-card style="padding: 30px">
 
             <v-layout row wrap>
 
-                <v-flex xs12 sm12 md6 lg6>
+                <v-flex xs12 sm12 md5 lg5>
                     <v-text-field
                             label="Назва"
+                            v-model="item.NAME"
                     ></v-text-field>
                 </v-flex>
 
-                <v-flex xs12 sm12 md6 lg6>
+                <v-flex xs12 sm12 md5 lg5>
                     <v-text-field
                             label="Ціна"
-
+                            type="number"
+                            v-model="item.PRICE"
                     ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm12 md2 lg2>
+                    <v-autocomplete
+                            :items="[1,2]"
+                            label="Транспорт"
+                            type="number"
+                            :readonly="false"
+                    ></v-autocomplete>
                 </v-flex>
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
                             :items="items"
-
+                            v-model="item.FROM"
                             label="Місце відправлення"
                             :readonly="false"
                     ></v-autocomplete>
@@ -37,12 +48,12 @@
                     >
                         <v-text-field
                                 slot="activator"
-                                :value="d_time"
+                                v-model="item.FROM_TIME"
                                 label="Час відправлення"
-                                placeholder="День відправки"
+                                placeholder="День відправлення"
                                 readonly
                         ></v-text-field>
-                        <v-time-picker v-model="d_time" format="24hr"></v-time-picker>
+                        <v-time-picker v-model="item.FROM_TIME" format="24hr"></v-time-picker>
                     </v-menu>
                 </v-flex>
 
@@ -56,20 +67,21 @@
                     >
                         <v-text-field
                                 slot="activator"
-                                v-model="d_date"
+                                v-model="item.FROM_DATE"
                                 label="День відправлення"
                                 placeholder=""
                                 readonly
                         ></v-text-field>
-                        <v-date-picker v-model="d_date"></v-date-picker>
+                        <v-date-picker v-model="item.FROM_DATE"></v-date-picker>
                     </v-menu>
                 </v-flex>
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
                             :items="items"
-                            :readonly="false"
                             label="Місце прибуття"
+                            :readonly="false"
+                            v-model="item.TO"
                     ></v-autocomplete>
                 </v-flex>
 
@@ -83,12 +95,12 @@
                     >
                         <v-text-field
                                 slot="activator"
-                                :value="a_time"
+                                v-model="item.TO_TIME"
                                 label="Час прибуття"
                                 placeholder=""
                                 readonly
                         ></v-text-field>
-                        <v-time-picker v-model="a_time" format="24hr"></v-time-picker>
+                        <v-time-picker v-model="item.TO_TIME" format="24hr"></v-time-picker>
                     </v-menu>
                 </v-flex>
 
@@ -102,31 +114,32 @@
                     >
                         <v-text-field
                                 slot="activator"
-                                v-model="a_date"
+                                v-model="item.TO_DATE"
                                 label="День прибуття"
                                 placeholder=""
                                 readonly
                         ></v-text-field>
-                        <v-date-picker v-model="a_date"></v-date-picker>
+                        <v-date-picker v-model="item.TO_DATE"></v-date-picker>
                     </v-menu>
                 </v-flex>
 
                 <v-combobox
-                        v-model="chips"
+                        v-model="item.STATIONS"
                         :items="items"
                         label="Вкажіть міста для створення маршруту"
+                        :readonly="false"
                         chips
                         clearable
                         solo
                         multiple
                 >
-                    <template slot="selection" slot-scope="data">
+                    <template slot="selection" slot-scope="data_r">
                         <v-chip
-                                :selected="data.selected"
+                                :selected="data_r.selected"
                                 close
-                                @input="remove(data.item)"
+                                @input="remove(data_r.item)"
                         >
-                            <strong>{{ data.item.NAME }}</strong>&nbsp;
+                            <strong>{{ data_r.item }}</strong>&nbsp;
                             <span></span>
                         </v-chip>
                     </template>
@@ -135,70 +148,30 @@
             </v-layout>
 
             <v-flex xs12>
-                <v-btn dark color="indigo" @click="addTicket">Додати</v-btn>
+                <v-btn dark color="indigo" v-on:click="f.v(-1)"><v-icon>close</v-icon></v-btn>
             </v-flex>
 
         </v-card>
-    <!--</v-container>-->
+    </v-container>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
     export default {
-        name: "ticket",
+        name: "TicketRedaction",
         props: {
-            addActive: {
+            item: {
 
-            },
-            chips: {
-                default: []
             },
             items: {
-                default: null
-            }
-        },
-        computed: {
-            d_time: {
-                get () {
-                    return this.def_d_time;
-                },
-                set (value) {
-                    this.$store.commit('SET_D_TIME', value)
-                }
-            },
-            a_time: {
-                get () {
-                    return this.def_a_time;
-                },
-                set (value) {
-                    this.$store.commit('SET_A_TIME', value)
-                }
-            },
-            a_date: {
-                get () {
-                    return this.def_a_date;
-                },
-                set (value) {
-                    this.$store.commit('SET_A_DATE', value)
-                }
-            },
-            d_date: {
-                get () {
-                    return this.def_d_date;
-                },
-                set (value) {
-                    this.$store.commit('SET_D_DATE', value)
-                }
-            },
-            ...mapGetters({
-                def_tickets: 'GET_ALL_TICKETS',
-                def_d_time: 'GET_D_TIME',
-                def_a_time: 'GET_A_TIME',
-                def_a_date: 'GET_A_DATE',
-                def_d_date: 'GET_D_DATE',
-            })
-        }
 
+            },
+            activeTicketRedactId: {
+
+            },
+            f: {
+
+            }
+        }
     }
 </script>
 

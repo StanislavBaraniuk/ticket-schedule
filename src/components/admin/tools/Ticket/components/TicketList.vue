@@ -1,7 +1,9 @@
 <template>
     <v-expansion-panel style="margin-top: 20px">
         <v-expansion-panel-content
-                v-for="(item,index) in $props.tickets"
+                v-for="(item,index) in tickets.filter(function(obj) {
+                  return obj[search_s] == search_t || search_t.length < 1
+                })"
                 :key="index"
         >
             <div slot="header">#{{ item.ID }} : {{ item.NAME }}</div>
@@ -32,6 +34,7 @@
 
 <script>
     import TicketRedaction from './TicketRedaction'
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "TicketList",
@@ -56,9 +59,15 @@
                 this.activeTicketRedactId = id;
             },
             remove (item) {
-                this.chips.splice(this.chips.indexOf(item), 1)
+                this.chips.splice(this.chips.indexOf(item), 1);
                 this.chips = [...this.chips]
             }
+        },
+        computed:{
+            ...mapGetters({
+                search_t: "GET_ADMIN_SEARCH_TEXT",
+                search_s: "GET_ADMIN_SEARCH_SELECT"
+            })
         }
     }
 </script>

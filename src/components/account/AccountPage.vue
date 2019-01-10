@@ -2,14 +2,8 @@
     <v-container fluid class="a" style="padding-top:70px; height: 100%">
         <v-layout row wrap>
             <v-flex xs12 sm12 md3 lg3>
-                <!--<v-layout row wrap>-->
-                    <!--<v-flex xs12>-->
-                        <info :user="current_user" style="height: 45vh; overflow-y: scroll"></info>
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12>-->
-                        <all-orders :all_orders="all_orders" :user="current_user" style="height: 45vh; overflow-y: scroll"></all-orders>
-                    <!--</v-flex>-->
-                <!--</v-layout>-->
+                <info :user="current_user" style="height: 45vh; overflow-y: scroll"></info>
+                <all-orders :all_orders="all_orders" :user="current_user" style="height: 45vh; overflow-y: scroll"></all-orders>
             </v-flex>
             <v-flex xs12 sm12 md9 lg9>
                 <active-orders :all_orders="all_orders" :user="current_user" :tickets="def_tickets" style="height: 92vh; overflow-y: scroll"></active-orders>

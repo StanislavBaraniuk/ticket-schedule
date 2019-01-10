@@ -9,8 +9,8 @@
 </template>
 
 <script>
-    import CityAdd from './CityAdd'
-    import CityList from './CityList'
+    import CityAdd from './components/CityAdd'
+    import CityList from './components/CityList'
 
     export default {
         name: "CityMenu",

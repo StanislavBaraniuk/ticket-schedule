@@ -11,8 +11,8 @@
 <script>
     // import { mapGetters } from 'vuex';
     //
-    import TicketAdd from './TicketAdd'
-    import TicketList from './TicketList'
+    import TicketAdd from './components/TicketAdd'
+    import TicketList from './components/TicketList'
 
     export default {
         name: "TicketMenu",

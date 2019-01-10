@@ -1,5 +1,5 @@
 const state = {
-    isActive: true,
+    isActive: false,
     dialog: false,
     activeAE: 0,
     activeAEN: ["Статистика", "Інструменти"]
@@ -11,6 +11,9 @@ const getters = {
     },
     GET_AVTIVE_ADMIN_ELEMENT_NAMES: state => {
         return state.activeAEN[state.activeAE]
+    },
+    GET_IS_ACTIVE: state => {
+        return state.isActive
     }
 };
 

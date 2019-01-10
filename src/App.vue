@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <div :class="{vh100 : !this.$store.state.display.isActive, pr100: this.$store.state.display.isActive}">
-    <!--<resize-observer @notify="handleResize" />-->
       <back-photo></back-photo>
       <header-block></header-block>
       <way-chooser></way-chooser>
@@ -18,7 +17,6 @@ import WayChooser from './components/index/WayChooser'
 import ContentBlock from './components/index/ContentBlock'
 import FooterBlock from './components/standart/Footer'
 import './style/style.css'
-// import WebFontLoader from 'webfontloader'
 
 export default {
   name: 'app',
@@ -37,13 +35,7 @@ export default {
   methods: {
     setFontLoaded () {
       this.$emit('font-loaded')
-    },
-    // handleResize () {
-    //   // document.getElementById('way-block').style.marginTop = (window.innerHeight/2 - document.querySelector('#way-block').clientHeight/2+20) +"px";
-    // }
-  },
-  created() {
-
+    }
   }
 }
 </script>
@@ -58,7 +50,6 @@ export default {
     color: #2c3e50
     margin: 0
     padding: 0
-
 
   body
     padding: 0

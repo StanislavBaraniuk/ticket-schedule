@@ -1,12 +1,12 @@
 <template>
     <v-container>
-        <list :items="$props.orders" :tickets="tickets" :users="users"></list>
+        <list :orders="$props.orders" :tickets="tickets" :users="users"></list>
     </v-container>
 </template>
 
 <script>
 
-    import list from "./OrdersList"
+    import list from "./components/OrdersList"
 
     export default {
         name: "OrdersMenu",
