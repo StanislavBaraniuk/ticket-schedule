@@ -109,8 +109,11 @@
         },
         methods: {
             loadTickets: function () {
-                this.$store.commit('setActivePage');
-                this.$store.state.display.isActive = true;
+                // if (this.from.length > 0 && this.to.length > 0) {
+                    this.$store.commit('setActivePage');
+                    this.$store.state.display.isActive = true;
+                // }
+
             }
         },
         mutations: {
