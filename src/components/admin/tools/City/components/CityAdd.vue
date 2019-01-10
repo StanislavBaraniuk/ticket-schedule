@@ -1,5 +1,5 @@
 <template>
-    <v-card style="padding: 30px" v-if="addActive.v">
+    <v-card class="city-add" v-if="addActive.v">
 
         <v-layout row wrap>
 
@@ -29,6 +29,8 @@
     }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+    .city-add
+        padding: 30px
 
 </style>

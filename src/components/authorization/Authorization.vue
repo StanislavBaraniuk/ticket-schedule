@@ -1,6 +1,6 @@
 <template>
     <div class="auth-page">
-        <v-container grid-list-md text-md-center fill-height style=" z-index: 999;" >
+        <v-container grid-list-md text-md-center fill-height class="authorization" >
             <v-layout row align-center fill-height class="test">
                 <v-flex xs12 sm6 md6 lg4 offset-lg4 offset-md3 offset-sm3>
                     <v-card
@@ -28,11 +28,11 @@
                                 ></v-text-field>
                             </v-flex>
 
-                            <div style="height: 30px"></div>
+                            <div class="h-space"></div>
 
-                            <v-btn depressed dark style="margin-top: -50px; background-color: #38863d">Ввійти</v-btn>
+                            <v-btn depressed dark class="go-button">Ввійти</v-btn>
 
-                            <div  style="height: 30px"></div>
+                            <div  class="h-space"></div>
                         </v-card-text>
 
                         <v-card-text class="text-xs-center" v-if="activeBtn === 1">
@@ -46,7 +46,7 @@
                                 ></v-text-field>
                             </v-flex>
 
-                            <v-flex xs12 style="">
+                            <v-flex xs12>
                                 <v-text-field
                                         label="Пароль"
                                         outline
@@ -54,11 +54,11 @@
                                 ></v-text-field>
                             </v-flex>
 
-                            <div style="height: 30px"></div>
+                            <div class="h-space"></div>
 
-                            <v-btn depressed dark style="margin-top: -50px; background-color: #38863d">Зареєструватись</v-btn>
+                            <v-btn depressed dark class="go-button">Зареєструватись</v-btn>
 
-                            <div  style="height: 30px"></div>
+                            <div  class="h-space"></div>
                         </v-card-text>
 
                         <v-card-text class="text-xs-center" v-if="activeBtn === 2">
@@ -72,11 +72,11 @@
                                 ></v-text-field>
                             </v-flex>
 
-                            <div style="height: 30px"></div>
+                            <div class="h-space"></div>
 
-                            <v-btn depressed dark style="margin-top: -50px; background-color: #38863d">Відновити доступ</v-btn>
+                            <v-btn depressed dark class="go-button">Відновити доступ</v-btn>
 
-                            <div  style="height: 30px"></div>
+                            <div class="h-space"></div>
                         </v-card-text>
 
                         <v-bottom-nav
@@ -146,6 +146,16 @@
         height: 100vh
         background-color: #38863d
 
-    .button
-        background-color: #38863d
+        .button
+            background-color: #38863d
+
+        .authorization
+            z-index: 999
+
+        .h-space
+            height: 30px
+
+        .go-button
+            margin-top: -50px
+            background-color: #38863d
 </style>

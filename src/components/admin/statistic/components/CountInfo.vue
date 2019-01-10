@@ -1,20 +1,16 @@
 <template>
-
-                <v-card>
-                    <div id="spark2">
-                        <apexchart type=area height=160 :options="chartOptionsTopSpark2" :series="seriesTopSpark2" />
-                    </div>
-                </v-card>
+    <v-card>
+        <div id="spark2">
+            <apexchart type=area height=160 :options="chartOptionsTopSpark2" :series="seriesTopSpark2" />
+        </div>
+    </v-card>
 </template>
 
 <script>
 
-
     function add(a, b) {
         return a + b;
     }
-
-
 
     export default {
         name: "count-diagram",

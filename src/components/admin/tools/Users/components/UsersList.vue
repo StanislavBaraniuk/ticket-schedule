@@ -1,5 +1,5 @@
 <template>
-    <v-expansion-panel style="margin-top: 20px">
+    <v-expansion-panel class="users-list">
         <v-expansion-panel-content
                 v-for="(item,index) in stations.filter(function(obj) {
                   return obj[search_s] == search_t || search_t.length < 1
@@ -8,7 +8,7 @@
         >
             <div slot="header">#{{ item.ID }} : {{ item.EMAIL }}</div>
             <v-card>
-                <v-card-text  style="margin-left: 20px">
+                <v-card-text class="info-block" >
                     <v-layout row wrap>
                         <v-flex xs12 sm6 md2 lg1>Id: {{ item.ID }}</v-flex>
                         <v-flex xs12 sm6 md2 lg1>Імя: {{ item.F_NAME }}</v-flex>
@@ -19,7 +19,7 @@
                         <v-flex xs12 sm6 md2 lg1>Активне замовлення: {{ item.ORDER_ACTIVE ? item.ORDER_ID : "відсутнє" }}</v-flex>
                         <v-flex xs12 sm6 md2 lg1>Аватар: {{ item.AVATAR }}</v-flex>
                         <v-spacer></v-spacer>
-                        <v-flex xs12 sm12 md2 lg1><v-icon v-on:click="openRedact(item.ID)">fas fa-pencil-ruler</v-icon><v-icon style="padding-left: 20px" >fas fa-trash</v-icon></v-flex>
+                        <v-flex xs12 sm12 md2 lg1><v-icon v-on:click="openRedact(item.ID)">fas fa-pencil-ruler</v-icon><v-icon class="delete-icon" >fas fa-trash</v-icon></v-flex>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -65,6 +65,13 @@
     }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+    .users-list
+        margin-top: 20px
 
+        .info-block
+            margin-left: 20px
+
+            .delete-icon
+                padding-left: 20px
 </style>

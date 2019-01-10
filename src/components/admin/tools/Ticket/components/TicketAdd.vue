@@ -1,7 +1,5 @@
 <template>
-    <!--<v-container v-if="addActive.v">-->
-
-        <v-card style="padding: 30px" v-if="addActive.v">
+        <v-card class="ticket-add" v-if="addActive.v">
 
             <v-layout row wrap>
 
@@ -148,7 +146,6 @@
             </v-flex>
 
         </v-card>
-    <!--</v-container>-->
 </template>
 
 <script>
@@ -219,6 +216,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .ticket-add
+        padding: 30px
 </style>

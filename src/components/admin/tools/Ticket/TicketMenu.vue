@@ -1,5 +1,5 @@
 <template>
-    <v-container style="margin-top: -30px">
+    <v-container class="ticket-mennu">
         <v-flex xs12 sm12 md12 lg12 >
             <v-btn flat @click="addActive = !addActive" :class="{activeBtn: addActive}">Новий квиток</v-btn>
         </v-flex>
@@ -9,8 +9,6 @@
 </template>
 
 <script>
-    // import { mapGetters } from 'vuex';
-    //
     import TicketAdd from './components/TicketAdd'
     import TicketList from './components/TicketList'
 
@@ -49,6 +47,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .ticket-mennu
+        margin-top: -30px
 </style>

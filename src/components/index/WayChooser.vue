@@ -1,10 +1,9 @@
-<!--:style="setMarginTop"-->
 <template>
     <div id="way-block" class="way-block">
-    <v-container grid-list-md text-md-center style=" z-index: 999;" >
+    <v-container grid-list-md text-md-center class="inside-container" >
         <v-layout row align-center fill-height class="test">
             <v-flex xs12 sm12 md12 lg8 offset-lg2  >
-                <v-card color="green darken-2" style="color: white">
+                <v-card color="green darken-2" class="inside-card">
                     <v-container grid-list-md text-md-center>
                         <v-layout row wrap>
                             <v-flex xs12 sm12 lg4 md4 class="way-input">
@@ -18,10 +17,11 @@
                             </v-flex>
 
                             <v-flex xs12 sm0 lg1 md1>
-                                <i class="material-icons" style="margin-top: 30px">
+                                <i class="material-icons center-icon">
                                     swap_calls
                                 </i>
                             </v-flex>
+
                             <v-flex xs12 sm12 lg4 md4 class="way-input" >
                                 <v-autocomplete
                                         label="Куди?"
@@ -32,7 +32,7 @@
                                 ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12 sm12 lg1 md1>
-                                <i class="material-icons" style="margin-top: 30px">event</i>
+                                <i class="material-icons right-icon">event</i>
                             </v-flex>
                             <v-flex xs12 sm12 lg2 md2 class="way-input">
                                 <v-menu :close-on-content-click="false" :nudge-right="40"
@@ -61,7 +61,7 @@
                            :disabled="dialog"
                            :loading="dialog"
                     >
-                        <span style="font-size: 12px">Знайти квиток</span>
+                        <span class="find">Знайти квиток</span>
                         <v-icon>arrow_forward</v-icon>
                     </v-btn>
                     <v-dialog
@@ -109,11 +109,10 @@
         },
         methods: {
             loadTickets: function () {
-                // if (this.from.length > 0 && this.to.length > 0) {
+                if (this.from.length > 0 && this.to.length > 0) {
                     this.$store.commit('setActivePage');
                     this.$store.state.display.isActive = true;
-                // }
-
+                }
             }
         },
         mutations: {
@@ -169,5 +168,20 @@
         padding-top: calc(50vh - 100px)
         @media all and (max-width: 960px)
             padding-top: calc(50vh - 238px)
+
+        .inside-container
+            z-index: 999
+
+            .inside-card
+                color: white
+
+                .center-icon
+                    margin-top: 30px
+
+                .right-icon
+                    margin-top: 30px
+
+        .find
+            font-size: 12px
 
 </style>

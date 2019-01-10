@@ -1,12 +1,12 @@
 <template>
-    <v-card style="padding: 20px 10px 10px 10px; background-color: whitesmoke">
+    <v-card class="info-block">
         <v-layout row wrap class="animated slideInLeft delay-1s">
             <v-flex xs2>
                 <v-avatar>
                     <img :src="$props.user.AVATAR === null ?
                     'http://cdn.onlinewebfonts.com/svg/img_215059.png'
                     : $props.user.AVATAR "
-                         style="background-size: contain"
+                         class="avatar"
                          alt="avatar">
                 </v-avatar>
             </v-flex>
@@ -18,7 +18,7 @@
             <v-flex xs1>
                 <v-layout row justify-center>
                     <v-dialog v-model="dialog" persistent max-width="600px">
-                        <v-icon  slot="activator" class="rotation" style="cursor: pointer; margin-top: 7px">settings</v-icon>
+                        <v-icon  slot="activator" class="rotation setting">settings</v-icon>
                         <v-card>
                             <v-card-title>
                                 <span class="headline">User Profile</span>
@@ -134,5 +134,15 @@
         -webkit-transform: rotate(45deg)
         transform: rotate(45deg)
 
+    .info-block
+        padding: 20px 10px 10px 10px
+        background-color: whitesmoke
+
+        .avatar
+            background-size: contain
+
+        .setting
+            cursor: pointer
+            margin-top: 7px
 
 </style>

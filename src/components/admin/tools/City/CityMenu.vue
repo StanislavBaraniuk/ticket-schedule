@@ -1,5 +1,5 @@
 <template>
-    <v-container style="margin-top: -30px">
+    <v-container class="city-menu">
         <v-flex xs12 sm12 md12 lg12 >
             <v-btn flat @click="addActive = !addActive" :class="{activeBtn: addActive}">Додати місто</v-btn>
         </v-flex>
@@ -42,6 +42,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .city-menu
+        margin-top: -30px
 </style>

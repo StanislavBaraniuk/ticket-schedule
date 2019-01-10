@@ -1,10 +1,9 @@
 <template>
-    <v-card style="padding: 30px" v-if="activeRedactId.v === item.ID">
+    <v-card class="user-redaction" v-if="activeRedactId.v === item.ID">
 
         <v-layout row wrap>
             <v-flex xs12 sm12 md12 lg2>
                 <picture-input
-
                         ref="pictureInput"
                         @change="onChanged"
                         @remove="onRemoved"
@@ -89,6 +88,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .user-redaction
+        padding: 30px
 </style>

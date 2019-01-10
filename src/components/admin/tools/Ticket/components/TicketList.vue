@@ -1,5 +1,5 @@
 <template>
-    <v-expansion-panel style="margin-top: 20px">
+    <v-expansion-panel class="ticket-list">
         <v-expansion-panel-content
                 v-for="(item,index) in tickets.filter(function(obj) {
                   return obj[search_s] == search_t || search_t.length < 1
@@ -8,7 +8,7 @@
         >
             <div slot="header">#{{ item.ID }} : {{ item.NAME }}</div>
             <v-card>
-                <v-card-text  style="margin-left: 20px">
+                <v-card-text class="element">
                     <v-layout row wrap>
                         <v-flex xs12 sm6 md2 lg1>Ціна: {{ item.PRICE }}</v-flex>
                         <v-flex xs12 sm6 md2 lg1>Відправка: {{ item.FROM }} о {{ item.FROM_TIME }}</v-flex>
@@ -16,9 +16,9 @@
                         <v-flex xs12 sm6 md2 lg1>В дорозі: {{ item.WAY_TIME }}</v-flex>
                         <v-flex xs12 sm6 md2 lg1>Тип транспорту: {{ item.TYPE === 1 ? 'Bus' : "Train" }}</v-flex>
                         <v-spacer></v-spacer>
-                        <v-flex xs12 sm12 md2 lg1><v-icon v-on:click="openRedact(item.ID)">fas fa-pencil-ruler</v-icon><v-icon style="padding-left: 20px" >fas fa-trash</v-icon></v-flex>
+                        <v-flex xs12 sm12 md2 lg1><v-icon v-on:click="openRedact(item.ID)">fas fa-pencil-ruler</v-icon><v-icon class="redact-icon" >fas fa-trash</v-icon></v-flex>
                         <v-flex xs12 sm12 md12 lg12>
-                            <h3 style="width: 100%; text-align: center">Маршрут</h3>
+                            <h3 class="way-h">Маршрут</h3>
                             <div class="text-xs-center" >
                                 <v-chip v-for="(object, i) in item.STATIONS" :key="i">{{ object }}</v-chip>
                             </div>
@@ -72,6 +72,17 @@
     }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+    .ticket-list
+        margin-top: 20px
 
+    .element
+        margin-left: 20px
+
+    .redact-icon
+        padding-left: 20px
+
+    .way-h
+        width: 100%
+        text-align: center
 </style>

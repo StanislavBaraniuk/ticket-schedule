@@ -1,5 +1,5 @@
 <template>
-    <v-container style="margin-top: -30px">
+    <v-container class="site-menu">
         <v-flex xs12 sm12 md12 lg12 >
             <v-btn @click="turn_c" flat>{{ !$props.status.v ? "Ввімкнути сайт" : "Вимкнути сайт" }}</v-btn>
         </v-flex>
@@ -43,6 +43,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .site-menu
+        margin-top: -30px
 </style>

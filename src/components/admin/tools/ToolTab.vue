@@ -8,7 +8,7 @@
                         flat
                 >
                     <v-layout row wrap>
-                        <v-flex xs12 sm12 md12 lg12 style="padding-top: 15px"><h3>Пошук</h3></v-flex>
+                        <v-flex xs12 sm12 md12 lg12 class="search"><h3>Пошук</h3></v-flex>
 
                         <v-flex xs10 sm5 md5 lg5 offset-xs1>
                             <v-autocomplete
@@ -20,7 +20,7 @@
                                     hide-details
                                     label="Оберіть критерій"
                                     solo-inverted
-                                    style="width: 100%"
+                                    class="search-select"
                             ></v-autocomplete>
                         </v-flex>
                         <v-flex xs10 sm5 md5 lg5 offset-xs1 offset-sm0>
@@ -127,4 +127,10 @@
         .activeBtn
             background-color: #00b33f
             color: white !important
+
+        .search
+            padding-top: 15px
+
+        .search-select
+            width: 100%
 </style>

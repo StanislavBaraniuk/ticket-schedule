@@ -1,7 +1,7 @@
 <template>
     <v-container v-if="activeTicketRedactId.v === item.ID">
 
-        <v-card style="padding: 30px">
+        <v-card class="inside-card">
 
             <v-layout row wrap>
 
@@ -175,6 +175,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .inside-card
+        padding: 30px
 </style>

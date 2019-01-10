@@ -1,5 +1,5 @@
 <template>
-    <v-card style="padding: 30px" v-if="addActive.v">
+    <v-card class="users-add" v-if="addActive.v">
 
         <v-layout row wrap>
             <v-flex xs12 sm12 md12 lg2>
@@ -88,6 +88,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .users-add
+        padding: 30px
 </style>
