@@ -1,7 +1,7 @@
 <template>
     <v-toolbar class="transparent" dark flat absolute :class="{p100 : drawer}">
         <v-toolbar-items class="hidden-xs-only"  v-if="!$props.home" v-on:click="rd('/')">
-            <v-btn flat><h1>TICS</h1></v-btn>
+            <v-btn flat><h1>TIC.S</h1></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="!$props.way">
