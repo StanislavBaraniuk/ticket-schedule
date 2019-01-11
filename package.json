@@ -2,12 +2,12 @@
   "name": "ticket-schedule",
   "version": "0.1.0",
   "private": true,
+  "postinstall": "npm run build",
+  "start": "node server.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "postinstall": "npm run build",
-    "start": "node server.js"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "animate.css": "^3.7.0",
