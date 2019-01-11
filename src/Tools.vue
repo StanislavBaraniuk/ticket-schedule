@@ -1,6 +1,6 @@
 <template>
-    <v-app style="background-color: whitesmoke; height: 100vh">
-        <div style="width: 500px; margin-left: 300px;  background-color: #00b33f"></div>
+    <v-app class="tools">
+        <div class="I-do-not-remember-what-it-is-but-I-will-leave-this-here"></div>
         <v-toolbar v-if="isAdmin" class="hidden-sm-and-up">
             <v-spacer></v-spacer>
 
@@ -61,8 +61,6 @@
             <tool-tab></tool-tab>
         </div>
         </div>
-        <!--<div v-if="isAdmin" style="height: 100vh; overflow-y: scroll; overflow-x: hidden">-->
-        <!--</div>-->
         <v-container fill-height v-if="!isAdmin">
             <h1 v-on:click="rd('/login')">Login as admin</h1>
         </v-container>
@@ -107,6 +105,16 @@
 </script>
 
 <style lang="sass" scoped>
+
+    .tools
+        background-color: whitesmoke
+        height: 100vh
+
+        .I-do-not-know-what-it-is-but-I-will-leave-this-here
+            width: 500px
+            margin-left: 300px
+            background-color: #00b33f
+
     .tool-block
         margin-left: 300px
         width: calc(100vw - 300px)
