@@ -2,9 +2,9 @@
   "name": "ticket-schedule",
   "version": "0.1.0",
   "private": true,
-  "postinstall": "npm run build",
-  "start": "node server.js",
   "scripts": {
+    "postinstall": "npm run build",
+    "start": "node src/server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

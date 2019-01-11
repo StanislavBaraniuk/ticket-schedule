@@ -1,17 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import Login from './Login'
-import Tools from './Tools'
-import Account from './Account'
-import NotFound from './404'
-
+import Vue from "vue";
 import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import 'vue-resize/dist/vue-resize.css'
 import VueResize from 'vue-resize'
+import VueApexCharts from 'vue-apexcharts'
+
 import store from './store'
 import axios from 'axios'
-import VueApexCharts from 'vue-apexcharts'
+import router from "./router";
+
+import App from './App.vue'
+
+import 'vuetify/dist/vuetify.min.css'
+import 'vue-resize/dist/vue-resize.css'
+
 
 Vue.use(VueApexCharts);
 Vue.component('apexchart', VueApexCharts);
@@ -23,23 +23,9 @@ Vue.use(Vuetify);
 Vue.use(VueResize);
 Vue.config.productionTip = false;
 
-const routes = {
-  '/': App,
-  '/login': Login,
-  '/tools': Tools,
-  '/account': Account
-};
-
 new Vue({
   el: '#app',
-  store: store,
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      return routes[this.currentRoute] || NotFound
-    }
-  },
-  render (h) { return h(this.ViewComponent) }
-});
+  store,
+  router,
+  render: h => h(App),
+}).$mount('#app');

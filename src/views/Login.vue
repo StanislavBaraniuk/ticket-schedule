@@ -1,15 +1,15 @@
 <template>
-    <v-app>
+    <div>
         <my-header way ></my-header>
         <authorization></authorization>
         <footer-block></footer-block>
-    </v-app>
+    </div>
 </template>
 
 <script>
-    import myHeader from './components/standart/Header'
-    import Authorization from './components/authorization/Authorization'
-    import FooterBlock from './components/standart/Footer'
+    import myHeader from '../components/standart/Header'
+    import Authorization from '../components/authorization/Authorization'
+    import FooterBlock from '../components/standart/Footer'
 
     import WebFontLoader from 'webfontloader'
 

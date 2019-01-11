@@ -1,5 +1,5 @@
 <template>
-    <v-app class="tools">
+    <div class="tools">
         <div class="I-do-not-remember-what-it-is-but-I-will-leave-this-here"></div>
         <v-toolbar v-if="isAdmin" class="hidden-sm-and-up">
             <v-spacer></v-spacer>
@@ -64,13 +64,13 @@
         <v-container fill-height v-if="!isAdmin">
             <h1 v-on:click="rd('/login')">Login as admin</h1>
         </v-container>
-    </v-app>
+    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
-    import StatisticTab from './components/admin/statistic/StatisticTab'
-    import ToolTab from './components/admin/tools/ToolTab'
+    import StatisticTab from '../components/admin/statistic/StatisticTab'
+    import ToolTab from '../components/admin/tools/ToolTab'
 
     export default {
         name: "Tools",

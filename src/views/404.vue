@@ -1,16 +1,16 @@
 <template>
-    <v-app>
+    <!--<v-app>-->
     <div>
         <div class="p404" ></div>
         <my-header way></my-header>
         <div class="back"></div>
     </div>
-    </v-app>
+    <!--</v-app>-->
 </template>
 
 <script>
-    import MyHeader from './components/standart/Header'
-    import './style/style.css'
+    import MyHeader from '../components/standart/Header'
+    import '../style/style.css'
 
     export default {
         name: "404",
