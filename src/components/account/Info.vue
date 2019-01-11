@@ -1,6 +1,6 @@
 <template>
     <v-card class="info-block">
-        <v-layout row wrap class="animated slideInLeft delay-1s">
+        <v-layout row wrap class="info-block animated slideInLeft delay-1s">
             <v-flex xs2>
                 <v-avatar>
                     <img :src="$props.user.AVATAR === null ?
@@ -125,6 +125,17 @@
 </script>
 
 <style lang="sass" scoped>
+    .info-block
+        padding: 20px 10px 10px 10px
+        background-color: whitesmoke !important
+
+        .avatar
+            background-size: contain
+
+        .setting
+            cursor: pointer
+            margin-top: 7px
+
     .rotation
         border-radius: 50%
         -webkit-transition: -webkit-transform .3s ease-in-out
@@ -133,16 +144,5 @@
     .rotation:hover
         -webkit-transform: rotate(45deg)
         transform: rotate(45deg)
-
-    .info-block
-        padding: 20px 10px 10px 10px
-        background-color: whitesmoke
-
-        .avatar
-            background-size: contain
-
-        .setting
-            cursor: pointer
-            margin-top: 7px
 
 </style>
