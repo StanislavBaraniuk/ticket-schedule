@@ -73,7 +73,7 @@
                 </v-flex>
             </v-layout>
         </v-container>
-        <block-preloader></block-preloader>
+        <block-preloader v-if="isActive" location="contentBlock" color="#fafafa"></block-preloader>
         <v-container class="not-found-block" v-if="tickets.length < 1 && isActive" grid-list-md text-xs-center style="padding: 0px">
             <v-layout row wrap>
                 <v-flex xs12 sm12 md12 lg8 offset-lg2>

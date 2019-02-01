@@ -46,6 +46,8 @@
                     </v-list-tile>
                 </v-list>
 
+                <block-preloader location="menu" color="white"></block-preloader>
+
                 <v-list class="pt-0" dense>
                     <v-divider light></v-divider>
 
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-
+    import BlockPreloader from '../preloader/BlockPreloader'
     import { mapGetters } from 'vuex';
 
     export default {
@@ -89,6 +91,9 @@
                 default: "transparent"
             }
         },
+        components: {
+            BlockPreloader
+        },
         data() {
             return {
                 def_list: [],
@@ -106,6 +111,7 @@
             };
         },
         created() {
+            this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "menu");
             this.LOAD_USER_MENU_LIST(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
         },
         methods: {
@@ -115,6 +121,7 @@
 
                     if (data.status === 200) {
                         component.def_list = data.data;
+                        component.$store.dispatch("BLOCK_LOADER_DEACTIVATE", "menu");
                     }
                 }
             },

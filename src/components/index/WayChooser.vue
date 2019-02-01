@@ -120,7 +120,7 @@
             LOAD_TICKETS: function () {
                 if (this.from.length > 0 && this.to.length > 0) {
                     this.$store.dispatch('SET_ACTIVE_PAGE');
-                    this.$store.dispatch("BLOCK_LOADER_ACTIVATE");
+                    this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "contentBlock");
 
                     let filter = {
                         FROM_PLACE: this.GET_KEY_BY_VALUE(this.stations, this.def_from),
@@ -131,7 +131,7 @@
 
                     this.GET_FILTERED_TICKETS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", filter).then(function (res) {
                         res.this.$store.commit("SET_TICKETS", res.data);
-                        res.this.$store.dispatch("BLOCK_LOADER_DEACTIVATE");
+                        res.this.$store.dispatch("BLOCK_LOADER_DEACTIVATE", "contentBlock");
                     });
 
 

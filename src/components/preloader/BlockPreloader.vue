@@ -1,5 +1,5 @@
 <template>
-    <div class="main" v-if="isActive">
+    <div class="main" v-if="isActive[$props.location]" :style="{backgroundColor: $props.color}">
         <div class="preloader-2">
             <span class="line line-1"></span>
             <span class="line line-2"></span>
@@ -24,6 +24,7 @@
 
     export default {
         name: "BlockPreloader",
+        props: ['location', 'color'],
         computed: {
             ... mapGetters({
                 isActive: "IS_BLOCK_LOADER"
@@ -33,6 +34,7 @@
 </script>
 
 <style lang="sass" scoped>
+        /*background-color: #fafafa*/
     $border-color: #7f827f
     $background-color: white
     $border-radius-big: 6px
@@ -46,11 +48,10 @@
 
     .main
         height: 40vh
-        width: 100vw
+        width: 100%
         text-align: center
         font-size: 20px
         position: absolute
-        background-color: #fafafa
         z-index: 2 !important
         left: 0
         opacity: 1

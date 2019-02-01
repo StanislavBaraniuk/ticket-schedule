@@ -1,6 +1,6 @@
 const state = {
     showLoader: false,
-    showBlockLoader: false,
+    showBlockLoader: { contentBlock: false, menu: false},
     IS_ACTIVE: false,
     dialog: false,
     activeAE: 0,
@@ -38,11 +38,11 @@ const mutations = {
     LOADER_DEACTIVATE (state) {
         state.showLoader = false;
     },
-    BLOCK_LOADER_ACTIVATE (state) {
-        state.showBlockLoader = true;
+    BLOCK_LOADER_ACTIVATE (state, index) {
+        state.showBlockLoader[index] = true;
     },
-    BLOCK_LOADER_DEACTIVATE (state) {
-        state.showBlockLoader = false;
+    BLOCK_LOADER_DEACTIVATE (state, index) {
+        state.showBlockLoader[index] = false;
     }
 };
 
@@ -56,11 +56,11 @@ const actions = {
     LOADER_DEACTIVATE () {
         this.commit('LOADER_DEACTIVATE');
     },
-    BLOCK_LOADER_ACTIVATE () {
-        this.commit('BLOCK_LOADER_ACTIVATE');
+    BLOCK_LOADER_ACTIVATE (context, index) {
+        context.commit('BLOCK_LOADER_ACTIVATE', index);
     },
-    BLOCK_LOADER_DEACTIVATE () {
-        this.commit('BLOCK_LOADER_DEACTIVATE');
+    BLOCK_LOADER_DEACTIVATE (context, index) {
+        context.commit('BLOCK_LOADER_DEACTIVATE', index);
     }
 };
 
