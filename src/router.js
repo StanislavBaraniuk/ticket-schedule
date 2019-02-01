@@ -6,6 +6,7 @@ import Login from './views/Login'
 import Tools from './views/Tools'
 import Account from './views/Account'
 import NotFound from './views/404'
+import Logout from './views/Logout'
 
 Vue.use(Router);
 
@@ -24,7 +25,7 @@ export default new Router({
             component: Login
         },
         {
-            path: "/tools",
+            path: "/admin",
             name: "Tools",
             component: Tools
         },
@@ -32,6 +33,11 @@ export default new Router({
             path: "/account",
             name: "Account",
             component: Account
+        },
+        {
+            path: "/logout",
+            name: "Logout",
+            component: Logout
         },
         {
             path: "*",

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div :class="{vh100 : !this.$store.state.display.isActive, pr100: this.$store.state.display.isActive}">
       <back-photo></back-photo>
       <header-block></header-block>

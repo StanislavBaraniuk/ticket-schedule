@@ -1,25 +1,25 @@
 <template>
     <div id="back-photo">
-        <div class="back-photo" :class="{p50 : this.$store.state.display.isActive, 'p100' : !this.$store.state.display.isActive}" :key="'resizable'">
+        <div class="back-photo" :class="{p50 : isActive, 'p100' : !isActive}" :key="'resizable'">
             <div class="back-photo-black"></div>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
         name: "BackPhoto",
         data: () => ({
-            // height: "height: " + window.innerHeight + "px"
+
         }),
         methods: {
         },
         computed: {
-            myStyles () {
-                return {
-                    // height: `${this.$store.state.display.isActive ? this.height/2 : this.height}px`
-                }
-            }
+            ...mapGetters({
+                isActive: "GET_IS_ACTIVE"
+            })
         }
     }
 
@@ -32,7 +32,8 @@
             margin: 0
             width: 100%
             position: absolute
-            background-image: url("https://znaj.ua/images/2018/09/25/IcXKNfRpuvkrvkgYodOhx7p1WD107ndNP6XMKLjT.jpeg")
+            /*background-image: url("https://znaj.ua/images/2018/09/25/IcXKNfRpuvkrvkgYodOhx7p1WD107ndNP6XMKLjT.jpeg")*/
+            background-image: url("https://images.wallpaperscraft.ru/image/zheleznaya_doroga_poezd_gory_zima_118617_960x544.jpg")
             background-repeat: no-repeat
             background-size: cover
             background-position: center

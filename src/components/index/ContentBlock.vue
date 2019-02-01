@@ -5,7 +5,7 @@
         </div>
         <v-container v-if="isActive" grid-list-md text-xs-center class="inside-container">
             <v-layout row wrap>
-                <v-flex xs12 sm12 md12 lg8 offset-lg2  v-for=" (item , index) in tickets.filter(function(obj) { return obj.FROM === filter.FROM && obj.TO === filter.TO && obj.FROM_DATE === filter.DATE && obj.TYPE === filter.TRANSPORT})" :key="index">
+                <v-flex xs12 sm12 md12 lg8 offset-lg2  v-for=" (item , index) in tickets" :key="index">
                     <v-card class="inside-card">
                         <v-container grid-list-md text-xs-center class="inside-container-inside">
                             <v-layout row wrap>
@@ -31,7 +31,7 @@
                                 <v-flex xs12 sm6 md6 lg6>
                                     <v-stepper vertical class="positions">
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.FROM }}
+                                            {{ item.FROM_PLACE }}
                                             <small>{{ item.FROM_TIME }}</small>
                                         </v-stepper-step>
 
@@ -49,7 +49,7 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.TO }}
+                                            {{ item.TO_PLACE }}
                                             <small>{{ item.TO_TIME }}</small>
                                         </v-stepper-step>
                                     </v-stepper>
@@ -73,11 +73,12 @@
                 </v-flex>
             </v-layout>
         </v-container>
-        <v-container v-if="tickets.filter(function(obj) { return obj.FROM === filter.FROM && obj.TO === filter.TO && obj.FROM_DATE === filter.DATE }).length < 1 && isActive" grid-list-md text-xs-center style="padding: 0px">
+        <block-preloader></block-preloader>
+        <v-container class="not-found-block" v-if="tickets.length < 1 && isActive" grid-list-md text-xs-center style="padding: 0px">
             <v-layout row wrap>
                 <v-flex xs12 sm12 md12 lg8 offset-lg2>
                     <div class="text-xs-center mt6vh">
-                        <v-chip color="orange" text-color="white" class="not-found">
+                        <v-chip text-color="white" class="not-found">
                             <h1>Квитків не знайдено</h1>
                         </v-chip>
                     </div>
@@ -89,13 +90,16 @@
 
 <script>
     import { mapGetters } from 'vuex';
-
+    import BlockPreloader from '../preloader/BlockPreloader'
 
     export default {
         name: "ContentBlock",
         data: () => ({
 
         }),
+        components: {
+            BlockPreloader
+        },
         computed: {
             ...mapGetters({
                 tickets: "GET_ALL_TICKETS",
@@ -149,8 +153,16 @@
                     box-shadow: none
 
     .mt6vh
-        margin-top: 6vh
+        margin-top: 12vh
 
     .not-found
+        font-size: 8px !important
+        background-color: #9f9f9f
+        color: white
         padding: 10px
+
+    .not-found-block
+        z-index: 1 !important
+        height: 30vh
+
 </style>

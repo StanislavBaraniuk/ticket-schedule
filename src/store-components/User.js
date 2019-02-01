@@ -1,30 +1,22 @@
 const state = {
     current_user: {
-        // ID: null,
-        // FIRST_NAME: null,
-        // LAST_NAME: null,
-        // EMAIL: null,
-        // AVATAR: null,
-        // STATUS: null,
-        // SEX: null,
-        // PHONE: null
-        ID: 0,
-        FIRST_NAME: 'Stanislav',
-        LAST_NAME: 'Baraniuk',
-        EMAIL: 'Stanislavbaraniuk@gmail.com',
+        ID: null,
+        FIRST_NAME: null,
+        LAST_NAME: null,
+        EMAIL: null,
         AVATAR: null,
-        STATUS: 'online',
-        SEX: 1,
-        PHONE: '+380 (99) 7747 661'
-    },
-    admin: true,
-    user_menu: [
-        { title: 'Головна', icon: 'home', path: '/' },
-        { title: 'Ввійти', icon: 'fas fa-sign-in-alt', path: "/login" },
-        { title: 'Аккаунт', icon: 'account_circle', path: "/account"  },
-        { title: 'Адмін панель', icon: 'fas fa-tools', path: "/tools"  },
-        { title: 'Вихід', icon: 'fas fa-sign-out-alt', path: "/logout"  }
-    ]
+        STATUS: null,
+        SEX: null,
+        PHONE: null
+        // ID: 0,
+        // FIRST_NAME: 'Stanislav',
+        // LAST_NAME: 'Baraniuk',
+        // EMAIL: 'Stanislavbaraniuk@gmail.com',
+        // AVATAR: null,
+        // STATUS: 'online',
+        // SEX: 1,
+        // PHONE: '+380 (99) 7747 661'
+    }
 };
 const getters = {
     GET_USER_MENU_LIST: state => {
@@ -70,11 +62,24 @@ const mutations = {
     },
     SET_CURRENT_USER_SEX(state, val) {
         this.current_user.SEX = val;
+    },
+    SET_USER_MENU_LIST(state, val) {
+        this.user_menu = val;
+        console.log (this.user_menu) ;
     }
 };
 const actions = {
-    setActivePage () {
+    setActivePage() {
         this.commit('setActivePage');
+    },
+    LOAD_USER_MENU_LIST: async (context, token) => {
+        {
+            let data = await window.api.user.get_menu(token);
+
+            if (data.status === 200) {
+                context.commit('SET_USER_MENU_LIST', data.data);
+            }
+        }
     }
 };
 

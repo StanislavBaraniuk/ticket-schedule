@@ -3,7 +3,7 @@
         <v-layout row wrap>
             <h3 class="text">Використані квитки</h3>
             <v-flex xs12 v-for="(item, index) in all_orders.filter(function( obj ) { return obj.USER_ID === user.ID })" :key="index">
-                <v-card class="animated slideInLeft delay-1s">
+                <v-card class="">
                     <v-card-text>
                         <v-layout row wrap>
                             <v-flex xs6 class="text-xs-left">

@@ -25,9 +25,43 @@
             AllOrders,
             ActiveOrders
         },
+        data() {
+            return {
+                current_user: null
+            }
+        },
+        created() {
+            this.LOAD_USER_INFO(this, window.api.storage.getCookie('token'));
+        },
+        methods: {
+            LOAD_USER_INFO: async (component, token) => {
+                {
+                    component.$store.dispatch("LOADER_ACTIVATE");
+
+                    let data = await window.api.user.get_info(token);
+
+                    if (data.status === 200) {
+                        component.current_user = data.data;
+                    } else {
+                        component.current_user = {
+                            ID: '',
+                            FIRST_NAME: '',
+                            LAST_NAME: '',
+                            EMAIL: '',
+                            AVATAR: '',
+                            STATUS: '',
+                            SEX: '',
+                            PHONE: ''
+                        };
+                    }
+
+                    component.$store.dispatch("LOADER_DEACTIVATE");
+                }
+            }
+        },
         computed: {
             ...mapGetters({
-                current_user: 'GET_CURRENT_USER',
+                // current_user: 'GET_CURRENT_USER',
                 all_orders: 'GET_ORDERS',
                 def_tickets: 'GET_ALL_TICKETS'
             }),

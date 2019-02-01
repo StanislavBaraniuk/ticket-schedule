@@ -1,9 +1,9 @@
 <template>
     <v-card class="info-block">
-        <v-layout row wrap class="info-block animated slideInLeft delay-1s">
+        <v-layout row wrap class="info-block">
             <v-flex xs2>
                 <v-avatar>
-                    <img :src="$props.user.AVATAR === null ?
+                    <img :src="$props.user.AVATAR === '' ?
                     'http://cdn.onlinewebfonts.com/svg/img_215059.png'
                     : $props.user.AVATAR "
                          class="avatar"
@@ -85,11 +85,6 @@
             <v-flex xs12>
                 <v-card-text class="text-lg-left">
                     Стать: {{ $props.user.SEX === 1 ? "Чоловіча" : $props.user.SEX === 2 ? "Жіноча" : "Не визначено"}}
-                </v-card-text>
-            </v-flex>
-            <v-flex xs12>
-                <v-card-text class="text-lg-left">
-                    Статус: {{ $props.user.STATUS }}
                 </v-card-text>
             </v-flex>
         </v-layout>

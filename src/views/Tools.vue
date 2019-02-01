@@ -29,17 +29,6 @@
 
             <v-list dense class="pt-0">
                 <v-list-tile
-                        v-on:click="rd('/')"
-                >
-                    <v-list-tile-action>
-                        <v-icon >home</v-icon>
-                    </v-list-tile-action>
-
-                    <v-list-tile-content>
-                        <v-list-tile-title>Головна</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile
                         v-for="(item, i) in items"
                         :key="item.title"
                         v-on:click="setActiveTab(i)"
@@ -50,6 +39,17 @@
 
                     <v-list-tile-content>
                         <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile
+                        v-on:click="rd('/')"
+                >
+                    <v-list-tile-action>
+                        <v-icon>fas fa-arrow-left</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Вихід</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -76,6 +76,7 @@
         name: "Tools",
         data: () => ({
             drawer: true,
+            isAdmin: window.api.user.is_admin,
             items: [
                 { title: 'Статистика', icon: 'fas fa-file-invoice-dollar'},
                 { title: 'Дії', icon: 'fas fa-tools' }
@@ -96,7 +97,6 @@
         },
         computed: {
             ...mapGetters({
-                isAdmin: 'IS_ADMIN',
                 activeTab: 'GET_AVTIVE_ADMIN_ELEMENT',
                 activeTabName: 'GET_AVTIVE_ADMIN_ELEMENT_NAMES'
             }),

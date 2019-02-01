@@ -16,6 +16,7 @@
                                         label="Емайл"
                                         outline
                                         :rules="emailRules"
+                                        v-model="email"
                                 ></v-text-field>
                             </v-flex>
 
@@ -25,12 +26,13 @@
                                         outline
                                         type="password"
                                         :rules="passwordRules"
+                                        v-model="password"
                                 ></v-text-field>
                             </v-flex>
 
                             <div class="h-space"></div>
 
-                            <v-btn depressed dark class="go-button">Ввійти</v-btn>
+                            <v-btn depressed dark class="go-button" v-on:click="login">Ввійти</v-btn>
 
                             <div  class="h-space"></div>
                         </v-card-text>
@@ -111,6 +113,8 @@
     export default {
         name: "Authorization",
         data: () => ({
+            password: '',
+            email: '',
             activeBtn: 0,
             showNav: true,
             emailRules: [
@@ -134,6 +138,14 @@
                     }
                 } else {
                     return pass
+                }
+            },
+            login() {
+                if (/.[a-zA-Z/.]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email) && /.(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(this.password)) {
+                    window.api.user.login(this.email, this.password).then(function(result) {
+                        window.api.storage.setCookie("token", result.data);
+                        window.location.href = '/';
+                    });
                 }
             }
         }

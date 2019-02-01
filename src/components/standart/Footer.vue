@@ -55,6 +55,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .footer-block
+        z-index: 100
 </style>

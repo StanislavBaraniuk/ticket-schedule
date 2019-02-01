@@ -6,39 +6,15 @@ const state = {
         TIME_LAPSE: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
         USERS: [200,1302,2300,10,5000,0,60000, 600,6,60,67,4000],
         USERS_SEX: [122, 433, 500],
+        waysKeys: ["Kиїв - Львів", "Ужгород - Київ", "Запоріжя - Одеса","Kиїв2 - Львів", "Ужгород 2- Київ", "Запоріжя 2- Одеса"],
+        usersSexKeys: ['Чоловіки', 'Жінки', 'Не визначились'],
+        ways: [23,15,23,10,344,300,1],
     },
-    usersSexKeys: ['Чоловіки', 'Жінки', 'Не визначились'],
-    ways: [23,15,23,10,344,300,1],
-    waysKeys: ["Kиїв - Львів", "Ужгород - Київ", "Запоріжя - Одеса","Kиїв2 - Львів", "Ужгород 2- Київ", "Запоріжя 2- Одеса"],
-    stations: [
-        {ID: 1, NAME: "5"},
-        {ID: 2, NAME: "4"},
-        {ID: 3, NAME: "3"},
-        {ID: 4, NAME: "2"},
-        {ID: 5, NAME: "1"},
-    ],
-    stations_way: [
-        "5","4","3","2","1","-1","0","5"
-    ],
-    orders: [
-        {ID: 0, CODE: "32df243r2r3f13", TICKET_ID: 0, USER_ID: 0, STATUS: "active", DATE: "2019-01-01", COST: 100, FROM: "Russia", TO: "Ukraine", PLACE: "B1"},
-        {ID: 1, CODE: "32df243r2r3f13", TICKET_ID: 3, USER_ID: 1, STATUS: "active", DATE: "2019-01-01", COST: 200, FROM: "Russia", TO: "Ukraine", PLACE: "B1"},
-        {ID: 2, CODE: "32df243r2r3f13", TICKET_ID: 1, USER_ID: 0, STATUS: "active", DATE: "2019-01-01", COST: 300, FROM: "Russia", TO: "Ukraine", PLACE: "B1"},
-        {ID: 3, CODE: "32df243r2r3f13", TICKET_ID: 3, USER_ID: 1, STATUS: "active", DATE: "2019-01-01", COST: 400, FROM: "Russia", TO: "Ukraine", PLACE: "B1"},
-        {ID: 4, CODE: "32df243r2r3f13", TICKET_ID: 2, USER_ID: 0, STATUS: "active", DATE: "2019-01-01", COST: 500, FROM: "Russia", TO: "Ukraine", PLACE: "B1"}
-
-    ],
-    user_list: [
-        {ID : 0, EMAIL: "ST@gmail.com", F_NAME: "STAS", L_NAME: "STAS", SEX: 1, AVATAR: "/876545.jpg", IS_ADMIN: false, ORDER_ACTIVE: true, ONLINE: true, ORDER_ID: '7ufy5e6767gyf867'},
-        {ID : 1, EMAIL: "ST2@gmail.com", F_NAME: "STAS", L_NAME: "STAS", SEX: null, AVATAR: "/876545.jpg", IS_ADMIN: false, ORDER_ACTIVE: true, ONLINE: true, ORDER_ID: '7ufy5e6767gyf867'},
-        {ID : 2, EMAIL: "ST@gmail.com", F_NAME: "STAS", L_NAME: "STAS", SEX: 2, AVATAR: "/876545.jpg", IS_ADMIN: false, ORDER_ACTIVE: true, ONLINE: true, ORDER_ID: '7ufy5e6767gyf867'}
-    ],
-    ticketList: [
-        {ID: 0, NAME: "705К Киев-Пассажирский — Пшемысль", PRICE: 100, FROM_DATE: "2019-01-01", TO_DATE: "2019-01-03", FROM: "2", TO: "5", TYPE: 1, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: ["Uzhgorod", "Lviv", "Kiev"]},
-        {ID: 1, NAME: "705К2 Киев-Пассажирский — Пшемысль", PRICE: 100, FROM_DATE: "2019-01-01", TO_DATE: "2019-01-03", FROM: "2", TO: "3", TYPE: 2, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: ["Uzhgorod", "Lviv", "Kiev"]},
-        {ID: 2, NAME: "705К3 Киев-Пассажирский — Пшемысль", PRICE: 100, FROM_DATE: "2019-01-01", TO_DATE: "2019-01-03", FROM: "1", TO: "3", TYPE: 1, FROM_TIME: "06:20", TO_TIME: "12:10", WAY_TIME: "6:10", STATIONS: ["Uzhgorod", "Lviv", "Kiev"]},
-        {ID: 3, NAME: "142П Бахмут — Львов",  PRICE: 200, FROM_DATE: "2019-01-01", TO_DATE: "2019-01-03", FROM: "1", TO: "2", TYPE: 2, FROM_TIME: "6:00", TO_TIME: "21:15", WAY_TIME: "12:15", STATIONS: ["Uzhgorod", "Lviv", "Kiev"]},
-    ],
+    stations: [],
+    stations_way: [],
+    orders: [],
+    user_list: [],
+    ticket_list: [],
 
     online: true,
 
@@ -81,7 +57,7 @@ const getters = {
         return state.waysKeys
     },
     GET_ALL_TICKETS: state => {
-        return state.ticketList
+        return state.ticket_list
     },
     GET_STATIONS: state => {
         return state.stations
@@ -111,7 +87,13 @@ const getters = {
 
 const mutations = {
     ADD_TICKET: (state, obj) => {
-        state.ticketList.push(obj);
+        state.ticket_list.push(obj);
+    },
+    SET_TICKETS: (state, list) => {
+        state.ticket_list = list;
+    },
+    SET_STATIONS: (state, obj) => {
+        state.stations.push(obj);
     },
     ADD_STATIONS: (state, obj) => {
         state.stations.push(obj);
@@ -130,7 +112,11 @@ const mutations = {
     }
 };
 
-const actions = {};
+const actions = {
+    SET_TICKETS (context, list) {
+        context.commit("SET_TICKETS", list)
+    }
+};
 
 export default {
     state,

@@ -1,12 +1,12 @@
 <template>
     <v-toolbar class="transparent" dark flat absolute :class="{p100 : drawer}">
-        <v-toolbar-items class="hidden-xs-only"  v-if="!$props.home" v-on:click="rd('/')">
+        <v-toolbar-items class="hidden-xs-only" v-if="!$props.home" v-on:click="rd('/')">
             <v-btn flat><h1>TIC.S</h1></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="!$props.way">
-            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><i class="material-icons">directions_railway</i><span class="icon-text hidden-xs-only">Потяг</span></v-btn>
-            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><i class="material-icons">directions_bus</i><span class="icon-text hidden-xs-only">Автобус</span></v-btn>
+            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><v-icon>fas fa-bus</v-icon><span class="icon-text hidden-xs-only">Потяг</span></v-btn>
+            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><v-icon>fas fa-train</v-icon><span class="icon-text hidden-xs-only">Автобус</span></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -31,7 +31,6 @@
                     absolute
                     light
                     temporary
-
             >
                 <v-list class="pa-1">
 
@@ -52,15 +51,15 @@
 
                     <v-list-tile
                             v-for="item in def_list"
-                            :key="item.title"
-                            v-on:click="rd(item.path)"
+                            :key="item.TITLE"
+                            v-on:click="rd(item.PATH)"
                     >
                         <v-list-tile-action>
-                            <v-icon>{{ item.icon }}</v-icon>
+                            <v-icon>{{ item.ICON }}</v-icon>
                         </v-list-tile-action>
 
                         <v-list-tile-content>
-                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            <v-list-tile-title>{{ item.TITLE }}</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
@@ -92,6 +91,7 @@
         },
         data() {
             return {
+                def_list: [],
                 drawer: null,
                 direction: 'bottom',
                 fab: false,
@@ -105,7 +105,19 @@
                 transition: 'slide-y-reverse-transition'
             };
         },
+        created() {
+            this.LOAD_USER_MENU_LIST(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+        },
         methods: {
+            LOAD_USER_MENU_LIST: async (component, token) => {
+                {
+                    let data = await window.api.user.get_menu(token);
+
+                    if (data.status === 200) {
+                        component.def_list = data.data;
+                    }
+                }
+            },
             rd (path) {
                 this.$store.commit('SET_PATH', path)
             },
@@ -123,7 +135,7 @@
         computed: {
             ...mapGetters({
                 def_type: 'GET_TYPE',
-                def_list: 'GET_USER_MENU_LIST'
+            //     def_list: 'GET_USER_MENU_LIST'
             }),
         }
     }
@@ -132,9 +144,11 @@
 <style lang="sass" scoped>
     .activeMenu
         border-bottom: 3px solid white
+        transition: 0s
+        border-radius: 0
 
     .v-btn
-        transition: 1s
+        /*transition: 1s*/
 
     .icon-text
         margin-left: 10px
