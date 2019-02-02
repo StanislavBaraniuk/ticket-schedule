@@ -179,14 +179,14 @@ const api = {
                 {
                     GET : ["*"],
                     WHERE : {
-                        // FROM_PLACE : filter.FROM_PLACE,
-                        // TO_PLACE : filter.FROM_PLACE,
-                        // FROM_DATE : filter.FROM_DATE,
-                        // TYPE: filter.TRANSPORT
-                        FROM_PLACE : 1,
-                        TO_PLACE : 2,
-                        FROM_DATE : "2019-02-01",
-                        TYPE: 1
+                        FROM_PLACE : filter.FROM_PLACE,
+                        TO_PLACE : filter.TO_PLACE,
+                        FROM_DATE : filter.FROM_DATE,
+                        TYPE: filter.TYPE
+                        // FROM_PLACE : 1,
+                        // TO_PLACE : 2,
+                        // FROM_DATE : "2019-02-01",
+                        // TYPE: 1
                     }
                 },
                 {

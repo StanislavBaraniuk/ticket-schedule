@@ -48,9 +48,8 @@
         }),
         methods: {
             echoSocialError () {
-                alert("Link unused now");
-            },
-
+                alert("Not created");
+            }
         },
     }
 </script>

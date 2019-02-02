@@ -17,8 +17,6 @@ const state = {
         name: null,
         price: null
     }
-
-    // all_ways: ["Киев","Киев1","Киев2","Киев3","Киев4","Киев5","Киев6","Киев7","Киев8","Киев9","Киев10","Киев11"],
 };
 const getters = {
     GET_TYPE: state => {

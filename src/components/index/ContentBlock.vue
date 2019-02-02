@@ -28,11 +28,12 @@
                                         </v-btn>
                                     </v-card-actions>
                                 </v-flex>
+                                <!--s{{ stations }}-->
                                 <v-flex xs12 sm6 md6 lg6>
                                     <v-stepper vertical class="positions">
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.FROM_PLACE }}
-                                            <small>{{ item.FROM_TIME }}</small>
+                                            {{ stations[item.FROM_PLACE-1] }}
+                                            <small>Відправлення о {{ item.FROM_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
 
                                         <v-stepper-content >
@@ -40,7 +41,7 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.WAY_TIME }}
+                                            {{ item.WAY_TIME | timeNormalizer }}
                                             <small>час у дорозі</small>
                                         </v-stepper-step>
 
@@ -49,8 +50,8 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.TO_PLACE }}
-                                            <small>{{ item.TO_TIME }}</small>
+                                            {{   stations[item.TO_PLACE-1] }}
+                                            <small>Прибуття о {{ item.TO_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
                                     </v-stepper>
                                 </v-flex>
@@ -58,7 +59,7 @@
                                     Маршрут
                                     <v-stepper vertical class="stations">
                                         <v-stepper-step complete="" complete-icon="" v-for="(state, s_index) in item.STATIONS" :key="s_index">
-                                            {{state}}
+                                            {{ stations[state-1] }}
                                             <small>Зупинка</small>
                                         </v-stepper-step>
 
@@ -104,7 +105,8 @@
             ...mapGetters({
                 tickets: "GET_ALL_TICKETS",
                 filter: "GET_FILTER",
-                isActive: "GET_IS_ACTIVE"
+                isActive: "GET_IS_ACTIVE",
+                stations: 'GET_STATIONS'
             })
         }
     }

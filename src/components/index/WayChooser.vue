@@ -94,15 +94,7 @@
 <script>
 
     import { mapGetters } from 'vuex';
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
-    async function demo() {
-        console.log('Taking a break...');
-        await sleep(2000);
-        console.log('Two seconds later');
-    }
     export default {
         name: "WayChooser",
         data: () => ({
@@ -119,18 +111,29 @@
         methods: {
             LOAD_TICKETS: function () {
                 if (this.from.length > 0 && this.to.length > 0) {
+                    this.$store.commit("SET_TICKETS", []);
                     this.$store.dispatch('SET_ACTIVE_PAGE');
                     this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "contentBlock");
 
+                    // alert(this.GET_KEY_BY_VALUE(this.stations, this.def_from));
+
                     let filter = {
-                        FROM_PLACE: this.GET_KEY_BY_VALUE(this.stations, this.def_from),
-                        TO_PLACE: this.GET_KEY_BY_VALUE(this.stations, this.def_to),
+                        FROM_PLACE: parseInt(this.GET_KEY_BY_VALUE(this.stations, this.def_from))+1,
+                        TO_PLACE: parseInt(this.GET_KEY_BY_VALUE(this.stations, this.def_to))+1,
                         FROM_DATE: this.def_date,
                         TYPE: this.def_type
+                        // FROM_PLACE : 1,
+                        // TO_PLACE : 2,
+                        // FROM_DATE : "2019-02-01",
+                        // TYPE: 1
                     };
 
+                    console.log(filter);
+
                     this.GET_FILTERED_TICKETS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", filter).then(function (res) {
-                        res.this.$store.commit("SET_TICKETS", res.data);
+                        if (res.data !== undefined) {
+                            res.this.$store.commit("SET_TICKETS", res.data);
+                        }
                         res.this.$store.dispatch("BLOCK_LOADER_DEACTIVATE", "contentBlock");
                     });
 
@@ -145,7 +148,7 @@
                     if (data.status === 200) {
                         return  {this: component, data: data.data};
                     } else {
-                        return false;
+                        return {this: component, data: undefined};
                     }
                 }
             },
@@ -154,10 +157,11 @@
                 {
                     let data = await window.api.stations.get_all(token);
 
+
                     if (data.status === 200) {
-                        component.stations  = data.data.map(function callback(currentValue) {
-                            return currentValue.NAME;
-                        })
+                        component.stations  = Object.values(data.data);
+
+                        component.$store.commit('SET_STATIONS',component.stations);
                     }
                 }
             },

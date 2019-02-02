@@ -11,13 +11,10 @@ const state = {
         ways: [23,15,23,10,344,300,1],
     },
     stations: [],
-    stations_way: [],
     orders: [],
     user_list: [],
     ticket_list: [],
-
     online: true,
-
     admin_search: {
         SEARCH_BY: [
             ["ID", "NAME", "PRICE", "FROM_DATE", "TO_DATE", "FROM", "TO", "TYPE", "FROM_TIME", "TO_TIME", "WAY_TIME"],
@@ -62,9 +59,6 @@ const getters = {
     GET_STATIONS: state => {
         return state.stations
     },
-    GET_STATIONS_WAY: state => {
-        return state.stations_way
-    },
     GET_USER_LIST: state => {
         return state.user_list
     },
@@ -93,7 +87,7 @@ const mutations = {
         state.ticket_list = list;
     },
     SET_STATIONS: (state, obj) => {
-        state.stations.push(obj);
+        state.stations = obj;
     },
     ADD_STATIONS: (state, obj) => {
         state.stations.push(obj);
@@ -115,7 +109,10 @@ const mutations = {
 const actions = {
     SET_TICKETS (context, list) {
         context.commit("SET_TICKETS", list)
-    }
+    },
+    SET_STATIONS: (context, obj) => {
+        context.commit('SET_STATIONS', obj);
+    },
 };
 
 export default {
