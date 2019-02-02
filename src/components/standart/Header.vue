@@ -5,8 +5,8 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="!$props.way">
-            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><v-icon>fas fa-bus</v-icon><span class="icon-text hidden-xs-only">Потяг</span></v-btn>
-            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><v-icon>fas fa-train</v-icon><span class="icon-text hidden-xs-only">Автобус</span></v-btn>
+            <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><v-icon>fas fa-train</v-icon><span class="icon-text hidden-xs-only">Потяг</span></v-btn>
+            <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><v-icon>fas fa-bus</v-icon><span class="icon-text hidden-xs-only">Автобус</span></v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items>

@@ -56,5 +56,6 @@
 
 <style lang="sass" scoped>
     .footer-block
+        position: relative !important
         z-index: 100
 </style>
