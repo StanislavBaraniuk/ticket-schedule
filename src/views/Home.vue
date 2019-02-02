@@ -1,6 +1,6 @@
 <template>
   <div >
-    <div :class="{vh100 : !this.$store.state.display.isActive, pr100: this.$store.state.display.isActive}">
+    <div :class="{vh100 : !isActive, pr100: isActive}">
       <back-photo></back-photo>
       <header-block></header-block>
       <way-chooser></way-chooser>
@@ -11,33 +11,39 @@
 </template>
 
 <script>
-import HeaderBlock from '../components/standart/Header'
-import BackPhoto from '../components/index/BackPhoto'
-import WayChooser from '../components/index/WayChooser'
-import ContentBlock from '../components/index/ContentBlock'
-import FooterBlock from '../components/standart/Footer'
-import '../style/style.css'
+  import { mapGetters } from 'vuex';
+  import HeaderBlock from '../components/standart/Header'
+  import BackPhoto from '../components/index/BackPhoto'
+  import WayChooser from '../components/index/WayChooser'
+  import ContentBlock from '../components/index/ContentBlock'
+  import FooterBlock from '../components/standart/Footer'
+  import '../style/style.css'
 
-export default {
-  name: 'Home',
-  components: {
-    HeaderBlock,
-    BackPhoto,
-    WayChooser,
-    ContentBlock,
-    FooterBlock
-  },
-  data: function () {
-    return {
-      windowWidth: window.innerWidth
-    };
-  },
-  methods: {
-    setFontLoaded () {
-      this.$emit('font-loaded')
+  export default {
+    name: 'Home',
+    components: {
+      HeaderBlock,
+      BackPhoto,
+      WayChooser,
+      ContentBlock,
+      FooterBlock
+    },
+    data: function () {
+      return {
+        windowWidth: window.innerWidth
+      };
+    },
+    methods: {
+      setFontLoaded () {
+        this.$emit('font-loaded')
+      }
+    },
+    computed: {
+      ...mapGetters({
+        isActive: "GET_IS_ACTIVE"
+      })
     }
   }
-}
 </script>
 
 <style lang="sass">
@@ -56,6 +62,7 @@ export default {
 
   .vh100
     height: 100vh
+
   .pr100
     height: 100%
 </style>
