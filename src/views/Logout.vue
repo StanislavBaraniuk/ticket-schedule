@@ -14,9 +14,9 @@
             this.LOGOUT(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
         },
         methods: {
-            LOGOUT: (component, token) => {
+            LOGOUT: async (component, token) => {
                 {
-                    window.api.user.logout(token);
+                    await window.api.user.logout(token);
                 }
             },
             CHECK_AUTH: async (component, token) => {

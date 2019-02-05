@@ -28,6 +28,16 @@
                                         </v-btn>
                                     </v-card-actions>
                                 </v-flex>
+                                <v-flex xs12>
+                                    <v-autocomplete
+                                            class="place"
+                                            label="Місце"
+                                            :items="item.PLACES"
+                                            placeholder="Оберіть місце"
+                                            append-icon="fas fa-ticket-alt"
+                                            v-model="to"
+                                    ></v-autocomplete>
+                                </v-flex>
                                 <!--s{{ stations }}-->
                                 <v-flex xs12 sm6 md6 lg6>
                                     <v-stepper vertical class="positions">
@@ -166,5 +176,9 @@
     .not-found-block
         z-index: 1 !important
         height: 30vh
+
+    .place
+        width: 95%
+        margin-left: 2.5%
 
 </style>

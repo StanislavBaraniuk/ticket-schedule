@@ -1,5 +1,13 @@
 <template>
     <div class="auth-page">
+        <div id="alert" style="margin-top: 70px; position: absolute; visibility: hidden">
+            <v-alert
+                    :value="true"
+                    type="info"
+            >
+                Запит на зміну паролю надіслано на вказаний email
+            </v-alert>
+        </div>
         <v-container grid-list-md text-md-center fill-height class="authorization" >
             <v-layout row align-center fill-height class="test">
                 <v-flex xs12 sm6 md6 lg4 offset-lg4 offset-md3 offset-sm3>
@@ -45,6 +53,7 @@
                                         label="Емайл"
                                         outline
                                         :rules="emailRules"
+                                        v-model="email"
                                 ></v-text-field>
                             </v-flex>
 
@@ -71,12 +80,13 @@
                                         label="Емайл"
                                         outline
                                         :rules="emailRules"
+                                        v-model="email"
                                 ></v-text-field>
                             </v-flex>
 
                             <div class="h-space"></div>
 
-                            <v-btn depressed dark class="go-button">Відновити доступ</v-btn>
+                            <v-btn depressed dark class="go-button" v-on:click="forgetPass">Відновити доступ</v-btn>
 
                             <div class="h-space"></div>
                         </v-card-text>
@@ -145,6 +155,18 @@
                     window.api.user.login(this.email, this.password).then(function(result) {
                         window.api.storage.setCookie("token", result.data);
                         window.location.href = '/';
+                    });
+                }
+            },
+            forgetPass() {
+                if (/.[a-zA-Z/.]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email)) {
+                    document.getElementById('alert').style.visibility = 'visible';
+                    setTimeout(function () {
+                        document.getElementById('alert').style.visibility = 'hidden';
+                        window.location.href = '/';
+                    }, 3000);
+                    window.api.user.forget_password(this.email).then(function(result) {
+                        alert(result);
                     });
                 }
             }

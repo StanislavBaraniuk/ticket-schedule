@@ -24,107 +24,26 @@ const api = {
         logout: function (token) {
             axios.get(BP +'/user/logout/', {
                 headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
+                    Authorization: 'Bearer ' + token
                 }
             }).then(function (response) {
-                console.log(response);
+                return response
             }).catch(function (error) {
-                console.log(error);
+                return error
             });
+
             window.api.storage.setCookie("token", "0");
             window.location.href = '/';
-            console.log(token);
         },
-        new_password: function (email, password) {
-            axios.get(BP +'/user/forgetSend/', {
-                headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
-                }
+        forget_password: function (email) {
+            axios.post(BP +'/user/forgetPasswordSendEmail/', {
+                email : email
             }).then(function (response) {
-                console.log(response);
+                return response;
             }).catch(function (error) {
-                console.log(error);
+                return error;
             });
         },
-        change_password: function (email, password) {
-            axios.post(BP +'/user/changePassword/', {
-                login: email,
-                password: password
-            }, {
-                headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
-                }
-            }).then(function (response) {
-                alert(response.data.substring(0, 30));
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        change_fio: (function (email, password) {
-            axios.post(BP +'/user/changeFIO/', {
-                login: email,
-                password: password
-            }, {
-                headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
-                }
-            }).then(function (response) {
-                alert(response.data.substring(0, 30));
-                console.log(response);
-            }).catch(function (error) {
-                alert(error);
-                console.log(error);
-            });
-        }),
-        change_phone: (function (email, password) {
-            axios.post(BP +'/user/changePhone/', {
-                login: email,
-                password: password
-            }, {
-                headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
-                }
-            }).then(function (response) {
-                alert(response.data.substring(0, 30));
-                console.log(response);
-            }).catch(function (error) {
-                alert(error);
-                console.log(error);
-            });
-        }),
-        change_email: (function (email, password) {
-            axios.post(BP +'/user/changeEmail/', {
-                login: email,
-                password: password
-            }, {
-                headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
-                }
-            }).then(function (response) {
-                alert(response.data.substring(0, 30));
-                console.log(response);
-            }).catch(function (error) {
-                alert(error);
-                console.log(error);
-            });
-        }),
-        change_sex: (function (email, password) {
-            axios.post(BP +'/user/changeSex/', {
-                login: email,
-                password: password
-            }, {
-                headers: {
-                    Authorization: 'Bearer ' + window.localStorage.getItem("token")
-                }
-            }).then(function (response) {
-                alert(response.data.substring(0, 30));
-                console.log(response);
-            }).catch(function (error) {
-                alert(error);
-                console.log(error);
-            });
-        }),
         get_menu : (function (token) {
             return axios.get(BP +'/user/getMenu/', {
                 headers: {
@@ -162,6 +81,17 @@ const api = {
             });
         }),
         is_admin : (function (token, path) {
+            return axios.get(BP +'/user/isAdmin/', {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                window.location.href = path;
+            });
+        }),
+        create_order : (function (token, ticket_id) {
             return axios.get(BP +'/user/isAdmin/', {
                 headers: {
                     Authorization: 'Bearer ' + token

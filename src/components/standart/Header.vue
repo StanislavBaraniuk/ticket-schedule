@@ -37,11 +37,11 @@
 
                     <v-list-tile avatar tag="div">
                         <v-list-tile-avatar>
-                            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+                            <img src="http://cdn.onlinewebfonts.com/svg/img_215059.png">
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>
-                            <v-list-tile-title>John Leider</v-list-tile-title>
+                            <v-list-tile-title>{{ current_user.FIRST_NAME !== undefined ? current_user.FIRST_NAME + " " + current_user.LAST_NAME : "Account" }}</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
@@ -96,6 +96,7 @@
         },
         data() {
             return {
+                current_user: '',
                 def_list: [],
                 drawer: null,
                 direction: 'bottom',
@@ -112,6 +113,7 @@
         },
         created() {
             this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "menu");
+            this.LOAD_USER_INFO(this, window.api.storage.getCookie('token'));
             this.LOAD_USER_MENU_LIST(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
         },
         methods: {
@@ -122,6 +124,26 @@
                     if (data.status === 200) {
                         component.def_list = data.data;
                         component.$store.dispatch("BLOCK_LOADER_DEACTIVATE", "menu");
+                    }
+                }
+            },
+            LOAD_USER_INFO: async (component, token) => {
+                {
+                    let data = await window.api.user.get_info(token);
+
+                    if (data.status === 200) {
+                        component.current_user = data.data;
+                    } else {
+                        component.current_user = {
+                            ID: '',
+                            FIRST_NAME: '',
+                            LAST_NAME: '',
+                            EMAIL: '',
+                            AVATAR: '',
+                            STATUS: '',
+                            SEX: '',
+                            PHONE: ''
+                        };
                     }
                 }
             },
@@ -142,7 +164,6 @@
         computed: {
             ...mapGetters({
                 def_type: 'GET_TYPE',
-            //     def_list: 'GET_USER_MENU_LIST'
             }),
         }
     }

@@ -61,7 +61,6 @@
         },
         computed: {
             ...mapGetters({
-                // current_user: 'GET_CURRENT_USER',
                 all_orders: 'GET_ORDERS',
                 def_tickets: 'GET_ALL_TICKETS'
             }),

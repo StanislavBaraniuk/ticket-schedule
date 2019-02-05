@@ -39,11 +39,11 @@
                         <v-spacer></v-spacer>
 
                         <v-flex xs12 sm12 md12 lg12 >
-                            <v-btn flat @click="activeBlock = 0">квитки</v-btn>
-                            <v-btn flat @click="activeBlock = 1">міста</v-btn>
-                            <v-btn flat @click="activeBlock = 2">користувачі</v-btn>
-                            <v-btn flat @click="activeBlock = 3">замовлення</v-btn>
-                            <v-btn flat @click="activeBlock = 4">сайт</v-btn>
+                            <v-btn flat @click="setActiveBlock(0)">квитки</v-btn>
+                            <v-btn flat @click="setActiveBlock(1)">міста</v-btn>
+                            <v-btn flat @click="setActiveBlock(2)">користувачі</v-btn>
+                            <v-btn flat @click="setActiveBlock(3)">замовлення</v-btn>
+                            <v-btn flat @click="setActiveBlock(4)">сайт</v-btn>
                         </v-flex>
 
                     </v-layout>
@@ -88,6 +88,50 @@
                 menu_d: false,
                 modal_d: false,
                 activeBlock: 0,
+            }
+        },
+        created() {
+            let url = window.location.href.split('/');
+            let uri = url[url.length-1];
+            let element_path = uri.split('?');
+            switch (element_path[1].split('=')[1]) {
+                case 'tickets' :
+                    this.activeBlock = 0;
+                    break;
+                case 'stations' :
+                    this.activeBlock = 1;
+                    break;
+                case 'users' :
+                    this.activeBlock = 2;
+                    break;
+                case 'orders' :
+                    this.activeBlock = 3;
+                    break;
+                case 'site' :
+                    this.activeBlock = 4;
+                    break;
+            }
+        },
+        methods: {
+            setActiveBlock: function (index) {
+                this.activeBlock = index;
+                switch (index) {
+                    case 0 :
+                        history.replaceState({} , "tools", "?tools=tickets");
+                        break;
+                    case 1 :
+                        history.replaceState({} , "tools", "?tools=stations");
+                        break;
+                    case 2 :
+                        history.replaceState({} , "tools", "?tools=users");
+                        break;
+                    case 3 :
+                        history.replaceState({} , "tools", "?tools=orders");
+                        break;
+                    case 4 :
+                        history.replaceState({} , "tools", "?tools=site");
+                        break;
+                }
             }
         },
         computed: {

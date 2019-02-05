@@ -89,11 +89,32 @@
             },
             setActiveTab: function (index) {
                 this.$store.commit("C_ACTIVE_ADMIN_ELEMENT", index);
+                history.replaceState({} , index === 0 ? "?statistic" : "?tools", index === 0 ? "?statistic" : "?tools=tickets");
+            },
+            CHECK_AUTH: async (component, token) => {
+                {
+                    await window.api.user.is_auth(token, '/');
+                }
             }
         },
         components: {
             StatisticTab,
             ToolTab
+        },
+        created() {
+            this.CHECK_AUTH(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+            let url = window.location.href.split('/');
+            let uri = url[url.length-1];
+            let element_path = uri.split('?');
+            if (element_path[1].split('=')[0] === 'statistic') {
+                this.$store.commit("C_ACTIVE_ADMIN_ELEMENT", 0);
+            } else if (element_path[1].split('=')[0] === 'tools') {
+                this.$store.commit("C_ACTIVE_ADMIN_ELEMENT", 1);
+                history.replaceState({} , "tools", "?tools=tickets");
+            }
+        },
+        mounted() {
+
         },
         computed: {
             ...mapGetters({
