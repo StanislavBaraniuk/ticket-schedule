@@ -3,70 +3,74 @@
         <v-toolbar-items class="hidden-xs-only" v-if="!$props.home" v-on:click="rd('/')">
             <v-btn flat><h1>TIC.S</h1></v-btn>
         </v-toolbar-items>
+
         <v-spacer></v-spacer>
+
         <v-toolbar-items v-if="!$props.way">
             <v-btn v-on:click="setActive(1)" :class="{ activeMenu :  getActiveStyle(1) }" flat><v-icon>fas fa-train</v-icon><span class="icon-text hidden-xs-only">Потяг</span></v-btn>
             <v-btn v-on:click="setActive(2)" :class="{ activeMenu :  getActiveStyle(2) }" flat><v-icon>fas fa-bus</v-icon><span class="icon-text hidden-xs-only">Автобус</span></v-btn>
         </v-toolbar-items>
+
         <v-spacer></v-spacer>
+
         <v-toolbar-items>
-        <v-layout
-                style="margin-top: -15px"
-                wrap
-        >
-            <v-container>
-                <v-layout justify-center>
-                    <v-toolbar-side-icon
-                            color="white"
-                            light
-                            @click.stop="drawer = !drawer"
-                    >
-
-                    </v-toolbar-side-icon>
-                </v-layout>
-            </v-container>
-
-            <v-navigation-drawer
-                    v-model="drawer"
-                    absolute
-                    light
-                    temporary
+            <v-layout
+                    style="margin-top: -15px"
+                    wrap
             >
-                <v-list class="pa-1">
+                <v-container>
+                    <v-layout justify-center>
+                        <v-toolbar-side-icon
+                                color="white"
+                                light
+                                @click.stop="drawer = !drawer"
+                        >
+                            <v-icon v-if="current_user.ONLINE === 1">fas fa-globe-americas</v-icon>
+                        </v-toolbar-side-icon>
+                    </v-layout>
+                </v-container>
+
+                <v-navigation-drawer
+                        v-model="drawer"
+                        absolute
+                        light
+                        temporary
+                >
+                    <v-list class="pa-1">
 
 
-                    <v-list-tile avatar tag="div">
-                        <v-list-tile-avatar>
-                            <img src="http://cdn.onlinewebfonts.com/svg/img_215059.png">
-                        </v-list-tile-avatar>
+                        <v-list-tile avatar tag="div">
+                            <v-list-tile-avatar>
+                                <img src="http://cdn.onlinewebfonts.com/svg/img_215059.png">
+                            </v-list-tile-avatar>
 
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ current_user.FIRST_NAME !== undefined ? current_user.FIRST_NAME + " " + current_user.LAST_NAME : "Account" }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
+                            <v-list-tile-content>
+                                <v-list-tile-title>{{ current_user.FIRST_NAME !== undefined &&  current_user.FIRST_NAME !== null ? current_user.FIRST_NAME + " " + current_user.LAST_NAME : "Account" }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
 
-                <block-preloader location="menu" color="white"></block-preloader>
+                    <block-preloader location="menu" color="white"></block-preloader>
 
-                <v-list class="pt-0" dense>
-                    <v-divider light></v-divider>
+                    <v-list class="pt-0" dense>
+                        <v-divider light></v-divider>
 
-                    <v-list-tile
-                            v-for="item in def_list"
-                            :key="item.TITLE"
-                            v-on:click="rd(item.PATH)"
-                    >
-                        <v-list-tile-action>
-                            <v-icon>{{ item.ICON }}</v-icon>
-                        </v-list-tile-action>
+                        <v-list-tile
+                                v-for="item in def_list"
+                                :key="item.TITLE"
+                                v-on:click="rd(item.PATH)"
+                        >
+                            <v-list-tile-action>
+                                <v-icon>{{ item.ICON }}</v-icon>
+                            </v-list-tile-action>
 
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ item.TITLE }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-        </v-layout>
+                            <v-list-tile-content>
+                                <v-list-tile-title>{{ item.TITLE }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </v-navigation-drawer>
+            </v-layout>
         </v-toolbar-items>
     </v-toolbar>
 </template>
@@ -96,7 +100,7 @@
         },
         data() {
             return {
-                current_user: '',
+                // current_user: '',
                 def_list: [],
                 drawer: null,
                 direction: 'bottom',
@@ -132,18 +136,7 @@
                     let data = await window.api.user.get_info(token);
 
                     if (data.status === 200) {
-                        component.current_user = data.data;
-                    } else {
-                        component.current_user = {
-                            ID: '',
-                            FIRST_NAME: '',
-                            LAST_NAME: '',
-                            EMAIL: '',
-                            AVATAR: '',
-                            STATUS: '',
-                            SEX: '',
-                            PHONE: ''
-                        };
+                        component.$store.dispatch('SET_USER_INFO', data.data);
                     }
                 }
             },
@@ -164,6 +157,7 @@
         computed: {
             ...mapGetters({
                 def_type: 'GET_TYPE',
+                current_user: "GET_CURRENT_USER"
             }),
         }
     }

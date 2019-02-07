@@ -89,6 +89,9 @@ const mutations = {
     SET_STATIONS: (state, obj) => {
         state.stations = obj;
     },
+    SET_ORDERS: (state, orders) => {
+        state.orders = orders;
+    },
     ADD_STATIONS: (state, obj) => {
         state.stations.push(obj);
     },
@@ -103,6 +106,11 @@ const mutations = {
     },
     SET_ADMIN_SEARCH_TEXT: (state, obj) => {
         state.admin_search.TEXT = obj
+    },
+    DELETE_PLACE: (state, data) => {
+        alert(state.ticket_list[data.ticket_id]);
+        var p = state.ticket_list[data.ticket_id];
+        p.slice(0, 1);
     }
 };
 
@@ -113,6 +121,12 @@ const actions = {
     SET_STATIONS: (context, obj) => {
         context.commit('SET_STATIONS', obj);
     },
+    DELETE_PLACE: (context, data) => {
+        context.commit('DELETE_PLACE', data);
+    },
+    SET_ORDERS: (context, orders) => {
+        context.commit('SET_ORDERS', orders);
+    }
 };
 
 export default {

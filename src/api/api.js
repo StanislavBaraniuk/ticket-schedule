@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BP = "http://tickets-api.zzz.com.ua";
+var MD5 = require("crypto-js/md5");
 
 const api = {
     methods: {
@@ -14,10 +15,8 @@ const api = {
                 login: email,
                 password: password
             }).then(function (response) {
-                console.log(response.data);
                 return response;
             }).catch(function (error) {
-                console.log(error);
                 return null;
             });
         },
@@ -29,11 +28,50 @@ const api = {
             }).then(function (response) {
                 return response
             }).catch(function (error) {
-                return error
+                return error.response
             });
 
             window.api.storage.setCookie("token", "0");
             window.location.href = '/';
+        },
+        off_online: function (token) {
+            axios.get(BP +'/user/online/0', {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(function (response) {
+                return response
+            }).catch(function (error) {
+                return error.response
+            });
+        },
+        on_online: function (token) {
+            axios.get(BP +'/user/online/1', {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(function (response) {
+                return response
+            }).catch(function (error) {
+                return error
+            });
+        },
+        registration: function (email, password, online) {
+            return axios.post(BP +'/user/register/', {
+                ID: 0,
+                FIRST_NAME: "Користувач",
+                LAST_NAME: "",
+                PHONE: "Не вказано",
+                SEX: 0,
+                ONLINE: online,
+                ACCESS: 1,
+                EMAIL: email,
+                password: MD5(password)
+            }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return null;
+            });
         },
         forget_password: function (email) {
             axios.post(BP +'/user/forgetPasswordSendEmail/', {
@@ -50,10 +88,8 @@ const api = {
                     Authorization: 'Bearer ' + token
                 }
             }).then(function (response) {
-                // console.log(response.data);
                 return response;
             }).catch(function (error) {
-                console.log(error);
                 return null;
             });
         }),
@@ -91,17 +127,55 @@ const api = {
                 window.location.href = path;
             });
         }),
-        create_order : (function (token, ticket_id) {
-            return axios.get(BP +'/user/isAdmin/', {
+        create_order : (function (token, ticket_id, user_id, cost, place, from_place, to_place) {
+            return axios.post(BP +'/order/add/',
+                {
+                    ID : 0,
+                    TICKET_ID : ticket_id,
+                    USER_ID : user_id,
+                    DATE : new Date().toJSON().slice(0,10).replace(/-/g,'-'),
+                    COST : cost,
+                    PLACE : place,
+                    STATUS: 1,
+                    FROM_PLACE: from_place,
+                    TO_PLACE: to_place
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                }
+            }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        }),
+        get_all_orders: function (token) {
+            return axios.get(BP +'/order/getByUser/', {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }
             }).then(function (response) {
                 return response;
             }).catch(function (error) {
-                window.location.href = path;
+                return error.response;
             });
-        })
+        },
+        cancel_order: function (token, code) {
+            return axios.post(BP +'/order/cancel/',
+                {
+                    CODE : code
+                },
+                {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        }
     },
     ticket: {
         get_filtered_tickets : function (token, filter) {
@@ -113,10 +187,6 @@ const api = {
                         TO_PLACE : filter.TO_PLACE,
                         FROM_DATE : filter.FROM_DATE,
                         TYPE: filter.TYPE
-                        // FROM_PLACE : 1,
-                        // TO_PLACE : 2,
-                        // FROM_DATE : "2019-02-01",
-                        // TYPE: 1
                     }
                 },
                 {
@@ -128,7 +198,8 @@ const api = {
             }).catch(function (error) {
                 return error;
             });
-        }
+        },
+        get_profit
     },
     stations: {
         get_all : function (token) {

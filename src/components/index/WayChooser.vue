@@ -111,28 +111,20 @@
         methods: {
             LOAD_TICKETS: function () {
                 if (this.from.length > 0 && this.to.length > 0) {
-                    this.$store.commit("SET_TICKETS", []);
+                    this.$store.dispatch("SET_TICKETS", []);
                     this.$store.dispatch('SET_ACTIVE_PAGE');
                     this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "contentBlock");
-
-                    // alert(this.GET_KEY_BY_VALUE(this.stations, this.def_from));
 
                     let filter = {
                         FROM_PLACE: parseInt(this.GET_KEY_BY_VALUE(this.stations, this.def_from))+1,
                         TO_PLACE: parseInt(this.GET_KEY_BY_VALUE(this.stations, this.def_to))+1,
                         FROM_DATE: this.def_date,
                         TYPE: this.def_type
-                        // FROM_PLACE : 1,
-                        // TO_PLACE : 2,
-                        // FROM_DATE : "2019-02-01",
-                        // TYPE: 1
                     };
-
-                    console.log(filter);
 
                     this.GET_FILTERED_TICKETS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", filter).then(function (res) {
                         if (res.data !== undefined) {
-                            res.this.$store.commit("SET_TICKETS", res.data);
+                            res.this.$store.dispatch("SET_TICKETS", res.data);
                         }
                         res.this.$store.dispatch("BLOCK_LOADER_DEACTIVATE", "contentBlock");
                     });

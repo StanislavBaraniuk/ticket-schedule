@@ -169,6 +169,14 @@
                         alert(result);
                     });
                 }
+            },
+            registration() {
+                if (/.[a-zA-Z/.]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email) && /.(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(this.password)) {
+                    window.api.user.registration(this.email, this.password).then(function(result) {
+                        window.api.storage.setCookie("token", result.data);
+                        window.location.href = '/';
+                    });
+                }
             }
         }
     }

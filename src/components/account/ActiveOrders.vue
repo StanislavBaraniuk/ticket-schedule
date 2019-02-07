@@ -1,33 +1,36 @@
 <template>
     <v-card class="padding600 active-orders-card">
         <v-layout row wrap>
-            <h3 class="main-h"><v-chip text-color="white" color="red"><v-icon>shopping_cart</v-icon> {{ all_orders.filter(function( obj ) { return obj.USER_ID === user.ID }).length }}</v-chip>  Активні бронювання</h3>
+            <h3 class="main-h"><v-chip text-color="white" color="red"><v-icon>shopping_cart</v-icon> {{ orders.length }}</v-chip>  Активні бронювання</h3>
             <v-flex xs12>
-                <v-flex xs12 sm12 md12 lg12  v-for="(item , index) in getActiveOrders(all_orders, tickets, user)" :key="index" class="">
+                <v-flex xs12 class="if-not-found" v-if="orders.filter(function(order) {return order.ORDER.STATUS === 1; }).length === 0">
+                    Відсутні
+                </v-flex>
+                <v-flex xs12 sm12 md12 lg12 v-if="orders.filter(function(order) {return order.ORDER.STATUS === 1; }).length > 0" v-for="(item , index) in orders.filter(function(order) {return order.ORDER.STATUS === 1; })" :key="index" class="">
                     <v-card>
                         <v-container grid-list-md text-xs-center class="active-orders-card-container">
                             <v-layout row wrap>
                                 <v-flex xs12 sm12 md4 lg4>
                                     <v-card-title>
                                         <v-flex xs12 sm1 md1 lg1>
-                                            <i class="material-icons t-icon">{{ item.TYPE === 0 ? "directions_railway" : "directions_bus"}}</i>
+                                            <i class="material-icons t-icon">{{ item.TICKET.TYPE === 0 ? "directions_railway" : "directions_bus"}}</i>
                                         </v-flex>
                                         <v-flex xs12 sm11 md11 lg11>
-                                            <h3 class="t-name">{{ item.NAME }}</h3>
+                                            <h3 class="t-name">{{ item.TICKET.NAME }}</h3>
                                         </v-flex>
                                     </v-card-title>
                                 </v-flex>
                                 <v-flex xs12 sm12 md1 lg1>
                                     <div>
                                         <small>Місце</small>
-                                        <h1>B4</h1>
+                                        <h1>{{ item.ORDER.PLACE }}</h1>
                                     </div>
                                 </v-flex>
                                 <v-flex xs12 sm12 md7 lg7>
                                     <v-card-actions class="card-actions">
                                         <v-spacer></v-spacer>
-                                        <v-btn disabled color="orange" class="price">{{ item.PRICE }} ₴</v-btn>
-                                        <v-btn color="green" dark>Відмінити
+                                        <v-btn disabled color="orange" class="price">{{ item.TICKET.PRICE }} ₴</v-btn>
+                                        <v-btn color="green" dark v-on:click="cacnel(item.ORDER.CODE, index)">Відмінити
                                             <v-icon dark right>delete</v-icon>
                                         </v-btn>
                                     </v-card-actions>
@@ -35,8 +38,8 @@
                                 <v-flex xs12 sm6 md4 lg4 >
                                     <v-stepper vertical class="from">
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.FROM }}
-                                            <small>{{ item.FROM_TIME }}</small>
+                                            {{ item.TICKET.FROM_PLACE }}
+                                            <small>{{ item.TICKET.FROM_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
 
                                         <v-stepper-content >
@@ -44,7 +47,7 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.WAY_TIME }}
+                                            {{ item.TICKET.WAY_TIME }}
                                             <small>час у дорозі</small>
                                         </v-stepper-step>
 
@@ -53,15 +56,15 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.TO }}
-                                            <small>{{ item.TO_TIME }}</small>
+                                            {{ item.TICKET.TO_PLACE }}
+                                            <small>{{ item.TICKET.TO_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
                                     </v-stepper>
                                 </v-flex>
                                 <v-flex xs12 sm6 md4 lg4>
                                     Маршрут
                                     <v-stepper vertical class="way-stepper">
-                                        <v-stepper-step complete="" complete-icon="" v-for="(state, s_index) in item.STATIONS" :key="s_index">
+                                        <v-stepper-step complete="" complete-icon="" v-for="(state, s_index) in item.TICKET.STATIONS" :key="s_index">
                                             {{state}}
                                             <small>Зупинка</small>
                                         </v-stepper-step>
@@ -74,8 +77,9 @@
                                 <v-flex xs12 sm12 md4 lg4>
                                     <div class="QR-block">
                                         <div class="QR">
+                                            <img :src=" 'https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=' + item.ORDER.CODE " alt="">
                                         </div>
-                                        <small>78t6r75dtfy878fg</small>
+                                        <small>{{ item.ORDER.CODE }}</small>
                                     </div>
                                 </v-flex>
                             </v-layout>
@@ -89,40 +93,55 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     import 'animate.css'
 
     export default {
         name: "ActiveOrders",
         props: {
-            user: {
-
-            },
             all_orders: {
-
-            },
-            tickets: {
 
             }
         },
-        methods: {
-            getActiveOrders(orders, tickets, user) {
-                let ret = [];
-                console.log("0");
-                orders.forEach(function(order) {
-                    if (order.USER_ID === user.ID && order.STATUS === 'active') {
-                        console.log("1 :" + order.USER_ID);
-                        tickets.forEach(function(ticket) {
-                            if (ticket.ID === order.TICKET_ID) {
-                                console.log("2 :" + ticket.ID);
-                                ret.push(ticket);
-                            }
-                        })
-                    }
-                });
+        created() {
 
-                return ret
-            }
+                this.LOAD_ORDERS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0")
+
+        },
+        methods: {
+            cacnel: function (code, index) {
+                this.CANCEL_ORDER(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", code, index)
+            },
+            LOAD_ORDERS: async (component, token) => {
+                {
+                    let data = await window.api.user.get_all_orders(token);
+
+                    if (data.status === 200) {
+                        component.$store.dispatch("SET_ORDERS", data.data);
+                    } else {
+                        component.$store.dispatch("SET_ORDERS", []);
+                    }
+
+                }
+            },
+            CANCEL_ORDER: async (component, token, code, index) => {
+                {
+
+                    let data = await window.api.user.cancel_order(token, code);
+
+                    if (data.status === 200) {
+                        component.orders.splice(index, 1);
+                    }
+
+                }
+            },
+        },
+        computed: {
+            ... mapGetters ({
+                orders: "GET_ORDERS"
+            })
         }
+
     }
 </script>
 
@@ -149,6 +168,7 @@
 
             .t-name
                 margin-top: 10px
+                text-align: center
 
             .card-actions
                 padding-right: 20px
@@ -179,5 +199,15 @@
 
     .space
         height: 20px
+
+    .if-not-found
+        width: 100%
+        left: 0
+        margin-top: 30%
+        text-align: center
+        position: absolute
+        font-size: 20px
+        color: darkgray
+        font-weight: bold
 
 </style>

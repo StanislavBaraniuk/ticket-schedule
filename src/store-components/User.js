@@ -4,10 +4,10 @@ const state = {
         FIRST_NAME: null,
         LAST_NAME: null,
         EMAIL: null,
-        AVATAR: null,
         STATUS: null,
         SEX: null,
-        PHONE: null
+        PHONE: null,
+        ONLINE: 0
         // ID: 0,
         // FIRST_NAME: 'Stanislav',
         // LAST_NAME: 'Baraniuk',
@@ -34,8 +34,8 @@ const getters = {
     GET_USER_AVATAR: state => {
         return state.current_user.AVATAR
     },
-    GET_USER_STATUS: state => {
-        return state.current_user.STATUS
+    GET_USER_ONLINE: state => {
+        return state.current_user.ONLINE
     },
     IS_ADMIN: state => {
         return state.admin
@@ -45,6 +45,9 @@ const getters = {
     }
 };
 const mutations = {
+    SET_USER_INFO(state, val) {
+        state.current_user = val;
+    },
     SET_CURRENT_USER_FIRST_NAME(state, val) {
         this.current_user.FIRST_NAME = val;
     },
@@ -57,8 +60,8 @@ const mutations = {
     SET_CURRENT_USER_AVATAR(state, val) {
         this.current_user.AVATAR = val;
     },
-    SET_CURRENT_USER_STATUS(state, val) {
-        this.current_user.STATUS = val;
+    SET_CURRENT_USER_ONLINE(state, val) {
+        this.current_user.ONLINE = val;
     },
     SET_CURRENT_USER_SEX(state, val) {
         this.current_user.SEX = val;
@@ -80,6 +83,12 @@ const actions = {
                 context.commit('SET_USER_MENU_LIST', data.data);
             }
         }
+    },
+    SET_USER_INFO(context, val) {
+        context.commit('SET_USER_INFO', val);
+    },
+    SET_CURRENT_USER_ONLINE: (context, val) => {
+        context.commit('SET_CURRENT_USER_ONLINE', val);
     }
 };
 

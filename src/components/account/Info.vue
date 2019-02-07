@@ -3,9 +3,7 @@
         <v-layout row wrap class="info-block">
             <v-flex xs2>
                 <v-avatar>
-                    <img :src="$props.user.AVATAR === '' ?
-                    'http://cdn.onlinewebfonts.com/svg/img_215059.png'
-                    : $props.user.AVATAR "
+                    <img src="http://cdn.onlinewebfonts.com/svg/img_215059.png"
                          class="avatar"
                          alt="avatar">
                 </v-avatar>

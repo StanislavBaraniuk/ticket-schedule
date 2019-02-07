@@ -47,14 +47,14 @@ const mutations = {
 };
 
 const actions = {
-    SET_ACTIVE_PAGE () {
-        this.commit('C_ACTIVE_PAGE');
+    SET_ACTIVE_PAGE (context) {
+        context.commit('C_ACTIVE_PAGE');
     },
-    LOADER_ACTIVATE () {
-        this.commit('LOADER_ACTIVATE');
+    LOADER_ACTIVATE (context) {
+        context.commit('LOADER_ACTIVATE');
     },
-    LOADER_DEACTIVATE () {
-        this.commit('LOADER_DEACTIVATE');
+    LOADER_DEACTIVATE (context) {
+        context.commit('LOADER_DEACTIVATE');
     },
     BLOCK_LOADER_ACTIVATE (context, index) {
         context.commit('BLOCK_LOADER_ACTIVATE', index);

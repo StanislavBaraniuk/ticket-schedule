@@ -1,12 +1,31 @@
 <template>
     <v-container class="content-block">
+        <v-snackbar
+                v-model="snackbar.model"
+                :bottom="snackbar.y === 'bottom'"
+                :left="snackbar.x === 'left'"
+                :multi-line="snackbar.mode === 'multi-line'"
+                :right="snackbar.x === 'right'"
+                :timeout="snackbar.timeout"
+                :top="snackbar.y === 'top'"
+                :vertical="snackbar.mode === 'vertical'"
+        >
+            {{ snackbar.text }}
+            <v-btn
+                    color="pink"
+                    flat
+                    @click="snackbar.model = false"
+            >
+                Close
+            </v-btn>
+        </v-snackbar>
         <div v-if="!isActive" class="transp-block">
 
         </div>
         <v-container v-if="isActive" grid-list-md text-xs-center class="inside-container">
             <v-layout row wrap>
                 <v-flex xs12 sm12 md12 lg8 offset-lg2  v-for=" (item , index) in tickets" :key="index">
-                    <v-card class="inside-card">
+                    <v-card class="inside-card" v-if="item.PLACES.length > 0 && item.PLACES[0] !== ''">
                         <v-container grid-list-md text-xs-center class="inside-container-inside">
                             <v-layout row wrap>
                                 <v-flex xs12 sm6 md6 lg6>
@@ -23,7 +42,7 @@
                                     <v-card-actions class="order-btn-block">
                                         <v-spacer></v-spacer>
                                         <v-btn disabled color="orange" class="price">{{ item.PRICE }} ₴</v-btn>
-                                        <v-btn color="green" dark>Забронювати
+                                        <v-btn color="green" dark v-on:click="make_order(item.ID, index, stations[item.FROM_PLACE-1], stations[item.TO_PLACE-1])">Забронювати
                                             <v-icon dark right>add_shopping_cart</v-icon>
                                         </v-btn>
                                     </v-card-actions>
@@ -35,7 +54,7 @@
                                             :items="item.PLACES"
                                             placeholder="Оберіть місце"
                                             append-icon="fas fa-ticket-alt"
-                                            v-model="to"
+                                            v-model="place[index]"
                                     ></v-autocomplete>
                                 </v-flex>
                                 <!--s{{ stations }}-->
@@ -106,17 +125,52 @@
     export default {
         name: "ContentBlock",
         data: () => ({
-
+            place: [],
+            snackbar: {
+                text: "TEst test test",
+                model: false,
+                y: 'top',
+                x: null,
+                mode: '',
+                timeout: 5000
+            }
         }),
         components: {
             BlockPreloader
+        },
+        methods: {
+            make_order: function (id, index, from_place, to_place) {
+                if (this.place[index] !== undefined) {
+                    this.SEND_ORDER(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", id, this.current_user.ID, this.tickets[index].PRICE, this.place[index], index, from_place, to_place);
+                } else {
+                    this.snackbar.model = true;
+                    this.snackbar.text = "Оберіть місце";
+                }
+            },
+            SEND_ORDER: async (component, token, ticket_id, user_id, cost, place, index, from_place, to_place) => {
+                {
+                    let data = await window.api.user.create_order(token, ticket_id, user_id, cost, place, from_place, to_place);
+
+                    component.snackbar.model = true;
+                    if (data.status === 200) {
+                        component.snackbar.text = "Квиток надіслано на ваш e-mail :)";
+                        delete component.place[index];
+                        component.tickets[index].PLACES.splice(component.tickets[index].PLACES.indexOf(place), 1);
+                    } else if (data.status === 401) {
+                        component.snackbar.text = "Авторизуйтесь для створення замовлення";
+                    } else {
+                        component.snackbar.text = "Помилка, спробуйте ще раз :(";
+                    }
+                }
+            }
         },
         computed: {
             ...mapGetters({
                 tickets: "GET_ALL_TICKETS",
                 filter: "GET_FILTER",
                 isActive: "GET_IS_ACTIVE",
-                stations: 'GET_STATIONS'
+                stations: 'GET_STATIONS',
+                current_user: "GET_CURRENT_USER"
             })
         }
     }

@@ -24,18 +24,29 @@ Vue.use(Vuetify);
 Vue.use(VueResize);
 Vue.config.productionTip = false;
 
-// Vue.filter('toStation', function (value) {
-//   if (!value) return '';
-//   let stations = api.stations.get_all('0');
-//   value = stations[value];
-//   return value.charAt(0).toUpperCase() + value.slice(1)
-// });
-
 Vue.filter('timeNormalizer', function (value) {
   if (!value) return '';
   value = (value[0] === '0' ? value[1] : value[0] + value[1]) + ":" + value[3] + value[4];
   return value;
 });
+
+window.onfocus = async () => {
+  let online = await api.user.on_online(api.storage.getCookie('token'));
+
+  if (online !== undefined) {
+    store.dispatch("SET_CURRENT_USER_ONLINE", 1)
+  }
+};
+window.onblur = async () => {
+  setTimeout(async () => {
+    let online = await api.user.off_online(api.storage.getCookie('token'));
+
+    if (online !== undefined) {
+      store.dispatch("SET_CURRENT_USER_ONLINE", 0)
+    }
+  }, 1000 )
+};
+
 
 new Vue({
   el: '#app',
