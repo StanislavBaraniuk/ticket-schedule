@@ -198,8 +198,7 @@ const api = {
             }).catch(function (error) {
                 return error;
             });
-        },
-        get_profit
+        }
     },
     stations: {
         get_all : function (token) {
