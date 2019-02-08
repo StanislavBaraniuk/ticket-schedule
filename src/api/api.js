@@ -200,6 +200,96 @@ const api = {
             });
         }
     },
+    statistic: {
+        from: "",
+        to: "",
+        order: {
+            get_profit: function (token) {
+                return axios.post(BP +'/order/profit/',
+                    {
+                        from: this.from,
+                        to: this.to
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    return error.response;
+                });
+            },
+            get_count: function (token) {
+                return axios.post(BP + '/order/count/',
+                    {
+                        from: this.from,
+                        to: this.to
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    return error.response;
+                });
+            }
+        },
+        client: {
+            get_gender: function (token) {
+                return axios.post(BP +'/client/genders/',
+                    {
+                        from: this.from,
+                        to: this.to
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    return error.response;
+                });
+            },
+            get_count: function (token) {
+                return axios.post(BP + '/client/count/',
+                    {
+                        from: this.from,
+                        to: this.to
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    return error.response;
+                });
+            }
+        },
+        ticket: {
+            get_popular: function (token) {
+                return axios.post(BP +'/ticket/genders/',
+                    {
+                        from: this.from,
+                        to: this.to
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    return error.response;
+                });
+            }
+        }
+    },
     stations: {
         get_all : function (token) {
             return axios.post(BP +'/city/get/',

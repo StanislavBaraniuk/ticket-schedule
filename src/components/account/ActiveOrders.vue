@@ -6,7 +6,7 @@
                 <v-flex xs12 class="if-not-found" v-if="orders.filter(function(order) {return order.ORDER.STATUS === 1; }).length === 0">
                     Відсутні
                 </v-flex>
-                <v-flex xs12 sm12 md12 lg12 v-if="orders.filter(function(order) {return order.ORDER.STATUS === 1; }).length > 0" v-for="(item , index) in orders.filter(function(order) {return order.ORDER.STATUS === 1; })" :key="index" class="">
+                <v-flex xs12 sm12 md12 lg12 v-for="(item , index) in orders.filter(function(order) {return order.ORDER.STATUS === 1; })" :key="index" class="">
                     <v-card>
                         <v-container grid-list-md text-xs-center class="active-orders-card-container">
                             <v-layout row wrap>

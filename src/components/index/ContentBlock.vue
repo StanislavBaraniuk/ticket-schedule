@@ -103,8 +103,9 @@
                 </v-flex>
             </v-layout>
         </v-container>
+
         <block-preloader v-if="isActive" location="contentBlock" color="#fafafa"></block-preloader>
-        <v-container class="not-found-block" v-if="tickets.length < 1 && isActive" grid-list-md text-xs-center style="padding: 0px">
+        <v-container class="not-found-block" v-if="tickets.filter(function(item) {return item.PLACES.length > 0 && item.PLACES[0] !== ''; }).length < 1  && isActive" grid-list-md text-xs-center style="padding: 0px">
             <v-layout row wrap>
                 <v-flex xs12 sm12 md12 lg8 offset-lg2>
                     <div class="text-xs-center mt6vh">
@@ -156,6 +157,9 @@
                         component.snackbar.text = "Квиток надіслано на ваш e-mail :)";
                         delete component.place[index];
                         component.tickets[index].PLACES.splice(component.tickets[index].PLACES.indexOf(place), 1);
+                        if (component.tickets.filter(function(value) { return value.PLACES.length > 0}).length < 1) {
+                            component.$store.dispatch('SET_ACTIVE_PAGE');
+                        }
                     } else if (data.status === 401) {
                         component.snackbar.text = "Авторизуйтесь для створення замовлення";
                     } else {

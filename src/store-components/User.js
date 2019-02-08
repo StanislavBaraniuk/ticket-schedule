@@ -8,14 +8,6 @@ const state = {
         SEX: null,
         PHONE: null,
         ONLINE: 0
-        // ID: 0,
-        // FIRST_NAME: 'Stanislav',
-        // LAST_NAME: 'Baraniuk',
-        // EMAIL: 'Stanislavbaraniuk@gmail.com',
-        // AVATAR: null,
-        // STATUS: 'online',
-        // SEX: 1,
-        // PHONE: '+380 (99) 7747 661'
     }
 };
 const getters = {
