@@ -113,6 +113,7 @@ const api = {
             }).then(function (response) {
                 return response;
             }).catch(function (error) {
+                window.api.storage.setCookie('token', '0');
                 window.location.href = path;
             });
         }),
