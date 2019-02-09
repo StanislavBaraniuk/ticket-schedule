@@ -208,8 +208,8 @@ const api = {
             get_profit: function (token) {
                 return axios.post(BP +'/order/profit/',
                     {
-                        from: this.from,
-                        to: this.to
+                        FROM: window.api.statistic.from,
+                        TO: window.api.statistic.to
                     },
                     {
                         headers: {
@@ -224,8 +224,8 @@ const api = {
             get_count: function (token) {
                 return axios.post(BP + '/order/count/',
                     {
-                        from: this.from,
-                        to: this.to
+                        FROM: window.api.statistic.from,
+                        TO: window.api.statistic.to
                     },
                     {
                         headers: {
@@ -240,11 +240,7 @@ const api = {
         },
         client: {
             get_gender: function (token) {
-                return axios.post(BP +'/client/genders/',
-                    {
-                        from: this.from,
-                        to: this.to
-                    },
+                return axios.get(BP +'/client/genders/',
                     {
                         headers: {
                             Authorization: 'Bearer ' + token
@@ -256,11 +252,19 @@ const api = {
                 });
             },
             get_count: function (token) {
-                return axios.post(BP + '/client/count/',
+                return axios.get(BP + '/client/count/',
                     {
-                        from: this.from,
-                        to: this.to
-                    },
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }).then(function (response) {
+                    return response;
+                }).catch(function (error) {
+                    return error.response;
+                });
+            },
+            get_count_online: function (token) {
+                return axios.get(BP + '/client/online/',
                     {
                         headers: {
                             Authorization: 'Bearer ' + token

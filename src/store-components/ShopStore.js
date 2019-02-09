@@ -1,14 +1,14 @@
 
 const state = {
     statistic: {
-        PROFIT: [200,1302,2300,10,5000,0,60000, 600,6,60,67,4000],
-        SALES: [200,1302,2300,10,5000,0,60000, 600,6,60,67,4000],
-        TIME_LAPSE: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        USERS: [200,1302,2300,10,5000,0,60000, 600,6,60,67,4000],
+        PROFIT: 0,
+        SALES: 0,
+        ONLINE: 0,
+        USERS: 0,
         USERS_SEX: [122, 433, 500],
         waysKeys: ["Kиїв - Львів", "Ужгород - Київ", "Запоріжя - Одеса","Kиїв2 - Львів", "Ужгород 2- Київ", "Запоріжя 2- Одеса"],
         usersSexKeys: ['Чоловіки', 'Жінки', 'Не визначились'],
-        ways: [23,15,23,10,344,300,1],
+        ways: [23,15,23,10,344,300,1]
     },
     stations: [],
     orders: [],
@@ -38,6 +38,9 @@ const getters = {
     GET_STATISTIC_USER_LIST: state => {
         return state.statistic.USERS
     },
+    GET_STATISTIC_USER_ONLINE: state => {
+        return state.statistic.ONLINE
+    },
     GET_STATISTIC_TIME_LAPSE_LIST: state => {
         return state.statistic.TIME_LAPSE
     },
@@ -53,6 +56,7 @@ const getters = {
     GET_STATISTIC_WAYS_KEYS: state => {
         return state.waysKeys
     },
+
     GET_ALL_TICKETS: state => {
         return state.ticket_list
     },
@@ -111,7 +115,35 @@ const mutations = {
         alert(state.ticket_list[data.ticket_id]);
         var p = state.ticket_list[data.ticket_id];
         p.slice(0, 1);
-    }
+    },
+
+    SET_STATISTIC_PROFIT_LIST: (state, obj) => {
+        state.statistic.PROFIT = obj;
+    },
+    SET_STATISTIC_SALES_LIST: (state, obj) => {
+        state.statistic.SALES  = obj;
+    },
+    SET_STATISTIC_USER_LIST: (state, obj) => {
+        state.statistic.USERS = obj;
+    },
+    SET_STATISTIC_USER_ONLINE: (state, obj) => {
+        state.statistic.ONLINE = obj;
+    },
+    SET_STATISTIC_TIME_LAPSE_LIST: (state, obj) => {
+        state.statistic.TIME_LAPSE  = obj;
+    },
+    SET_STATISTIC_USERS_SEX: (state, obj) => {
+        state.statistic.USERS_SEX  = obj;
+    },
+    SET_STATISTIC_USERS_SEX_KEYS: (state, obj) => {
+        state.usersSexKeys = obj;
+    },
+    SET_STATISTIC_WAYS: (state, obj) => {
+        state.ways = obj;
+    },
+    SET_STATISTIC_WAYS_KEYS: (state, obj) => {
+        state.waysKeys = obj;
+    },
 };
 
 const actions = {
@@ -126,7 +158,35 @@ const actions = {
     },
     SET_ORDERS: (context, orders) => {
         context.commit('SET_ORDERS', orders);
-    }
+    },
+
+    SET_STATISTIC_PROFIT_LIST: (context, value) => {
+        context.commit('SET_STATISTIC_PROFIT_LIST', value);
+    },
+    SET_STATISTIC_SALES_LIST: (context, value) => {
+        context.commit('SET_STATISTIC_SALES_LIST', value);
+    },
+    SET_STATISTIC_USER_LIST: (context, value) => {
+        context.commit('SET_STATISTIC_USER_LIST', value);
+    },
+    SET_STATISTIC_USER_ONLINE: (context, value) => {
+        context.commit('SET_STATISTIC_USER_ONLINE', value);
+    },
+    SET_STATISTIC_TIME_LAPSE_LIST: (context, value) => {
+        context.commit('SET_STATISTIC_TIME_LAPSE_LIST', value);
+    },
+    SET_STATISTIC_USERS_SEX: (context, value) => {
+        context.commit('SET_STATISTIC_USERS_SEX', value);
+    },
+    SET_STATISTIC_USERS_SEX_KEYS: (context, value) => {
+        context.commit('SET_STATISTIC_USERS_SEX_KEYS', value);
+    },
+    SET_STATISTIC_WAYS:(context, value) => {
+        context.commit('SET_STATISTIC_WAYS', value);
+    },
+    SET_STATISTIC_WAYS_KEYS: (context, value) => {
+        context.commit('SET_STATISTIC_WAYS_KEYS', value);
+    },
 };
 
 export default {

@@ -18,7 +18,7 @@
                 if (window.api.storage.getCookie('token') !== null && window.api.storage.getCookie('token') !== undefined && window.api.storage.getCookie('token') !== '0') {
                     STILL_AUTH();
                 }
-            }, 1000);
+            }, 2000);
         }
     }
 </script>
