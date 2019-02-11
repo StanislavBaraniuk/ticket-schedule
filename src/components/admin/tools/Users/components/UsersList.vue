@@ -2,7 +2,7 @@
     <v-expansion-panel class="users-list">
         <v-expansion-panel-content
                 v-for="(item,index) in stations.filter(function(obj) {
-                  return obj[search_s] == search_t || search_t.length < 1
+                  return String(obj[search_s]).indexOf(String(search_t)) !== -1 || search_t.length < 1
                 })"
                 :key="index"
         >

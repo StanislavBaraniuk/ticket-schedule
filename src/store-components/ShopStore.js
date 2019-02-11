@@ -7,7 +7,7 @@ const state = {
         USERS: 0,
         USERS_SEX: [122, 433, 500],
         waysKeys: ["Kиїв - Львів", "Ужгород - Київ", "Запоріжя - Одеса","Kиїв2 - Львів", "Ужгород 2- Київ", "Запоріжя 2- Одеса"],
-        usersSexKeys: ['Чоловіки', 'Жінки', 'Не визначились'],
+        usersSexKeys: ['Не визначились', 'Чоловіки', 'Жінки'],
         ways: [23,15,23,10,344,300,1]
     },
     stations: [],
@@ -17,11 +17,11 @@ const state = {
     online: true,
     admin_search: {
         SEARCH_BY: [
-            ["ID", "NAME", "PRICE", "FROM_DATE", "TO_DATE", "FROM", "TO", "TYPE", "FROM_TIME", "TO_TIME", "WAY_TIME"],
-            ["ID", "NAME"],
-            ["ID", "EMAIL", "F_NAME", "L_NAME", "SEX", "AVATAR", "IS_ADMIN", "ORDER_ACTIVE", "ONLINE", "ONLINE", "ORDER_ID"],
-            ["ID", "CODE", "TICKET_ID", "USER_ID", "STATUS", "DATE", "COST", "FROM", "TO", "PLACE"],
-            []
+            // ["ID", "NAME", "PRICE", "FROM_DATE", "TO_DATE", "FROM", "TO", "TYPE", "FROM_TIME", "TO_TIME", "WAY_TIME"],
+            // ["ID", "NAME"],
+            // ["ID", "EMAIL", "F_NAME", "L_NAME", "SEX", "AVATAR", "IS_ADMIN", "ORDER_ACTIVE", "ONLINE", "ONLINE", "ORDER_ID"],
+            // ["ID", "CODE", "TICKET_ID", "USER_ID", "STATUS", "DATE", "COST", "FROM", "TO", "PLACE"],
+            // []
         ],
         SELECT: "",
         TEXT: ""
@@ -87,6 +87,10 @@ const mutations = {
     ADD_TICKET: (state, obj) => {
         state.ticket_list.push(obj);
     },
+    ADD_ADMIN_SEARCH: (state, obj) => {
+        state.admin_search.SEARCH_BY[obj.key] = obj.value;
+    },
+
     SET_TICKETS: (state, list) => {
         state.ticket_list = list;
     },
@@ -147,17 +151,28 @@ const mutations = {
 };
 
 const actions = {
-    SET_TICKETS (context, list) {
-        context.commit("SET_TICKETS", list)
+    ADD_ADMIN_SEARCH: (context, value) => {
+        context.commit('ADD_ADMIN_SEARCH', value);
     },
-    SET_STATIONS: (context, obj) => {
-        context.commit('SET_STATIONS', obj);
+
+    SET_TICKETS (context, value) {
+        context.commit("SET_TICKETS", value)
     },
-    DELETE_PLACE: (context, data) => {
-        context.commit('DELETE_PLACE', data);
+    SET_STATIONS: (context, value) => {
+        context.commit('SET_STATIONS', value);
     },
-    SET_ORDERS: (context, orders) => {
-        context.commit('SET_ORDERS', orders);
+    DELETE_PLACE: (context, value) => {
+        context.commit('DELETE_PLACE', value);
+    },
+    SET_ORDERS: (context, value) => {
+        context.commit('SET_ORDERS', value);
+    },
+
+    SET_ADMIN_SEARCH_SELECT: (context, value) => {
+        context.commit('SET_ADMIN_SEARCH_SELECT', value);
+    },
+    SET_ADMIN_SEARCH_TEXT: (context, value) => {
+        context.commit('SET_ADMIN_SEARCH_TEXT', value);
     },
 
     SET_STATISTIC_PROFIT_LIST: (context, value) => {

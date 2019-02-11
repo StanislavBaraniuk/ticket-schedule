@@ -50,7 +50,7 @@
                 </v-card>
             </v-container>
 
-            <ticket-menu v-if="activeBlock === 0" :items="def_stations_way" :tickets="def_tickets"></ticket-menu>
+            <ticket-menu v-if="activeBlock === 0" :items="def_stations" :tickets="def_tickets"></ticket-menu>
 
             <city-menu v-if="activeBlock === 1" :stations="def_stations"></city-menu>
 
@@ -111,6 +111,16 @@
                     this.activeBlock = 4;
                     break;
             }
+
+            let token = window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0";
+
+            this.GET_STATIONS(this, token);
+            this.LOAD_TICKETS(this, token);
+            this.LOAD_COLUMNS(this, token, "tickets", 0);
+            this.LOAD_COLUMNS(this, token, "stations", 1);
+            this.LOAD_COLUMNS(this, token, "users", 2);
+            this.LOAD_COLUMNS(this, token, "orders", 3);
+            this.LOAD_COLUMNS(this, token, "setting", 4);
         },
         methods: {
             setActiveBlock: function (index) {
@@ -132,6 +142,41 @@
                         history.replaceState({} , "tools", "?tools=site");
                         break;
                 }
+            },
+            GET_STATIONS: async (component, token) => {
+                {
+                    let data = await window.api.stations.get_all(token);
+
+
+                    if (data.status === 200) {
+                        component.stations  = Object.values(data.data);
+
+                        component.$store.commit('SET_STATIONS',component.stations);
+                    }
+                }
+            },
+            LOAD_TICKETS: function (component, token) {
+                this.GET_ALL_TICKETS(component, token).then(function (res) {
+                    if (res.data !== undefined) {
+                        res.this.$store.dispatch("SET_TICKETS", res.data);
+                    }
+                });
+            },
+            GET_ALL_TICKETS: async (component, token) => {
+                {
+                    let data = await window.api.ticket.get_all(token);
+
+                    if (data.status === 200) {
+                        return  {this: component, data: data.data};
+                    } else {
+                        return {this: component, data: undefined};
+                    }
+                }
+            },
+            LOAD_COLUMNS: async (component, token, table_name, key) => {
+                let value = await window.api.user.get_columns(token, table_name);
+
+                component.$store.dispatch('ADD_ADMIN_SEARCH', {key: key, value: value.data});
             }
         },
         computed: {

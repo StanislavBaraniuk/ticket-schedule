@@ -14,9 +14,19 @@
 
     export default {
         name: "count-diagram",
-        props: ['list', 'title', 'symbol', "timeLapse"],
+        props:
+            {
+                list: Array,
+                title: String,
+                symbol: String,
+                timeLapse: Array
+            },
         data: function () {
             return {
+                states: {
+                    list: this.list,
+                    dates: this.timeLapse
+                },
                 seriesTopSpark2: [{
                     name: this.symbol,
                     data: this.list
@@ -25,7 +35,7 @@
                     chart: {
                         sparkline: {
                             enabled: true
-                        },
+                        }
                     },
                     stroke: {
                         curve: 'straight'

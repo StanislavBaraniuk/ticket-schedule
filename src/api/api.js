@@ -176,6 +176,17 @@ const api = {
             }).catch(function (error) {
                 return error.response;
             });
+        },
+        get_columns: function (token, table_name) {
+            return axios.get(BP +'/user/columns/' + table_name, {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
         }
     },
     ticket: {
@@ -199,7 +210,22 @@ const api = {
             }).catch(function (error) {
                 return error;
             });
-        }
+        },
+        get_all: function (token) {
+            return axios.post(BP +'/ticket/get/',
+                {
+                    GET : ["*"]
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error;
+            });
+        },
     },
     statistic: {
         from: "",
@@ -239,18 +265,6 @@ const api = {
             }
         },
         client: {
-            get_gender: function (token) {
-                return axios.get(BP +'/client/genders/',
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + token
-                        }
-                    }).then(function (response) {
-                    return response;
-                }).catch(function (error) {
-                    return error.response;
-                });
-            },
             get_count: function (token) {
                 return axios.get(BP + '/client/count/',
                     {
@@ -275,32 +289,23 @@ const api = {
                     return error.response;
                 });
             }
-        },
-        ticket: {
-            get_popular: function (token) {
-                return axios.post(BP +'/ticket/genders/',
-                    {
-                        from: this.from,
-                        to: this.to
-                    },
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + token
-                        }
-                    }).then(function (response) {
-                    return response;
-                }).catch(function (error) {
-                    return error.response;
-                });
-            }
         }
     },
     stations: {
         get_all : function (token) {
-            return axios.post(BP +'/city/get/',
+            return axios.get(BP +'/city/get/',
                 {
-                    GET : ["NAME"]
-                },
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error;
+            });
+        },
+        get_with_keys: function (token) {
+            return axios.get(BP +'/city/getwithkeys/',
                 {
                     headers: {
                         Authorization: 'Bearer ' + token
@@ -347,6 +352,12 @@ const api = {
             ));
             return matches ? decodeURIComponent(matches[1]) : undefined;
         }
+    },
+    helper: {
+         sleep: (ms) => {
+            return new Promise(resolve => setTimeout(resolve, ms));
+         }
+
     }
 };
 

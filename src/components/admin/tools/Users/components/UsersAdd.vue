@@ -2,27 +2,7 @@
     <v-card class="users-add" v-if="addActive.v">
 
         <v-layout row wrap>
-            <v-flex xs12 sm12 md12 lg2>
-                <picture-input
-
-                        ref="pictureInput"
-                        @change="onChanged"
-                        @remove="onRemoved"
-                        :removable="true"
-                        :readonly="false"
-                        :width="250"
-                        :height="250"
-                        removeButtonClass="ui red button"
-                        accept="image/jpeg, image/png, image/gif"
-                        buttonClass="ui button primary"
-                        :customStrings="{
-                          upload: '<h1>Upload it!</h1>',
-                          drag: 'Оберіть фото'
-                          }">
-                </picture-input>
-            </v-flex>
-
-            <v-flex xs12 sm12 md12 lg10>
+            <v-flex xs12 sm12 md12 lg12>
                 <v-layout row wrap>
                     <v-flex xs12 sm12 md12 lg12>
                         <v-text-field
@@ -65,11 +45,8 @@
 
 <script >
 
-    import PictureInput from 'vue-picture-input'
-
     export default {
         name: "CityAdd",
-        components: {PictureInput},
         props: {
             addActive: {
 

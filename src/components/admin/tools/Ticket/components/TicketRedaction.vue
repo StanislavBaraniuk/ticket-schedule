@@ -32,7 +32,7 @@
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
                             :items="items"
-                            v-model="item.FROM"
+                            v-model="items[item.FROM_PLACE-1]"
                             label="Місце відправлення"
                             :readonly="false"
                     ></v-autocomplete>
@@ -81,7 +81,7 @@
                             :items="items"
                             label="Місце прибуття"
                             :readonly="false"
-                            v-model="item.TO"
+                            v-model="items[item.TO_PLACE-1]"
                     ></v-autocomplete>
                 </v-flex>
 
@@ -124,7 +124,7 @@
                 </v-flex>
 
                 <v-combobox
-                        v-model="item.STATIONS"
+                        v-model="t_stations"
                         :items="items"
                         label="Вкажіть міста для створення маршруту"
                         :readonly="false"
@@ -163,6 +163,9 @@
 
             },
             items: {
+
+            },
+            t_stations: {
 
             },
             activeTicketRedactId: {

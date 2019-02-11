@@ -133,7 +133,7 @@
                                 close
                                 @input="remove(data.item)"
                         >
-                            <strong>{{ data.item.NAME }}</strong>&nbsp;
+                            <strong>{{ data.item }}</strong>&nbsp;
                             <span></span>
                         </v-chip>
                     </template>

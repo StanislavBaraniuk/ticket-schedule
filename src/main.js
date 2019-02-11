@@ -37,16 +37,32 @@ window.onfocus = async () => {
     store.dispatch("SET_CURRENT_USER_ONLINE", 1)
   }
 };
+
 window.onblur = async () => {
-  setTimeout(async () => {
     let online = await api.user.off_online(api.storage.getCookie('token'));
 
     if (online !== undefined) {
       store.dispatch("SET_CURRENT_USER_ONLINE", 0)
     }
-  }, 1000 )
 };
 
+// (function () {
+//   var method;
+//   var noop = function noop() { };
+//   var methods = [
+//     'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+//     'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+//     'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+//     'timeStamp', 'trace', 'warn', 'log'
+//   ];
+//   var length = methods.length;
+//   var console = (window.console = window.console || {});
+//
+//   while (length--) {
+//     method = methods[length];
+//     console[method] = noop;
+//   }
+// }());
 
 new Vue({
   el: '#app',
