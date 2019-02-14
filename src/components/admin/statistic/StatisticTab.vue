@@ -2,10 +2,10 @@
         <v-container grid-list-md text-xs-center class="tool-block">
                 <v-layout row wrap>
                         <v-flex xs12 sm12 md6 lg6>
-                                <count v-bind:list="def_profit_list.COSTS.map(function(value) { return parseInt(value); })" title="Прибуток" symbol="₴" v-bind:time-lapse="def_profit_list.DATES"></count>
+                                <count v-bind:list="def_profit_list.VAL.map(function(value) { return parseInt(value); })" title="Прибуток" symbol="₴" v-bind:time-lapse="def_profit_list.DATES"></count>
                         </v-flex>
                         <v-flex xs12 sm12 md6 lg6>
-                                <count v-bind:list="def_sales_list.COUNTS.map(function(value) { return parseInt(value); })" title="Продажі"  symbol="Загалом " v-bind:time-lapse="def_sales_list.DATES"></count>
+                                <count v-bind:list="def_sales_list.VAL.map(function(value) { return parseInt(value); })" title="Продажі"  symbol="Загалом " v-bind:time-lapse="def_sales_list.DATES"></count>
                         </v-flex>
                         <v-flex xs12 sm6 md6 lg6>
                                 <v-card style="height: 160px; overflow-x: scroll; overflow-y: hidden">
@@ -44,11 +44,12 @@
                     window.api.statistic.from = '1900-01-01';
                     window.api.statistic.to = new Date().toJSON().slice(0,10).replace(/-/g,'-');
 
-                    this.LOAD_PROFIT(this);
-                    this.LOAD_ORDER_COUNT(this);
-                    this.LOAD_USERS(this);
-                    this.LOAD_USERS_ONLINE(this);
-                    this.LOAD_USERS_SEX(this);
+                    let token = window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0";
+
+                    this.LOAD_PROFIT(this, token);
+                    this.LOAD_ORDER_COUNT(this, token);
+                    this.LOAD_USERS(this, token);
+                    this.LOAD_USERS_ONLINE(this, token);
             },
             computed: {
                     ...mapGetters({
@@ -59,37 +60,41 @@
                     })
             },
             methods: {
-                    LOAD_PROFIT: async (component) => {
-                            let profit =  await window.api.statistic.order.get_profit(window.api.storage.getCookie("token"));
+                    LOAD_PROFIT: async (component, token) => {
+                            let resp =  await window.api.statistic.order.get_profit(token);
 
-                            component.$store.dispatch("SET_STATISTIC_PROFIT_LIST", profit.data);
+                            if (resp.status === 200) {
+                                    component.$store.dispatch("SET_STATISTIC_PROFIT_LIST", resp.data);
+                            } else {
+                                    component.$store.dispatch("SET_STATISTIC_PROFIT_LIST", {DATES: ["0"], VAL: [0]});
+                            }
+
                     },
-                    LOAD_ORDER_COUNT: async (component) => {
-                            let sales =  await window.api.statistic.order.get_count(window.api.storage.getCookie("token"));
+                    LOAD_ORDER_COUNT: async (component, token) => {
+                            let resp =  await window.api.statistic.order.get_count(token);
 
-                            component.$store.dispatch("SET_STATISTIC_SALES_LIST", sales.data);
+                            if (resp.status === 200) {
+                                    component.$store.dispatch("SET_STATISTIC_SALES_LIST", resp.data);
+                            } else {
+                                    component.$store.dispatch("SET_STATISTIC_SALES_LIST", {DATES: ["0"], VAL: [0]});
+                            }
                     },
-                    LOAD_USERS: async (component) => {
-                            let sales =  await window.api.statistic.client.get_count(window.api.storage.getCookie("token"));
+                    LOAD_USERS: async (component, token) => {
+                            let resp =  await window.api.statistic.client.get_count(token);
 
-                            component.$store.dispatch("SET_STATISTIC_USER_LIST", sales.data);
+                            component.$store.dispatch("SET_STATISTIC_USER_LIST", resp.data);
 
                             await window.api.helper.sleep(1000);
-                            component.LOAD_USERS(component);
+                            component.LOAD_USERS(component, token);
                     },
-                    LOAD_USERS_ONLINE: async (component) => {
-                            let sales =  await window.api.statistic.client.get_count_online(window.api.storage.getCookie("token"));
+                    LOAD_USERS_ONLINE: async (component, token) => {
+                            let resp =  await window.api.statistic.client.get_count_online(token);
 
-                            component.$store.dispatch("SET_STATISTIC_USER_ONLINE", sales.data);
+                            component.$store.dispatch("SET_STATISTIC_USER_ONLINE", resp.data);
 
                             await window.api.helper.sleep(1000);
-                            component.LOAD_USERS_ONLINE(component);
-                    },
-                    LOAD_USERS_SEX: async (component) => {
-                            let sales =  await window.api.statistic.order.get_count(window.api.storage.getCookie("token"));
-
-                            component.$store.dispatch("SET_STATISTIC_USERS_SEX", sales.data);
-                    },
+                            component.LOAD_USERS_ONLINE(component, token);
+                    }
             }
         };
 </script>

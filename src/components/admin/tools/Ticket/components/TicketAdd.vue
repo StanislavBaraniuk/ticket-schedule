@@ -3,16 +3,25 @@
 
             <v-layout row wrap>
 
-                <v-flex xs12 sm12 md5 lg5>
+                <v-flex xs12 sm12 md2 lg1>
                     <v-text-field
-                            label="Назва"
+                            label="ІД"
+                            v-model="ID"
                     ></v-text-field>
                 </v-flex>
 
-                <v-flex xs12 sm12 md5 lg5>
+                <v-flex xs12 sm12 md5 lg6>
+                    <v-text-field
+                            label="Назва"
+                            v-model="NAME"
+                    ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm12 md3 lg3>
                     <v-text-field
                             label="Ціна"
                             type="number"
+                            v-model="PRICE"
                     ></v-text-field>
                 </v-flex>
 
@@ -20,17 +29,17 @@
                     <v-autocomplete
                             :items="[1,2]"
                             label="Транспорт"
-                            type="number"
                             :readonly="false"
+                            v-model="TYPE"
                     ></v-autocomplete>
                 </v-flex>
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
                             :items="items"
-
                             label="Місце відправлення"
                             :readonly="false"
+                            v-model="FROM_PLACE"
                     ></v-autocomplete>
                 </v-flex>
 
@@ -48,6 +57,7 @@
                                 label="Час відправлення"
                                 placeholder="День відправки"
                                 readonly
+                                v-model="FROM_DATE"
                         ></v-text-field>
                         <v-time-picker v-model="d_time" format="24hr"></v-time-picker>
                     </v-menu>
@@ -77,6 +87,7 @@
                             :items="items"
                             :readonly="false"
                             label="Місце прибуття"
+                            v-model="ID"
                     ></v-autocomplete>
                 </v-flex>
 
@@ -139,6 +150,13 @@
                     </template>
                 </v-combobox>
 
+                <v-flex xs12 sm12 md12 lg12>
+                    <v-text-field
+                            label="Посадкові місця"
+                            v-model="PLACES"
+                    ></v-text-field>
+                </v-flex>
+
             </v-layout>
 
             <v-flex xs12>
@@ -154,6 +172,13 @@
         name: "ticket",
         data: function () {
             return {
+                ID: 0,
+                NAME: '',
+                PRICE: '',
+                TO_PLACE: '',
+                TYPE: 1,
+                STATIONS: '',
+                PLACES: '',
                 priceRules: [
                     v => !!v || 'Введіть ціну',
                     v => /.[\d]/.test(v) || 'Ціна помилкова'
@@ -169,6 +194,34 @@
             },
             items: {
                 default: null
+            }
+        },
+        methods: {
+            add: function () {
+                let add = async () => {
+                    await window.api.ticket.add(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", {
+                        ID: this.ID,
+                        NAME: this.NAME,
+                        PRICE: this.PRICE,
+                        FROM_DATE: this.FROM_DATE,
+                        TO_DATE: this.TO_DATE,
+                        FROM_PLACE: this.FROM_PLACE,
+                        TO_PLACE: this.TO_PLACE,
+                        TYPE: this.TYPE,
+                        FROM_TIME: this.FROM_TIME,
+                        TO_TIME: this.TO_TIME,
+                        WAY_TIME: this.WAY_TIME,
+                        STATIONS: this.STATIONS,
+                        PLACES: this.PLACES
+                    })
+                };
+
+                if (this.NAME.length > 0 && parseInt(this.ID) >= 0) {
+                    add();
+                    window.location.reload();
+                } else {
+                    this.error = "Заповніть поля"
+                }
             }
         },
         computed: {

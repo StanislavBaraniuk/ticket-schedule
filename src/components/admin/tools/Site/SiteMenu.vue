@@ -1,7 +1,7 @@
 <template>
     <v-container class="site-menu">
         <v-flex xs12 sm12 md12 lg12 >
-            <v-btn @click="turn_c" flat>{{ !$props.status.v ? "Ввімкнути сайт" : "Вимкнути сайт" }}</v-btn>
+            <v-btn @click="$props.status.v ? on : off " flat>{{ !$props.status.v ? "Ввімкнути сайт" : "Вимкнути сайт" }}</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md12 lg12 >
             <h1>Mode: {{ $props.status.v ? "online" : "offline" }} for users</h1>
@@ -27,18 +27,22 @@
             }
         },
         methods: {
-            turn_c: function () {
-                this.$store.commit('SET_SITE_STATUS', !this.$props.status.v)
+            on: function () {
+                let on = async () => {
+                    await window.api.site.on(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+                };
+
+                on();
+                this.$store.commit('SET_SITE_STATUS', true)
             },
-            redaction: function (item) {
-                alert(item.toString());
+            off: function () {
+                let off = async () => {
+                    await window.api.site.on(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+                };
+
+                off();
+                this.$store.commit('SET_SITE_STATUS', false)
             },
-            delete: function (id) {
-                alert(id)
-            },
-            addTicket() {
-                // this.$store.commit('ADD_TICKET', {FROM: })
-            }
         },
     }
 </script>

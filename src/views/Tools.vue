@@ -110,7 +110,7 @@
                 this.$store.commit("C_ACTIVE_ADMIN_ELEMENT", 0);
             } else if (element_path[1].split('=')[0] === 'tools') {
                 this.$store.commit("C_ACTIVE_ADMIN_ELEMENT", 1);
-                history.replaceState({} , "tools", "?tools=tickets");
+                history.replaceState({} , "tools");
             }
         },
         mounted() {
@@ -136,13 +136,24 @@
             margin-left: 300px
             background-color: #00b33f
 
-    .tool-block
+    .tool-block-s
         margin-left: 300px
         width: calc(100vw - 300px)
         background-color: whitesmoke
         @media all and (max-width: 600px)
             margin-left: 0
             width: 100vw
+
+    .tool-block
+        margin-left: 300px
+        width: calc(100vw - 300px)
+        background-color: whitesmoke
+        max-width: 100vw !important
+        @media all and (max-width: 600px)
+            margin-left: 0
+            width: 100vw
+
+
 
     .text-left
         text-align: left

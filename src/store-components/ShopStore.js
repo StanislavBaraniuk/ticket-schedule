@@ -11,6 +11,7 @@ const state = {
         ways: [23,15,23,10,344,300,1]
     },
     stations: [],
+    stations_list: [],
     orders: [],
     user_list: [],
     ticket_list: [],
@@ -63,6 +64,9 @@ const getters = {
     GET_STATIONS: state => {
         return state.stations
     },
+    GET_STATIONS_LIST: state => {
+        return state.stations_list
+    },
     GET_USER_LIST: state => {
         return state.user_list
     },
@@ -90,6 +94,12 @@ const mutations = {
     ADD_ADMIN_SEARCH: (state, obj) => {
         state.admin_search.SEARCH_BY[obj.key] = obj.value;
     },
+    ADD_STATIONS: (state, obj) => {
+        state.stations.push(obj);
+    },
+    ADD_USER: (state, obj) => {
+        state.user_list.push(obj);
+    },
 
     SET_TICKETS: (state, list) => {
         state.ticket_list = list;
@@ -97,15 +107,16 @@ const mutations = {
     SET_STATIONS: (state, obj) => {
         state.stations = obj;
     },
+    SET_STATIONS_LIST: (state, obj) => {
+        state.stations_list = obj;
+    },
     SET_ORDERS: (state, orders) => {
         state.orders = orders;
     },
-    ADD_STATIONS: (state, obj) => {
-        state.stations.push(obj);
+    SET_USER_LIST: (state, value) => {
+        state.user_list = value;
     },
-    ADD_USER: (state, obj) => {
-        state.user_list.push(obj);
-    },
+
     SET_SITE_STATUS: (state, obj) => {
         state.online = obj;
     },
@@ -114,11 +125,6 @@ const mutations = {
     },
     SET_ADMIN_SEARCH_TEXT: (state, obj) => {
         state.admin_search.TEXT = obj
-    },
-    DELETE_PLACE: (state, data) => {
-        alert(state.ticket_list[data.ticket_id]);
-        var p = state.ticket_list[data.ticket_id];
-        p.slice(0, 1);
     },
 
     SET_STATISTIC_PROFIT_LIST: (state, obj) => {
@@ -148,6 +154,12 @@ const mutations = {
     SET_STATISTIC_WAYS_KEYS: (state, obj) => {
         state.waysKeys = obj;
     },
+
+    DELETE_PLACE: (state, data) => {
+        alert(state.ticket_list[data.ticket_id]);
+        var p = state.ticket_list[data.ticket_id];
+        p.slice(0, 1);
+    },
 };
 
 const actions = {
@@ -161,11 +173,17 @@ const actions = {
     SET_STATIONS: (context, value) => {
         context.commit('SET_STATIONS', value);
     },
+    SET_STATIONS_LIST: (context, value) => {
+        context.commit('SET_STATIONS_LIST', value);
+    },
     DELETE_PLACE: (context, value) => {
         context.commit('DELETE_PLACE', value);
     },
     SET_ORDERS: (context, value) => {
         context.commit('SET_ORDERS', value);
+    },
+    SET_USER_LIST: (context, value) => {
+        context.commit('SET_USER_LIST', value);
     },
 
     SET_ADMIN_SEARCH_SELECT: (context, value) => {
@@ -173,6 +191,9 @@ const actions = {
     },
     SET_ADMIN_SEARCH_TEXT: (context, value) => {
         context.commit('SET_ADMIN_SEARCH_TEXT', value);
+    },
+    SET_SITE_STATUS: (context, value) => {
+        context.commit('SET_SITE_STATUS', value);
     },
 
     SET_STATISTIC_PROFIT_LIST: (context, value) => {

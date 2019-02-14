@@ -26,12 +26,12 @@ Vue.config.productionTip = false;
 
 Vue.filter('timeNormalizer', function (value) {
   if (!value) return '';
-  value = (value[0] === '0' ? value[1] : value[0] + value[1]) + ":" + value[3] + value[4];
+  value = value[0] + value[1] + ":" + value[3] + value[4];
   return value;
 });
 
 window.onfocus = async () => {
-  let online = await api.user.on_online(api.storage.getCookie('token'));
+  let online = await api.user.on_online(api.storage.getCookie('token') !== undefined ? api.storage.getCookie('token') : "0");
 
   if (online !== undefined) {
     store.dispatch("SET_CURRENT_USER_ONLINE", 1)
@@ -39,30 +39,35 @@ window.onfocus = async () => {
 };
 
 window.onblur = async () => {
-    let online = await api.user.off_online(api.storage.getCookie('token'));
+    let online = await api.user.off_online(api.storage.getCookie('token') !== undefined ? api.storage.getCookie('token') : "0");
 
     if (online !== undefined) {
       store.dispatch("SET_CURRENT_USER_ONLINE", 0)
     }
 };
 
-// (function () {
-//   var method;
-//   var noop = function noop() { };
-//   var methods = [
-//     'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-//     'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-//     'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-//     'timeStamp', 'trace', 'warn', 'log'
-//   ];
-//   var length = methods.length;
-//   var console = (window.console = window.console || {});
-//
-//   while (length--) {
-//     method = methods[length];
-//     console[method] = noop;
-//   }
-// }());
+let MODE = 'D';
+
+if (MODE === "P") {
+  (function () {
+    var method;
+    var noop = function noop() {
+    };
+    var methods = [
+      'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+      'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+      'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+      'timeStamp', 'trace', 'warn', 'log'
+    ];
+    var length = methods.length;
+    var console = (window.console = window.console || {});
+
+    while (length--) {
+      method = methods[length];
+      console[method] = noop;
+    }
+  }());
+}
 
 new Vue({
   el: '#app',

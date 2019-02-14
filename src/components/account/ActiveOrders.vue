@@ -13,7 +13,7 @@
                                 <v-flex xs12 sm12 md4 lg4>
                                     <v-card-title>
                                         <v-flex xs12 sm1 md1 lg1>
-                                            <i class="material-icons t-icon">{{ item.TICKET.TYPE === 0 ? "directions_railway" : "directions_bus"}}</i>
+                                            <i class="material-icons t-icon">{{ item.TICKET.TYPE === 1 ? "directions_railway" : "directions_bus"}}</i>
                                         </v-flex>
                                         <v-flex xs12 sm11 md11 lg11>
                                             <h3 class="t-name">{{ item.TICKET.NAME }}</h3>
@@ -47,7 +47,7 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ item.TICKET.WAY_TIME }}
+                                            {{ item.TICKET.WAY_TIME | timeNormalizer }}
                                             <small>час у дорозі</small>
                                         </v-stepper-step>
 

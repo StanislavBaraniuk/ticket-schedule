@@ -13,7 +13,7 @@
                         <v-flex xs12 sm6 md2 lg1>Id: {{ item.ID }}</v-flex>
                         <v-flex xs12 sm6 md2 lg1>Name: {{ item.NAME }}</v-flex>
                         <v-spacer></v-spacer>
-                        <v-flex xs12 sm12 md2 lg1><v-icon class="delete-icon">fas fa-trash</v-icon></v-flex>
+                        <v-flex xs12 sm12 md2 lg1><v-icon class="delete-icon" v-on:click="remove(item.ID)">fas fa-trash</v-icon></v-flex>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -32,27 +32,22 @@
 
             }
         },
-        created() {
-            this.GET_STATIONS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
-        },
-        methods: {
-            GET_STATIONS: async (component, token) => {
-                {
-                    let data = await window.api.stations.get_with_keys(token);
-
-
-                    if (data.status === 200) {
-                        component.stations  = Object.values(data.data);
-
-                    }
-                }
-            },
-        },
         computed:{
             ...mapGetters({
                 search_t: "GET_ADMIN_SEARCH_TEXT",
                 search_s: "GET_ADMIN_SEARCH_SELECT"
             })
+        },
+        methods: {
+            remove: async (code) => {
+                {
+                    let resp = await window.api.stations.delete(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", code);
+
+                    if (resp.status === 200) {
+                        window.location.reload();
+                    }
+                }
+            }
         }
     }
 </script>

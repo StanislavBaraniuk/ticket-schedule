@@ -10,16 +10,15 @@
             <v-card>
                 <v-card-text class="info-block" >
                     <v-layout row wrap>
-                        <v-flex xs12 sm6 md2 lg1>Id: {{ item.ID }}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Імя: {{ item.F_NAME }}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Фамілія: {{ item.L_NAME }}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Email: {{ item.EMAIL }}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Стать: {{ item.SEX === 1 ? "чоловік" : item.SEX === 2 ? "жінка" : "Не визначено"}}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Активність: {{ item.ONLINE ? "online" : "offline" }}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Активне замовлення: {{ item.ORDER_ACTIVE ? item.ORDER_ID : "відсутнє" }}</v-flex>
-                        <v-flex xs12 sm6 md2 lg1>Аватар: {{ item.AVATAR }}</v-flex>
+                        <v-flex xs12 sm12 md4 lg1>Id: {{ item.ID }}</v-flex>
+                        <v-flex xs12 sm12 md4 lg2>Імя: {{ item.FIRST_NAME }}</v-flex>
+                        <v-flex xs12 sm12 md4 lg2>Фамілія: {{ item.LAST_NAME }}</v-flex>
+                        <v-flex xs12 sm12 md4 lg2>Email: {{ item.EMAIL }}</v-flex>
+                        <v-flex xs12 sm12 md4 lg2>Стать: {{ item.SEX === 1 ? "чоловік" : item.SEX === 2 ? "жінка" : "Не визначено"}}</v-flex>
+                        <v-flex xs12 sm12 md4 lg2>Активність: {{ item.ONLINE ? "online" : "offline" }}</v-flex>
                         <v-spacer></v-spacer>
-                        <v-flex xs12 sm12 md2 lg1><v-icon v-on:click="openRedact(item.ID)">fas fa-pencil-ruler</v-icon><v-icon class="delete-icon" >fas fa-trash</v-icon></v-flex>
+                        <v-flex xs12 sm12 md12 lg1><v-icon v-on:click="openRedact(item.ID)">fas fa-pencil-ruler</v-icon><v-icon class="delete-icon" v-on:click="remove(item.ID)">fas fa-trash</v-icon></v-flex>
+                        <v-spacer></v-spacer>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -46,9 +45,12 @@
             openRedact: function (id) {
                 this.activeRedactId = id;
             },
-            remove (item) {
-                this.chips.splice(this.chips.indexOf(item), 1)
-                this.chips = [...this.chips]
+            remove:  async (item) => {
+                let resp = await window.api.client.delete(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", item);
+
+                if (resp.status === 200) {
+                    window.location.reload();
+                }
             }
         },
         props: {

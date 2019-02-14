@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <list :orders="$props.orders" :tickets="tickets" :users="users"></list>
+        <list :orders="$props.orders" :stations="stations" :tickets="tickets" :users="users"></list>
     </v-container>
 </template>
 
@@ -14,6 +14,9 @@
             list
         },
         props: {
+            stations: {
+
+            },
             orders: {
 
             },

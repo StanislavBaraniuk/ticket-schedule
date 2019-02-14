@@ -26,13 +26,14 @@
                             label="Транспорт"
                             type="number"
                             :readonly="false"
+                            v-model="item.TYPE"
                     ></v-autocomplete>
                 </v-flex>
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
-                            :items="items"
-                            v-model="items[item.FROM_PLACE-1]"
+                            :items="items.map(function(v) { return v.NAME })"
+                            v-model="items.filter(function(v) { return v.ID === item.FROM_PLACE })[0].NAME"
                             label="Місце відправлення"
                             :readonly="false"
                     ></v-autocomplete>
@@ -78,10 +79,10 @@
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
-                            :items="items"
+                            :items="items.map(function(v) { return v.NAME })"
                             label="Місце прибуття"
                             :readonly="false"
-                            v-model="items[item.TO_PLACE-1]"
+                            v-model="items.filter(function(v) { return v.ID === item.TO_PLACE })[0].NAME"
                     ></v-autocomplete>
                 </v-flex>
 
@@ -125,7 +126,7 @@
 
                 <v-combobox
                         v-model="t_stations"
-                        :items="items"
+                        :items="items.map(function(v) { return v.ID })"
                         label="Вкажіть міста для створення маршруту"
                         :readonly="false"
                         chips
@@ -139,7 +140,7 @@
                                 close
                                 @input="remove(data_r.item)"
                         >
-                            <strong>{{ data_r.item }}</strong>&nbsp;
+                            <strong>{{ items.filter(function(v) { return v.ID === parseInt(data_r.item) })[0].NAME }}</strong>&nbsp;
                             <span></span>
                         </v-chip>
                     </template>
@@ -159,21 +160,11 @@
     export default {
         name: "TicketRedaction",
         props: {
-            item: {
-
-            },
-            items: {
-
-            },
-            t_stations: {
-
-            },
-            activeTicketRedactId: {
-
-            },
-            f: {
-
-            }
+            item: {},
+            items: {},
+            t_stations: {},
+            activeTicketRedactId: {},
+            f: {}
         }
     }
 </script>

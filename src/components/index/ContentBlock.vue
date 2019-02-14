@@ -42,7 +42,7 @@
                                     <v-card-actions class="order-btn-block">
                                         <v-spacer></v-spacer>
                                         <v-btn disabled color="orange" class="price">{{ item.PRICE }} ₴</v-btn>
-                                        <v-btn color="green" dark v-on:click="make_order(item.ID, index, stations[item.FROM_PLACE-1], stations[item.TO_PLACE-1])">Забронювати
+                                        <v-btn color="green" dark v-on:click="make_order(item.ID, index, item.FROM_PLACE, item.TO_PLACE)">Забронювати
                                             <v-icon dark right>add_shopping_cart</v-icon>
                                         </v-btn>
                                     </v-card-actions>

@@ -18,7 +18,7 @@
 
                         <v-card-text class="text-xs-center" v-if="activeBtn === 0">
                             <h1>Вхід</h1>
-
+                            <small style="color: red">{{login_error}}</small>
                             <v-flex xs12>
                                 <v-text-field
                                         label="Емайл"
@@ -123,8 +123,9 @@
     export default {
         name: "Authorization",
         data: () => ({
-            password: '',
-            email: '',
+            password: '7654321AsD',
+            email: 'Stanislavbaraniuk@gmail.com',
+            login_error: '',
             activeBtn: 0,
             showNav: true,
             emailRules: [
@@ -152,10 +153,19 @@
             },
             login() {
                 if (/.[a-zA-Z/.]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email) && /.(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(this.password)) {
-                    window.api.user.login(this.email, this.password).then(function(result) {
-                        window.api.storage.setCookie("token", result.data);
-                        window.location.href = '/';
-                    });
+                    this.TRY_LOGIN(this, this.email, this.password);
+                }
+            },
+            TRY_LOGIN: async (component, email, password) => {
+                let response = await window.api.user.login(email, password);
+
+                if (response.status === 200) {
+                    window.api.storage.setCookie("token", response.data);
+                    window.location.href = '/';
+                } else if(response.status === 401)  {
+                    component.login_error = "Не вірний логін або пароль"
+                } else {
+                    component.login_error = "Щось пішло не так :("
                 }
             },
             forgetPass() {

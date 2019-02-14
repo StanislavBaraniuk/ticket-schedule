@@ -1,7 +1,7 @@
 <template>
-    <v-container grid-list-md class="tool-block">
-        <v-layout row wrap>
-            <v-container>
+    <v-container class="tool-block">
+        <v-layout row wrap style="max-width: 100vw !important;">
+            <v-container style="max-width: 100vw !important;">
                 <v-card
                         dark
                         color="indigo"
@@ -39,26 +39,26 @@
                         <v-spacer></v-spacer>
 
                         <v-flex xs12 sm12 md12 lg12 >
-                            <v-btn flat @click="setActiveBlock(0)">квитки</v-btn>
-                            <v-btn flat @click="setActiveBlock(1)">міста</v-btn>
-                            <v-btn flat @click="setActiveBlock(2)">користувачі</v-btn>
-                            <v-btn flat @click="setActiveBlock(3)">замовлення</v-btn>
-                            <v-btn flat @click="setActiveBlock(4)">сайт</v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 0}" flat @click="setActiveBlock(0)">квитки</v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 1}" flat @click="setActiveBlock(1)">міста</v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 2}" flat @click="setActiveBlock(2)">користувачі</v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 3}" flat @click="setActiveBlock(3)">замовлення</v-btn>
+                            <!--<v-btn :class="{activeBtnMenu: activeBlock === 4}" flat @click="setActiveBlock(4)">сайт</v-btn>-->
                         </v-flex>
 
                     </v-layout>
                 </v-card>
             </v-container>
+{{ def_stations_list.map(function(v) { return v.ID === 1 ? v : null })[0].NAME }}
+            <ticket-menu v-if="activeBlock === 0" :items="def_stations" :tickets="def_tickets" style="max-width: 100vw !important;"></ticket-menu>
 
-            <ticket-menu v-if="activeBlock === 0" :items="def_stations" :tickets="def_tickets"></ticket-menu>
+            <city-menu v-if="activeBlock === 1" :stations="def_stations_list" style="max-width: 100vw !important;"></city-menu>
 
-            <city-menu v-if="activeBlock === 1" :stations="def_stations"></city-menu>
+            <users-menu v-if="activeBlock === 2" :stations="def_user_list" style="max-width: 100vw !important;"></users-menu>
 
-            <users-menu v-if="activeBlock === 2" :stations="def_user_list"></users-menu>
+            <orders-menu v-if="activeBlock === 3" :stations="def_stations" :orders="def_orders" :tickets="def_tickets" :users="def_user_list" style="max-width: 100vw !important;"></orders-menu>
 
-            <orders-menu v-if="activeBlock === 3" :orders="def_orders" :tickets="def_tickets" :users="def_user_list"></orders-menu>
-
-            <site-menu v-if="activeBlock === 4" :status="{v: site_status}"></site-menu>
+            <!--<site-menu v-if="activeBlock === 4" :status="{v: site_status}" style="max-width: 100vw !important;"></site-menu>-->
 
         </v-layout>
     </v-container>
@@ -94,6 +94,7 @@
             let url = window.location.href.split('/');
             let uri = url[url.length-1];
             let element_path = uri.split('?');
+
             switch (element_path[1].split('=')[1]) {
                 case 'tickets' :
                     this.activeBlock = 0;
@@ -110,17 +111,24 @@
                 case 'site' :
                     this.activeBlock = 4;
                     break;
+                default:
+                    this.activeBlock = 0;
+                    break;
             }
 
             let token = window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0";
 
-            this.GET_STATIONS(this, token);
-            this.LOAD_TICKETS(this, token);
             this.LOAD_COLUMNS(this, token, "tickets", 0);
             this.LOAD_COLUMNS(this, token, "stations", 1);
             this.LOAD_COLUMNS(this, token, "users", 2);
             this.LOAD_COLUMNS(this, token, "orders", 3);
             this.LOAD_COLUMNS(this, token, "setting", 4);
+
+            this.GET_STATIONS(this, token);
+            this.LOAD_TICKETS(this, token);
+            this.LOAD_USERS(this, token);
+            this.LOAD_ORDERS(this, token);
+            this.LOAD_STATIONS_WITH_KEY(this, token);
         },
         methods: {
             setActiveBlock: function (index) {
@@ -173,10 +181,34 @@
                     }
                 }
             },
+            LOAD_USERS: async (component, token) => {
+                {
+                    let data = await window.api.client.get_all(token);
+
+                    if (data.status === 200) {
+                        component.$store.commit('SET_USER_LIST', data.data);
+                    }
+                }
+            },
             LOAD_COLUMNS: async (component, token, table_name, key) => {
                 let value = await window.api.user.get_columns(token, table_name);
 
                 component.$store.dispatch('ADD_ADMIN_SEARCH', {key: key, value: value.data});
+            },
+            LOAD_ORDERS: async (component, token) => {
+                let value = await window.api.order.get_all(token);
+
+                component.$store.dispatch('SET_ORDERS', value.data);
+            },
+            LOAD_STATIONS_WITH_KEY: async (component, token) => {
+                {
+                    let data = await window.api.stations.get_with_keys(token);
+
+
+                    if (data.status === 200) {
+                        component.$store.commit('SET_STATIONS_LIST', data.data);
+                    }
+                }
             }
         },
         computed: {
@@ -199,6 +231,7 @@
             ...mapGetters({
                 def_tickets: 'GET_ALL_TICKETS',
                 def_stations: 'GET_STATIONS',
+                def_stations_list: "GET_STATIONS_LIST",
                 def_stations_way: 'GET_STATIONS_WAY',
                 def_user_list: 'GET_USER_LIST',
                 site_status: 'GET_SITE_STATUS',
@@ -216,6 +249,10 @@
         .activeBtn
             background-color: #00b33f
             color: white !important
+
+        .activeBtnMenu
+            background-color: white
+            color: #3d4dbc !important
 
         .search
             padding-top: 15px

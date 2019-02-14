@@ -17,7 +17,7 @@ const api = {
             }).then(function (response) {
                 return response;
             }).catch(function (error) {
-                return null;
+                return error.response;
             });
         },
         logout: function (token) {
@@ -209,7 +209,7 @@ const api = {
                 return response;
             }).catch(function (error) {
                 return error;
-            });
+            })
         },
         get_all: function (token) {
             return axios.post(BP +'/ticket/get/',
@@ -224,6 +224,99 @@ const api = {
                 return response;
             }).catch(function (error) {
                 return error;
+            });
+        },
+        delete: function (token, ID) {
+            return axios.get(BP + '/ticket/delete/' + ID,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
+        ticket: function (token, ticket) {
+            return axios.post(BP + '/ticket/add/',{
+
+                    },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
+        add: function (token, ticket) {
+            return axios.post(BP +'/ticket/add/',
+                {
+                    ID: ticket.ID,
+                    NAME: ticket.NAME,
+                    PRICE: ticket.PRICE,
+                    FROM_DATE: ticket.FROM_DATE,
+                    TO_DATE: ticket.TO_DATE,
+                    FROM_PLACE: ticket.FROM_PLACE,
+                    TO_PLACE: ticket.TO_PLACE,
+                    TYPE: ticket.TYPE,
+                    FROM_TIME: ticket.FROM_TIME,
+                    TO_TIME: ticket.TO_TIME,
+                    WAY_TIME: ticket.WAY_TIME,
+                    STATIONS: ticket.STATIONS,
+                    PLACES: ticket.PLACES
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error;
+            });
+        }
+    },
+    client: {
+        get_all: function (token) {
+            return axios.get(BP + '/client/get/',
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
+        delete: function (token, ID) {
+            return axios.get(BP + '/client/delete/' + ID,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
+    },
+    order: {
+        get_all: function (token) {
+            return axios.get(BP + '/order/get/',
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
             });
         },
     },
@@ -306,6 +399,34 @@ const api = {
         },
         get_with_keys: function (token) {
             return axios.get(BP +'/city/getwithkeys/',
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error;
+            });
+        },
+        delete: function (token, ID) {
+            return axios.get(BP +'/city/delete/' + ID,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error;
+            });
+        },
+        add: function (token, station) {
+            return axios.post(BP +'/city/add/',
+                {
+                    ID: station.ID,
+                    NAME: station.NAME
+                },
                 {
                     headers: {
                         Authorization: 'Bearer ' + token
