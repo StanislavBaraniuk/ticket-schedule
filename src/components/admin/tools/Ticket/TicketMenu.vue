@@ -1,5 +1,5 @@
 <template>
-    <v-container class="ticket-mennu">
+    <v-container class="ticket-menu">
         <v-flex xs12 sm12 md12 lg12 >
             <v-btn flat @click="addActive = !addActive" :class="{activeBtn: addActive}">Новий квиток</v-btn>
         </v-flex>
@@ -27,14 +27,6 @@
                 addActive: false
             }
         },
-        methods: {
-            redaction: function (item) {
-                alert(item.toString());
-            },
-            addTicket() {
-                // this.$store.commit('ADD_TICKET', {FROM: })
-            }
-        },
         components: {
             TicketAdd,
             TicketList
@@ -45,6 +37,6 @@
 </script>
 
 <style lang="sass" scoped>
-    .ticket-mennu
+    .ticket-menu
         margin-top: -30px
 </style>

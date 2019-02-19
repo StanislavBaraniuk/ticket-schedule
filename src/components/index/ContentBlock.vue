@@ -142,7 +142,7 @@
         methods: {
             make_order: function (id, index, from_place, to_place) {
                 if (this.place[index] !== undefined) {
-                    this.SEND_ORDER(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", id, this.current_user.ID, this.tickets[index].PRICE, this.place[index], index, from_place, to_place);
+                    this.SEND_ORDER(this,window.api.storage.getToken(), id, this.current_user.ID, this.tickets[index].PRICE, this.place[index], index, from_place, to_place);
                 } else {
                     this.snackbar.model = true;
                     this.snackbar.text = "Оберіть місце";
@@ -150,7 +150,7 @@
             },
             SEND_ORDER: async (component, token, ticket_id, user_id, cost, place, index, from_place, to_place) => {
                 {
-                    let data = await window.api.user.create_order(token, ticket_id, user_id, cost, place, from_place, to_place);
+                    let data = await window.api.user.createOrder(token, ticket_id, user_id, cost, place, from_place, to_place);
 
                     component.snackbar.model = true;
                     if (data.status === 200) {

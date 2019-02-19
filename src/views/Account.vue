@@ -34,7 +34,7 @@
         methods: {
             CHECK_AUTH: async (component, token) => {
                 {
-                    await window.api.user.is_auth(token, '/');
+                    await window.api.user.isAuth(token, '/');
                 }
             }
         },

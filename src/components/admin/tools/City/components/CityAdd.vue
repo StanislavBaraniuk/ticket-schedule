@@ -43,18 +43,25 @@
         },
         methods: {
             add: function () {
-                let add = async () => {
-                    await window.api.stations.add(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", {
+                let add = async (cmp) => {
+                    let resp = await window.api.stations.add(window.api.storage.getToken(), {
                         ID: this.ID,
                         NAME: this.NAME
                     });
+
+                    alert(resp.status);
+
+                    if (resp.status === 200) {
+                        window.location.reload();
+                    } else if (resp.status === 409) {
+                        cmp.error = "Елемент з такою назвою вже існує";
+                    } else {
+                        cmp.error = 'Щось пішло не так :('
+                    }
                 };
 
                 if (this.NAME.length > 0 && parseInt(this.ID) >= 0) {
-                    add().then(function (res) {
-                        window.location.reload();
-                    });
-                    // window.location.reload();
+                    add(this)
                 } else {
                     this.error = "Заповніть поля"
                 }

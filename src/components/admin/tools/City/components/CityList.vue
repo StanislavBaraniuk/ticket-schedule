@@ -1,12 +1,15 @@
 <template>
     <v-expansion-panel class="city-list">
+        <div v-if="stations.filter(function(obj) {
+                  return String(obj[search_s]).indexOf(String(search_t)) !== -1 || search_t.length < 1
+                }).length < 1">Записи відсутні</div>
         <v-expansion-panel-content
                 v-for="(item, index) in stations.filter(function(obj) {
                   return String(obj[search_s]).indexOf(String(search_t)) !== -1 || search_t.length < 1
                 })"
                 :key="index"
         >
-            <div  slot="header">#{{ item.ID }} : {{ item.NAME }}</div>
+            <div  slot="header"><v-icon style="margin-right: 10px">fas fa-map-marker-alt</v-icon> # {{ index }} ID : {{ item.ID }} - {{ item.NAME }}</div>
             <v-card  >
                 <v-card-text class="card-info">
                     <v-layout row wrap>
@@ -41,7 +44,7 @@
         methods: {
             remove: async (code) => {
                 {
-                    let resp = await window.api.stations.delete(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", code);
+                    let resp = await window.api.stations.delete(window.api.storage.getToken(), code);
 
                     if (resp.status === 200) {
                         window.location.reload();

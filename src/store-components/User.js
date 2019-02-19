@@ -69,7 +69,7 @@ const actions = {
     },
     LOAD_USER_MENU_LIST: async (context, token) => {
         {
-            let data = await window.api.user.get_menu(token);
+            let data = await window.api.user.getMenu(token);
 
             if (data.status === 200) {
                 context.commit('SET_USER_MENU_LIST', data.data);

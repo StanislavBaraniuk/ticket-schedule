@@ -19,6 +19,7 @@ Vue.component('apexchart', VueApexCharts);
 window.axios = axios;
 window.api = api;
 window.store = store;
+let MODE = 'P';
 
 Vue.use(Vuetify);
 Vue.use(VueResize);
@@ -31,22 +32,34 @@ Vue.filter('timeNormalizer', function (value) {
 });
 
 window.onfocus = async () => {
-  let online = await api.user.on_online(api.storage.getCookie('token') !== undefined ? api.storage.getCookie('token') : "0");
+  let online = await api.user.onOnline(api.storage.getToken());
 
   if (online !== undefined) {
     store.dispatch("SET_CURRENT_USER_ONLINE", 1)
   }
 };
 
+screen.orientation.lock("natural");
+
 window.onblur = async () => {
-    let online = await api.user.off_online(api.storage.getCookie('token') !== undefined ? api.storage.getCookie('token') : "0");
+    let online = await api.user.offOnline(api.storage.getToken());
 
     if (online !== undefined) {
       store.dispatch("SET_CURRENT_USER_ONLINE", 0)
     }
 };
 
-let MODE = 'D';
+String.prototype.toHHMMSS = function () {
+  var sec_num = parseInt(this, 10); // don't forget the second param
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  if (hours   < 10) {hours   = "0"+hours;}
+  if (minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
+  return hours+':'+minutes+':'+seconds;
+};
 
 if (MODE === "P") {
   (function () {

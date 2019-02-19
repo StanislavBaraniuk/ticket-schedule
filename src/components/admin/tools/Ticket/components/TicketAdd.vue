@@ -36,8 +36,8 @@
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
-                            :items="items"
-                            label="Місце відправлення"
+                            :items="items.map(function(v) { return v.ID })"
+                            :label="'Місце відпревлення - ' + items.filter(function(v) { return v.ID === FROM_PLACE })[0].NAME"
                             :readonly="false"
                             v-model="FROM_PLACE"
                     ></v-autocomplete>
@@ -53,11 +53,10 @@
                     >
                         <v-text-field
                                 slot="activator"
-                                :value="d_time"
                                 label="Час відправлення"
                                 placeholder="День відправки"
                                 readonly
-                                v-model="FROM_DATE"
+                                v-model="d_time"
                         ></v-text-field>
                         <v-time-picker v-model="d_time" format="24hr"></v-time-picker>
                     </v-menu>
@@ -84,10 +83,10 @@
 
                 <v-flex xs12 sm12 md12 lg8>
                     <v-autocomplete
-                            :items="items"
+                            :items="items.map(function(v) { return v.ID })"
+                            :label="'Місце прибуття - ' + items.filter(function(v) { return v.ID === TO_PLACE })[0].NAME"
                             :readonly="false"
-                            label="Місце прибуття"
-                            v-model="ID"
+                            v-model="TO_PLACE"
                     ></v-autocomplete>
                 </v-flex>
 
@@ -101,10 +100,10 @@
                     >
                         <v-text-field
                                 slot="activator"
-                                :value="a_time"
                                 label="Час прибуття"
                                 placeholder=""
                                 readonly
+                                v-model="a_time"
                         ></v-text-field>
                         <v-time-picker v-model="a_time" format="24hr"></v-time-picker>
                     </v-menu>
@@ -130,22 +129,23 @@
                 </v-flex>
 
                 <v-combobox
-                        v-model="chips"
-                        :items="items"
+                        v-model="STATIONS"
+                        :items="items.map(function(v) { return String(v.ID) })"
                         label="Вкажіть міста для створення маршруту"
+                        :readonly="false"
                         chips
                         clearable
                         solo
                         multiple
                 >
-                    <template slot="selection" slot-scope="data">
+                    <template slot="selection" slot-scope="data_r">
                         <v-chip
-                                :selected="data.selected"
+                                :selected="data_r.selected"
                                 close
-                                @input="remove(data.item)"
+                                @input="remove(data_r.item)"
                         >
-                            <strong>{{ data.item }}</strong>&nbsp;
-                            <span></span>
+                            <strong>{{ items.filter(function(v) { return v.ID === parseInt(data_r.item) })[0].NAME }}</strong>&nbsp;
+                            <span> : {{data_r.item}}</span>
                         </v-chip>
                     </template>
                 </v-combobox>
@@ -158,9 +158,9 @@
                 </v-flex>
 
             </v-layout>
-
+            <small style="color: red">{{ error }}</small>
             <v-flex xs12>
-                <v-btn dark color="indigo" @click="addTicket">Додати</v-btn>
+                <v-btn dark color="indigo" @click="add">Додати</v-btn>
             </v-flex>
 
         </v-card>
@@ -169,16 +169,18 @@
 <script>
     import { mapGetters } from 'vuex';
     export default {
-        name: "ticket",
+        name: "TicketAdd",
         data: function () {
             return {
                 ID: 0,
                 NAME: '',
-                PRICE: '',
-                TO_PLACE: '',
+                PRICE: 0,
+                FROM_PLACE: 1,
+                TO_PLACE: 1,
                 TYPE: 1,
-                STATIONS: '',
+                STATIONS: [],
                 PLACES: '',
+                error: "",
                 priceRules: [
                     v => !!v || 'Введіть ціну',
                     v => /.[\d]/.test(v) || 'Ціна помилкова'
@@ -198,29 +200,32 @@
         },
         methods: {
             add: function () {
-                let add = async () => {
-                    await window.api.ticket.add(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", {
-                        ID: this.ID,
-                        NAME: this.NAME,
-                        PRICE: this.PRICE,
-                        FROM_DATE: this.FROM_DATE,
-                        TO_DATE: this.TO_DATE,
-                        FROM_PLACE: this.FROM_PLACE,
-                        TO_PLACE: this.TO_PLACE,
-                        TYPE: this.TYPE,
-                        FROM_TIME: this.FROM_TIME,
-                        TO_TIME: this.TO_TIME,
-                        WAY_TIME: this.WAY_TIME,
-                        STATIONS: this.STATIONS,
-                        PLACES: this.PLACES
-                    })
+                let ticket = {
+                    ID: this.ID,
+                    NAME: this.NAME,
+                    PRICE: this.PRICE,
+                    FROM_DATE: this.d_date,
+                    TO_DATE: this.a_date,
+                    FROM_PLACE: this.FROM_PLACE,
+                    TO_PLACE: this.TO_PLACE,
+                    TYPE: this.TYPE,
+                    FROM_TIME: this.d_time,
+                    TO_TIME: this.a_time,
+                    WAY_TIME: String((new Date(this.a_date + " " + this.a_time) - new Date(this.d_date + " " + this.d_time))/1000).toHHMMSS(),
+                    STATIONS: this.STATIONS.join(),
+                    PLACES: this.PLACES
                 };
 
-                if (this.NAME.length > 0 && parseInt(this.ID) >= 0) {
-                    add();
-                    window.location.reload();
+                let add = async (ticket) => {
+                    await window.api.ticket.add(window.api.storage.getToken(), ticket)
+                };
+
+                if (this.NAME.length > 0 && parseInt(this.ID) >= 0 && this.PRICE >= 0 && this.FROM_PLACE !== this.TO_PLACE) {
+                    add(ticket).then(function () {
+                        window.location.reload();
+                    });
                 } else {
-                    this.error = "Заповніть поля"
+                    this.error = "Впевніться що: назва введена, ІД >= 0, ціна > 0, місце відправлення != місцю прибуття"
                 }
             }
         },

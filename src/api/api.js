@@ -1,15 +1,46 @@
 import axios from "axios";
 
 const BP = "http://tickets-api.zzz.com.ua";
-var MD5 = require("crypto-js/md5");
 
 const api = {
-    methods: {
-        cut: function (string) {
-            return string.split("<!-- zzz")[0];
-        }
-    },
     user: {
+        changPassword: function (token, old_password, new_password) {
+            return axios.post(BP +'/user/changePassword/',
+                {
+                    old: old_password,
+                    new: new_password
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
+        changeInfo: function (token, user) {
+            return axios.post(BP +'/user/changeInfo/',
+                {
+                    EMAIL : user.EMAIL,
+                    PHONE : user.PHONE,
+                    FIRST_NAME : user.FIRST_NAME,
+                    LAST_NAME : user.LAST_NAME,
+                    SEX : user.SEX
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
         login: function (email, password) {
             return axios.post(BP +'/user/login/', {
                 login: email,
@@ -34,7 +65,7 @@ const api = {
             window.api.storage.setCookie("token", "0");
             window.location.href = '/';
         },
-        off_online: function (token) {
+        offOnline: function (token) {
             axios.get(BP +'/user/online/0', {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -45,7 +76,7 @@ const api = {
                 return error.response
             });
         },
-        on_online: function (token) {
+        onOnline: function (token) {
             axios.get(BP +'/user/online/1', {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -56,33 +87,38 @@ const api = {
                 return error
             });
         },
-        registration: function (email, password, online) {
+        registration: function (email, password) {
             return axios.post(BP +'/user/register/', {
                 ID: 0,
                 FIRST_NAME: "Користувач",
                 LAST_NAME: "",
                 PHONE: "Не вказано",
                 SEX: 0,
-                ONLINE: online,
+                ONLINE: 0,
                 ACCESS: 1,
                 EMAIL: email,
-                password: MD5(password)
+                TOKEN: "",
+                IP: "",
+                PASSWORD: password
             }).then(function (response) {
                 return response;
             }).catch(function (error) {
-                return null;
+                return error.response;
             });
         },
-        forget_password: function (email) {
-            axios.post(BP +'/user/forgetPasswordSendEmail/', {
-                email : email
-            }).then(function (response) {
+        forgetPassword: function (email) {
+            return axios.post(BP +'/user/forgetPasswordSendEmail/',
+                {
+                    email : email
+                },
+                {}
+            ).then(function (response) {
                 return response;
             }).catch(function (error) {
-                return error;
+                return error.response;
             });
         },
-        get_menu : (function (token) {
+        getMenu : function (token) {
             return axios.get(BP +'/user/getMenu/', {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -92,8 +128,8 @@ const api = {
             }).catch(function (error) {
                 return null;
             });
-        }),
-        get_info : (function (token) {
+        },
+        getInfo : function (token) {
             return axios.get(BP +'/user/getInfo/', {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -101,11 +137,10 @@ const api = {
             }).then(function (response) {
                 return response;
             }).catch(function (error) {
-                console.log(error);
-                return null;
+                return error.response;
             });
-        }),
-        is_auth : (function (token, path) {
+        },
+        isAuth : function (token, path) {
             return axios.get(BP +'/user/isAuth/', {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -116,19 +151,20 @@ const api = {
                 window.api.storage.setCookie('token', '0');
                 window.location.href = path;
             });
-        }),
-        is_admin : (function (token, path) {
+        },
+        isAdmin : function (token, path) {
             return axios.get(BP +'/user/isAdmin/', {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }
             }).then(function (response) {
-                return response;
+                return true;
             }).catch(function (error) {
                 window.location.href = path;
+                return false;
             });
-        }),
-        create_order : (function (token, ticket_id, user_id, cost, place, from_place, to_place) {
+        },
+        createOrder : function (token, ticket_id, user_id, cost, place, from_place, to_place) {
             return axios.post(BP +'/order/add/',
                 {
                     ID : 0,
@@ -150,8 +186,8 @@ const api = {
             }).catch(function (error) {
                 return error.response;
             });
-        }),
-        get_all_orders: function (token) {
+        },
+        getAllOrders: function (token) {
             return axios.get(BP +'/order/getByUser/', {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -162,7 +198,7 @@ const api = {
                 return error.response;
             });
         },
-        cancel_order: function (token, code) {
+        cancelOrder: function (token, code) {
             return axios.post(BP +'/order/cancel/',
                 {
                     CODE : code
@@ -177,7 +213,7 @@ const api = {
                 return error.response;
             });
         },
-        get_columns: function (token, table_name) {
+        getColumns: function (token, table_name) {
             return axios.get(BP +'/user/columns/' + table_name, {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -190,7 +226,40 @@ const api = {
         }
     },
     ticket: {
-        get_filtered_tickets : function (token, filter) {
+        update: function (token, ticket) {
+            return axios.post(BP +'/ticket/update/',
+                {
+                    SET: {
+                        ID: ticket.ID,
+                        NAME: ticket.NAME,
+                        PRICE: ticket.PRICE,
+                        FROM_DATE: ticket.FROM_DATE,
+                        TO_DATE: ticket.TO_DATE,
+                        FROM_PLACE: ticket.FROM_PLACE,
+                        TO_PLACE: ticket.TO_PLACE,
+                        TYPE: ticket.TYPE,
+                        FROM_TIME: ticket.FROM_TIME,
+                        TO_TIME: ticket.TO_TIME,
+                        WAY_TIME: ticket.WAY_TIME,
+                        STATIONS: ticket.STATIONS,
+                        PLACES: ticket.PLACES
+                    },
+                    WHERE: {
+                        ID: ticket.ID,
+                    }
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error;
+            })
+        },
+        getFilteredTickets : function (token, filter) {
+            console.log(filter);
             return axios.post(BP +'/ticket/get/',
                 {
                     GET : ["*"],
@@ -211,7 +280,7 @@ const api = {
                 return error;
             })
         },
-        get_all: function (token) {
+        getAll: function (token) {
             return axios.post(BP +'/ticket/get/',
                 {
                     GET : ["*"]
@@ -281,7 +350,7 @@ const api = {
         }
     },
     client: {
-        get_all: function (token) {
+        getAll: function (token) {
             return axios.get(BP + '/client/get/',
                 {
                     headers: {
@@ -305,9 +374,64 @@ const api = {
                 return error.response;
             });
         },
+        add: function (token, user) {
+            return axios.post(BP + '/client/add/',
+                {
+                    ID: user.ID,
+                    EMAIL: user.EMAIL,
+                    FIRST_NAME: user.FIRST_NAME,
+                    LAST_NAME: user.LAST_NAME,
+                    ONLINE: user.ONLINE,
+                    ACCESS: user.ACCESS,
+                    SEX: user.SEX,
+                    TOKEN: user.TOKEN,
+                    PASSWORD: user.PASSWORD,
+                    IP: user.IP,
+                    PHONE: user.PHONE
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
+        update: function (token, user) {
+            return axios.post(BP + '/client/update/',
+                {
+                    SET: {
+                        ID: user.ID,
+                        EMAIL: user.EMAIL,
+                        FIRST_NAME: user.FIRST_NAME,
+                        LAST_NAME: user.LAST_NAME,
+                        ONLINE: user.ONLINE,
+                        ACCESS: user.ACCESS,
+                        SEX: user.SEX,
+                        TOKEN: user.TOKEN,
+                        PASSWORD: user.PASSWORD,
+                        IP: user.IP,
+                        PHONE: user.PHONE
+                    },
+                    WHERE: {
+                        ID: user.ID
+                    }
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }).then(function (response) {
+                return response;
+            }).catch(function (error) {
+                return error.response;
+            });
+        },
     },
     order: {
-        get_all: function (token) {
+        getAll: function (token) {
             return axios.get(BP + '/order/get/',
                 {
                     headers: {
@@ -324,7 +448,7 @@ const api = {
         from: "",
         to: "",
         order: {
-            get_profit: function (token) {
+            getProfit: function (token) {
                 return axios.post(BP +'/order/profit/',
                     {
                         FROM: window.api.statistic.from,
@@ -340,7 +464,7 @@ const api = {
                     return error.response;
                 });
             },
-            get_count: function (token) {
+            getCount: function (token) {
                 return axios.post(BP + '/order/count/',
                     {
                         FROM: window.api.statistic.from,
@@ -358,7 +482,7 @@ const api = {
             }
         },
         client: {
-            get_count: function (token) {
+            getCount: function (token) {
                 return axios.get(BP + '/client/count/',
                     {
                         headers: {
@@ -370,7 +494,7 @@ const api = {
                     return error.response;
                 });
             },
-            get_count_online: function (token) {
+            getCountOnline: function (token) {
                 return axios.get(BP + '/client/online/',
                     {
                         headers: {
@@ -385,7 +509,7 @@ const api = {
         }
     },
     stations: {
-        get_all : function (token) {
+        getAll : function (token) {
             return axios.get(BP +'/city/get/',
                 {
                     headers: {
@@ -397,7 +521,7 @@ const api = {
                 return error;
             });
         },
-        get_with_keys: function (token) {
+        getWithKeys: function (token) {
             return axios.get(BP +'/city/getwithkeys/',
                 {
                     headers: {
@@ -434,7 +558,7 @@ const api = {
                 }).then(function (response) {
                 return response;
             }).catch(function (error) {
-                return error;
+                return error.response;
             });
         }
     },
@@ -472,6 +596,9 @@ const api = {
                 "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
             ));
             return matches ? decodeURIComponent(matches[1]) : undefined;
+        },
+        getToken() {
+            return window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0"
         }
     },
     helper: {

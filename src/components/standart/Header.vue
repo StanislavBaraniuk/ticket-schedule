@@ -60,6 +60,7 @@
                                 :key="item.TITLE"
                                 v-on:click="rd(item.PATH)"
                         >
+                            <a :href="item.PATH" style="width: 100%; height: 100%; position: absolute; z-index: 999"></a>
                             <v-list-tile-action>
                                 <v-icon>{{ item.ICON }}</v-icon>
                             </v-list-tile-action>
@@ -117,13 +118,13 @@
         },
         created() {
             this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "menu");
-            this.LOAD_USER_INFO(this, window.api.storage.getCookie('token'));
-            this.LOAD_USER_MENU_LIST(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+            this.LOAD_USER_INFO(this, window.api.storage.getToken());
+            this.LOAD_USER_MENU_LIST(this, window.api.storage.getToken());
         },
         methods: {
             LOAD_USER_MENU_LIST: async (component, token) => {
                 {
-                    let data = await window.api.user.get_menu(token);
+                    let data = await window.api.user.getMenu(token);
 
                     if (data.status === 200) {
                         component.def_list = data.data;
@@ -133,7 +134,7 @@
             },
             LOAD_USER_INFO: async (component, token) => {
                 {
-                    let data = await window.api.user.get_info(token);
+                    let data = await window.api.user.getInfo(token);
 
                     if (data.status === 200) {
                         component.$store.dispatch('SET_USER_INFO', data.data);
@@ -144,11 +145,7 @@
                 this.$store.commit('SET_PATH', path)
             },
             getActiveStyle: function (index) {
-                if (index === this.def_type) {
-                    return true
-                } else {
-                    return false
-                }
+                return index === this.def_type;
             },
             setActive: function (value) {
                 this.$store.commit('SET_TYPE', value)

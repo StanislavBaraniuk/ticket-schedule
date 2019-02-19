@@ -1,6 +1,6 @@
 const state = {
     showLoader: false,
-    showBlockLoader: { contentBlock: false, menu: false},
+    showBlockLoader: { contentBlock: false, menu: false, tools: true},
     IS_ACTIVE: false,
     dialog: false,
     activeAE: 0,

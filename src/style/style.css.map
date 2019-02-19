@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["components/scroll.sass"],"names":[],"mappings":"AAAA;AAEC;EACC;EACA;EACA;EACA;;;AAED;EACC;;;AAED;EACC;EACA;EACA;;AACA;EACE;;;AACJ;AAEC;EACC;EACA;EACA;EACA;;;AAED;EACC","file":"style.css"}
+{"version":3,"sourceRoot":"","sources":["components/scroll.sass","components/orientationLock.sass"],"names":[],"mappings":"AAAA;AAEC;EACC;EACA;EACA;EACA;;;AAED;EACC;;;AAED;EACC;EACA;EACA;;AACA;EACE;;;AACJ;AAEC;EACC;EACA;EACA;EACA;;;AAED;EACC;;;AC1BF;EACE;IACE;IACA;IACA;IACA;IACA;IACA;IACA","file":"style.css"}

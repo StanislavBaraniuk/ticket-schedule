@@ -1,7 +1,7 @@
 <template>
     <v-card class="padding600 active-orders-card">
         <v-layout row wrap>
-            <h3 class="main-h"><v-chip text-color="white" color="red"><v-icon>shopping_cart</v-icon> {{ orders.length }}</v-chip>  Активні бронювання</h3>
+            <h3 class="main-h"><v-chip text-color="white" color="red"><v-icon>shopping_cart</v-icon> {{ orders.filter(function(order) {return order.ORDER.STATUS === 1; }).length }}</v-chip>  Активні бронювання</h3>
             <v-flex xs12>
                 <v-flex xs12 class="if-not-found" v-if="orders.filter(function(order) {return order.ORDER.STATUS === 1; }).length === 0">
                     Відсутні
@@ -77,7 +77,7 @@
                                 <v-flex xs12 sm12 md4 lg4>
                                     <div class="QR-block">
                                         <div class="QR">
-                                            <img :src=" 'https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=' + item.ORDER.CODE " alt="">
+                                            <img :src=" 'https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=http://tickets-api.zzz.com.ua/order/use/' + item.ORDER.CODE " alt="">
                                         </div>
                                         <small>{{ item.ORDER.CODE }}</small>
                                     </div>
@@ -105,16 +105,16 @@
         },
         created() {
 
-                this.LOAD_ORDERS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0")
+                this.LOAD_ORDERS(this, window.api.storage.getToken())
 
         },
         methods: {
             cacnel: function (code, index) {
-                this.CANCEL_ORDER(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", code, index)
+                this.CANCEL_ORDER(this, window.api.storage.getToken(), code, index)
             },
             LOAD_ORDERS: async (component, token) => {
                 {
-                    let data = await window.api.user.get_all_orders(token);
+                    let data = await window.api.user.getAllOrders(token);
 
                     if (data.status === 200) {
                         component.$store.dispatch("SET_ORDERS", data.data);
@@ -127,7 +127,7 @@
             CANCEL_ORDER: async (component, token, code, index) => {
                 {
 
-                    let data = await window.api.user.cancel_order(token, code);
+                    let data = await window.api.user.cancelOrder(token, code);
 
                     if (data.status === 200) {
                         component.orders.splice(index, 1);

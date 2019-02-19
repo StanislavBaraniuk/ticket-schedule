@@ -10,8 +10,8 @@
     export default {
         name: "Logout",
         created() {
-            this.CHECK_AUTH(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
             this.LOGOUT(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+            this.CHECK_AUTH(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
         },
         methods: {
             LOGOUT: async (component, token) => {
@@ -21,7 +21,7 @@
             },
             CHECK_AUTH: async (component, token) => {
                 {
-                    await window.api.user.is_auth(token, '/');
+                    await window.api.user.isAuth(token, '/');
                 }
             }
         },

@@ -29,7 +29,7 @@
         methods: {
             on: function () {
                 let on = async () => {
-                    await window.api.site.on(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+                    await window.api.site.on(window.api.storage.getToken());
                 };
 
                 on();
@@ -37,7 +37,7 @@
             },
             off: function () {
                 let off = async () => {
-                    await window.api.site.on(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+                    await window.api.site.off(window.api.storage.getToken());
                 };
 
                 off();

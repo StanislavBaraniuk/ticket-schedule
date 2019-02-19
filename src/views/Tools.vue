@@ -1,7 +1,7 @@
 <template>
     <div class="tools">
         <div class="I-do-not-remember-what-it-is-but-I-will-leave-this-here"></div>
-        <v-toolbar v-if="isAdmin" class="hidden-sm-and-up">
+        <v-toolbar v-if="CHECK_ADMIN" class="hidden-sm-and-up">
             <v-spacer></v-spacer>
 
             <v-toolbar-items>
@@ -38,7 +38,7 @@
                     </v-list-tile-action>
 
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                        <v-list-tile-title>{{ item.title }}  <v-icon class="menu-arrow" v-on:click="openNewTab('/admin?tools=tickets')">fas fa-external-link-square-alt</v-icon></v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile
@@ -61,7 +61,7 @@
             <tool-tab></tool-tab>
         </div>
         </div>
-        <v-container fill-height v-if="!isAdmin">
+        <v-container fill-height v-if="!CHECK_ADMIN">
             <h1 v-on:click="rd('/login')">Login as admin</h1>
         </v-container>
     </div>
@@ -71,12 +71,12 @@
     import { mapGetters } from 'vuex';
     import StatisticTab from '../components/admin/statistic/StatisticTab'
     import ToolTab from '../components/admin/tools/ToolTab'
+    import preloader from '../components/preloader/Preloader'
 
     export default {
         name: "Tools",
         data: () => ({
             drawer: true,
-            isAdmin: window.api.user.is_admin,
             items: [
                 { title: 'Статистика', icon: 'fas fa-file-invoice-dollar'},
                 { title: 'Дії', icon: 'fas fa-tools' }
@@ -84,22 +84,46 @@
             right: null
         }),
         methods: {
+            openNewTab: function (url) {
+                window.open(url, '_blank');
+            },
             rd (path) {
                 this.$store.commit('SET_PATH', path)
             },
             setActiveTab: function (index) {
                 this.$store.commit("C_ACTIVE_ADMIN_ELEMENT", index);
-                history.replaceState({} , index === 0 ? "?statistic" : "?tools", index === 0 ? "?statistic" : "?tools=tickets");
+                history.replaceState({} , index === 0 ?
+                    "?statistic" : "?tools", index === 0 ? "?statistic" : "?tools=tickets");
             },
-            CHECK_AUTH: async (component, token) => {
-                {
-                    await window.api.user.is_auth(token, '/');
-                }
+            CHECK_AUTH: function () {
+                let check = async (component, token) => {
+                    {
+                        await window.api.user.isAuth(token, '/');
+                    }
+                };
+
+                setInterval(function () {
+                    check(this,
+                        window.api.storage.getCookie('token') !== undefined ?
+                            window.api.storage.getCookie('token') : "0"
+                    )
+                }, 1000);
+
+            },
+            CHECK_ADMIN: function () {
+                let check = async (component, token) => {
+                    {
+                        return await window.api.user.isAdmin(token, '/');
+                    }
+                };
+
+                return check(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0")
             }
         },
         components: {
             StatisticTab,
-            ToolTab
+            ToolTab,
+            preloader
         },
         created() {
             this.CHECK_AUTH(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
@@ -121,6 +145,9 @@
                 activeTab: 'GET_AVTIVE_ADMIN_ELEMENT',
                 activeTabName: 'GET_AVTIVE_ADMIN_ELEMENT_NAMES'
             }),
+            isAdmin: function () {
+                return this.CHECK_ADMIN();
+            }
         }
     }
 </script>

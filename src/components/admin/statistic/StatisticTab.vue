@@ -44,7 +44,7 @@
                     window.api.statistic.from = '1900-01-01';
                     window.api.statistic.to = new Date().toJSON().slice(0,10).replace(/-/g,'-');
 
-                    let token = window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0";
+                    let token = window.api.storage.getToken();
 
                     this.LOAD_PROFIT(this, token);
                     this.LOAD_ORDER_COUNT(this, token);
@@ -61,7 +61,7 @@
             },
             methods: {
                     LOAD_PROFIT: async (component, token) => {
-                            let resp =  await window.api.statistic.order.get_profit(token);
+                            let resp =  await window.api.statistic.order.getProfit(token);
 
                             if (resp.status === 200) {
                                     component.$store.dispatch("SET_STATISTIC_PROFIT_LIST", resp.data);
@@ -71,7 +71,7 @@
 
                     },
                     LOAD_ORDER_COUNT: async (component, token) => {
-                            let resp =  await window.api.statistic.order.get_count(token);
+                            let resp =  await window.api.statistic.order.getCount(token);
 
                             if (resp.status === 200) {
                                     component.$store.dispatch("SET_STATISTIC_SALES_LIST", resp.data);
@@ -80,7 +80,7 @@
                             }
                     },
                     LOAD_USERS: async (component, token) => {
-                            let resp =  await window.api.statistic.client.get_count(token);
+                            let resp =  await window.api.statistic.client.getCount(token);
 
                             component.$store.dispatch("SET_STATISTIC_USER_LIST", resp.data);
 
@@ -88,7 +88,7 @@
                             component.LOAD_USERS(component, token);
                     },
                     LOAD_USERS_ONLINE: async (component, token) => {
-                            let resp =  await window.api.statistic.client.get_count_online(token);
+                            let resp =  await window.api.statistic.client.getCountOnline(token);
 
                             component.$store.dispatch("SET_STATISTIC_USER_ONLINE", resp.data);
 

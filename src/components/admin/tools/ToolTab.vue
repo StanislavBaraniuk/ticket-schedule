@@ -9,7 +9,6 @@
                 >
                     <v-layout row wrap>
                         <v-flex xs12 sm12 md12 lg12 class="search"><h3>Пошук</h3></v-flex>
-
                         <v-flex xs10 sm5 md5 lg5 offset-xs1>
                             <v-autocomplete
                                     :items="search[activeBlock]"
@@ -39,18 +38,19 @@
                         <v-spacer></v-spacer>
 
                         <v-flex xs12 sm12 md12 lg12 >
-                            <v-btn :class="{activeBtnMenu: activeBlock === 0}" flat @click="setActiveBlock(0)">квитки</v-btn>
-                            <v-btn :class="{activeBtnMenu: activeBlock === 1}" flat @click="setActiveBlock(1)">міста</v-btn>
-                            <v-btn :class="{activeBtnMenu: activeBlock === 2}" flat @click="setActiveBlock(2)">користувачі</v-btn>
-                            <v-btn :class="{activeBtnMenu: activeBlock === 3}" flat @click="setActiveBlock(3)">замовлення</v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 0}" flat @click="setActiveBlock(0)">квитки       <v-icon class="menu-arrow" v-on:click="openNewTab('/admin?tools=tickets')">fas fa-external-link-square-alt</v-icon></v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 1}" flat @click="setActiveBlock(1)">міста        <v-icon class="menu-arrow" v-on:click="openNewTab('/admin?tools=stations')">fas fa-external-link-square-alt</v-icon></v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 2}" flat @click="setActiveBlock(2)">користувачі  <v-icon class="menu-arrow" v-on:click="openNewTab('/admin?tools=users')">fas fa-external-link-square-alt</v-icon></v-btn>
+                            <v-btn :class="{activeBtnMenu: activeBlock === 3}" flat @click="setActiveBlock(3)">замовлення   <v-icon class="menu-arrow" v-on:click="openNewTab('/admin?tools=orders')">fas fa-external-link-square-alt</v-icon></v-btn>
                             <!--<v-btn :class="{activeBtnMenu: activeBlock === 4}" flat @click="setActiveBlock(4)">сайт</v-btn>-->
                         </v-flex>
 
+                        <p style="width: 100%; text-align: center">{{ load_text }}</p>
                     </v-layout>
                 </v-card>
             </v-container>
-{{ def_stations_list.map(function(v) { return v.ID === 1 ? v : null })[0].NAME }}
-            <ticket-menu v-if="activeBlock === 0" :items="def_stations" :tickets="def_tickets" style="max-width: 100vw !important;"></ticket-menu>
+
+            <ticket-menu v-if="activeBlock === 0" :items="def_stations_list" :tickets="def_tickets" style="max-width: 100vw !important;"></ticket-menu>
 
             <city-menu v-if="activeBlock === 1" :stations="def_stations_list" style="max-width: 100vw !important;"></city-menu>
 
@@ -58,7 +58,7 @@
 
             <orders-menu v-if="activeBlock === 3" :stations="def_stations" :orders="def_orders" :tickets="def_tickets" :users="def_user_list" style="max-width: 100vw !important;"></orders-menu>
 
-            <!--<site-menu v-if="activeBlock === 4" :status="{v: site_status}" style="max-width: 100vw !important;"></site-menu>-->
+            <!--<site-menu v-if="activeBlock === 4 && isActive['tools']" :status="{v: site_status}" style="max-width: 100vw !important;"></site-menu>-->
 
         </v-layout>
     </v-container>
@@ -71,6 +71,7 @@
     import UsersMenu from './Users/UsersMenu';
     import SiteMenu from './Site/SiteMenu';
     import OrdersMenu from "./Orders/OrdersMenu";
+    import preloader from "../../preloader/Preloader"
 
     export default {
         name: "ToolTab",
@@ -79,7 +80,8 @@
             UsersMenu,
             TicketMenu,
             CityMenu,
-            SiteMenu
+            SiteMenu,
+            preloader
         },
         data () {
             return {
@@ -88,6 +90,7 @@
                 menu_d: false,
                 modal_d: false,
                 activeBlock: 0,
+                load_text: ''
             }
         },
         created() {
@@ -116,7 +119,7 @@
                     break;
             }
 
-            let token = window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0";
+            let token = window.api.storage.getToken();
 
             this.LOAD_COLUMNS(this, token, "tickets", 0);
             this.LOAD_COLUMNS(this, token, "stations", 1);
@@ -129,8 +132,12 @@
             this.LOAD_USERS(this, token);
             this.LOAD_ORDERS(this, token);
             this.LOAD_STATIONS_WITH_KEY(this, token);
+
         },
         methods: {
+            openNewTab: function (url) {
+                window.open(url, '_blank');
+            },
             setActiveBlock: function (index) {
                 this.activeBlock = index;
                 switch (index) {
@@ -153,7 +160,7 @@
             },
             GET_STATIONS: async (component, token) => {
                 {
-                    let data = await window.api.stations.get_all(token);
+                    let data = await window.api.stations.getAll(token);
 
 
                     if (data.status === 200) {
@@ -172,7 +179,7 @@
             },
             GET_ALL_TICKETS: async (component, token) => {
                 {
-                    let data = await window.api.ticket.get_all(token);
+                    let data = await window.api.ticket.getAll(token);
 
                     if (data.status === 200) {
                         return  {this: component, data: data.data};
@@ -183,7 +190,7 @@
             },
             LOAD_USERS: async (component, token) => {
                 {
-                    let data = await window.api.client.get_all(token);
+                    let data = await window.api.client.getAll(token);
 
                     if (data.status === 200) {
                         component.$store.commit('SET_USER_LIST', data.data);
@@ -191,18 +198,18 @@
                 }
             },
             LOAD_COLUMNS: async (component, token, table_name, key) => {
-                let value = await window.api.user.get_columns(token, table_name);
+                let value = await window.api.user.getColumns(token, table_name);
 
                 component.$store.dispatch('ADD_ADMIN_SEARCH', {key: key, value: value.data});
             },
             LOAD_ORDERS: async (component, token) => {
-                let value = await window.api.order.get_all(token);
+                let value = await window.api.order.getAll(token);
 
                 component.$store.dispatch('SET_ORDERS', value.data);
             },
             LOAD_STATIONS_WITH_KEY: async (component, token) => {
                 {
-                    let data = await window.api.stations.get_with_keys(token);
+                    let data = await window.api.stations.getWithKeys(token);
 
 
                     if (data.status === 200) {
@@ -229,6 +236,7 @@
                 }
             },
             ...mapGetters({
+                isActive: "IS_BLOCK_LOADER",
                 def_tickets: 'GET_ALL_TICKETS',
                 def_stations: 'GET_STATIONS',
                 def_stations_list: "GET_STATIONS_LIST",
@@ -249,6 +257,7 @@
         .activeBtn
             background-color: #00b33f
             color: white !important
+            /*width: 1050px*/
 
         .activeBtnMenu
             background-color: white
@@ -259,4 +268,8 @@
 
         .search-select
             width: 100%
+
+        .menu-arrow
+            width: 25px
+            margin-left: 10px
 </style>

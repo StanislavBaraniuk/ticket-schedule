@@ -8,7 +8,7 @@
 
 <script>
     async function STILL_AUTH() {
-        await window.api.user.is_auth(window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", '/');
+        await window.api.user.isAuth(window.api.storage.getToken(), '/');
     }
 
     export default {

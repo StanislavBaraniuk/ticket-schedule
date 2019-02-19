@@ -38,7 +38,7 @@
                 {
                     component.$store.dispatch("LOADER_ACTIVATE");
 
-                    let data = await window.api.user.get_info(token);
+                    let data = await window.api.user.getInfo(token);
 
                     if (data.status === 200) {
                         component.current_user = data.data;

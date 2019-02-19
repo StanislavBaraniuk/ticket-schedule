@@ -19,26 +19,13 @@
             CityList
         },
         props: {
-            stations:{
-
-            }
+            stations:{}
         },
         data: function () {
             return {
                 addActive: false
             }
-        },
-        methods: {
-            redaction: function (item) {
-                alert(item.toString());
-            },
-            delete: function (id) {
-                alert(id)
-            },
-            addTicket() {
-                // this.$store.commit('ADD_TICKET', {FROM: })
-            }
-        },
+        }
     }
 </script>
 

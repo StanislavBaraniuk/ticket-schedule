@@ -110,19 +110,26 @@
         },
         methods: {
             LOAD_TICKETS: function () {
-                if (this.from.length > 0 && this.to.length > 0) {
+                if (this.from.length > 0 && this.to.length > 0 && new Date(this.def_date) >= new Date(new Date().toJSON().slice(0,10).replace(/-/g,'-'))) {
                     this.$store.dispatch("SET_TICKETS", []);
                     this.$store.dispatch('SET_ACTIVE_PAGE');
                     this.$store.dispatch("BLOCK_LOADER_ACTIVATE", "contentBlock");
 
+                    let from = this.def_from;
+                    let to = this.def_to;
+
                     let filter = {
-                        FROM_PLACE: parseInt(this.GET_KEY_BY_VALUE(this.stations, this.def_from))+1,
-                        TO_PLACE: parseInt(this.GET_KEY_BY_VALUE(this.stations, this.def_to))+1,
+                        FROM_PLACE: this.def_stations_list.filter(function (val) {
+                            return val.NAME === from
+                        })[0].ID,
+                        TO_PLACE: this.def_stations_list.filter(function (val) {
+                            return val.NAME === to
+                        })[0].ID,
                         FROM_DATE: this.def_date,
                         TYPE: this.def_type
                     };
 
-                    this.GET_FILTERED_TICKETS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0", filter).then(function (res) {
+                    this.GET_FILTERED_TICKETS(this, window.api.storage.getToken(), filter).then(function (res) {
                         if (res.data !== undefined) {
                             res.this.$store.dispatch("SET_TICKETS", res.data);
                         }
@@ -135,7 +142,7 @@
 
             GET_FILTERED_TICKETS: async (component, token, filter) => {
                 {
-                    let data = await window.api.ticket.get_filtered_tickets(token, filter);
+                    let data = await window.api.ticket.getFilteredTickets(token, filter);
 
                     if (data.status === 200) {
                         return  {this: component, data: data.data};
@@ -147,7 +154,7 @@
 
             GET_STATIONS: async (component, token) => {
                 {
-                    let data = await window.api.stations.get_all(token);
+                    let data = await window.api.stations.getAll(token);
 
 
                     if (data.status === 200) {
@@ -163,6 +170,16 @@
              */
             GET_KEY_BY_VALUE: function (object, value) {
                 return Object.keys(object).find(key => object[key] === value);
+            },
+            LOAD_STATIONS_WITH_KEY: async (component, token) => {
+                {
+                    let data = await window.api.stations.getWithKeys(token);
+
+
+                    if (data.status === 200) {
+                        component.$store.commit('SET_STATIONS_LIST', data.data);
+                    }
+                }
             }
         },
         mutations: {
@@ -171,7 +188,10 @@
             }
         },
         created() {
-            this.GET_STATIONS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0");
+            let token = window.api.storage.getToken();
+
+            this.GET_STATIONS(this, token);
+            this.LOAD_STATIONS_WITH_KEY(this, token);
         },
         computed: {
             from: {
@@ -202,7 +222,8 @@
                 def_from: 'GET_FROM',
                 def_to: "GET_TO",
                 def_date: "GET_DATE",
-                def_type: "GET_TYPE"
+                def_type: "GET_TYPE",
+                def_stations_list: "GET_STATIONS_LIST"
             })
         }
     }

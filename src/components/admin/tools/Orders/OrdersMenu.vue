@@ -1,17 +1,21 @@
 <template>
-    <v-container>
-        <list :orders="$props.orders" :stations="stations" :tickets="tickets" :users="users"></list>
+    <v-container class="order-menu">
+        <orders-list :orders="$props.orders" :stations="stations" :tickets="tickets" :users="users"></orders-list>
     </v-container>
 </template>
 
 <script>
-
-    import list from "./components/OrdersList"
+    import OrdersList from "./components/OrdersList"
 
     export default {
         name: "OrdersMenu",
         components: {
-            list
+            OrdersList
+        },
+        data: function () {
+            return {
+                addActive: false
+            }
         },
         props: {
             stations: {
@@ -30,6 +34,7 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+    .order-menu
+        margin-top: -30px
 </style>

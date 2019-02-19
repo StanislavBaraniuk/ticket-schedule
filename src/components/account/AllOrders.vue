@@ -5,7 +5,7 @@
             <v-flex xs12 class="if-not-found" v-if="orders.filter(function(order) {return order.ORDER.STATUS === 0; }).length === 0">
                 Відсутні
             </v-flex>
-            <v-flex xs12 v-if="orders.filter(function(order) {return order.ORDER.STATUS === 0; }).length > 0" v-for="(item, index) in orders.filter(function(order) {return order.ORDER.STATUS === 0; })" :key="index">
+            <v-flex xs12 v-for="(item, index) in orders.filter(function(order) {return order.ORDER.STATUS === 0; })" :key="index">
                 <v-card class="">
                     <v-card-text>
                         <v-layout row wrap>
@@ -59,13 +59,13 @@
         },
         created() {
 
-            this.LOAD_ORDERS(this, window.api.storage.getCookie('token') !== undefined ? window.api.storage.getCookie('token') : "0")
+            this.LOAD_ORDERS(this, window.api.storage.getToken())
 
         },
         methods: {
             LOAD_ORDERS: async (component, token) => {
                 {
-                    let data = await window.api.user.get_all_orders(token);
+                    let data = await window.api.user.getAllOrders(token);
 
                     if (data.status === 200) {
                         component.$store.dispatch("SET_ORDERS", data.data);
