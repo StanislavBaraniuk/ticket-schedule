@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BP = "http://tickets-api.zzz.com.ua";
+const BP = "https://api-ticket-schedule.herokuapp.com";
 
 const api = {
     user: {
