@@ -126,8 +126,8 @@
     export default {
         name: "Authorization",
         data: () => ({
-            password: '7654321AsD',
-            email: 'Stanislavbaraniuk@gmail.com',
+            password: '',
+            email: '',
             login_error: '',
             activeBtn: 0,
             showNav: true,
