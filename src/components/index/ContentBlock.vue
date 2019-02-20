@@ -31,7 +31,7 @@
                                 <v-flex xs12 sm6 md6 lg6>
                                     <v-card-title>
                                         <v-flex xs12 sm1 md1 lg1>
-                                            <i class="material-icons type-icon">{{ item.TYPE === 0 ? "directions_railway" : "directions_bus"}}</i>
+                                            <i class="material-icons type-icon">{{ item.TYPE === 1 ? "directions_railway" : "directions_bus"}}</i>
                                         </v-flex>
                                         <v-flex xs12 sm11 md11 lg11>
                                             <h3 class="name">{{ item.NAME }}</h3>
