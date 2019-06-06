@@ -174,7 +174,7 @@
             forgetPass() {
                 let send = async (cmp, email) => {
                     let resp = await window.api.user.forgetPassword(email);
-                    console.log(resp.status);
+                    console.log('lol' + resp.status);
                     if (resp.status === 200) {
                         cmp.login_error = '';
                         document.getElementById('alert').style.visibility = 'visible';
@@ -189,7 +189,9 @@
                     }
                 };
 
+                alert();
                 if (/.[a-zA-Z/.]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email)) {
+
                     send(this, this.email);
                 }
             },

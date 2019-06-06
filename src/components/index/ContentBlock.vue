@@ -79,7 +79,9 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{   stations[item.TO_PLACE-1] }}
+
+                                            <!--{{   stations[item.TO_PLACE-1] }}-->
+                                            {{   stations[stations.length-1] }}
                                             <small>Прибуття о {{ item.TO_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
                                     </v-stepper>
@@ -88,7 +90,7 @@
                                     Маршрут
                                     <v-stepper vertical class="stations">
                                         <v-stepper-step complete="" complete-icon="" v-for="(state, s_index) in item.STATIONS" :key="s_index">
-                                            {{ stations[state-1] }}
+                                            {{ stations[s_index] }}
                                             <small>Зупинка</small>
                                         </v-stepper-step>
 
