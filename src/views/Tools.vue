@@ -27,6 +27,17 @@
 
             <v-divider></v-divider>
 
+            <v-list-tile
+            >
+                <v-list-tile-action>
+                    <v-icon>fas fa-key</v-icon>
+                </v-list-tile-action>
+
+                <v-list-tile-content>
+                    <v-list-tile-title><div style="width: 100%; overflow-x: scroll">vm6EGBm2yRvPSDerfjz8kUD2yc5z2qB4BZuN8L6cLXSyPf2EBNс</div></v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+
             <v-list dense class="pt-0">
                 <v-list-tile
                         v-for="(item, i) in items"

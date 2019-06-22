@@ -5,6 +5,7 @@
             <v-flex xs12 class="if-not-found" v-if="orders.filter(function(order) {return order.ORDER.STATUS === 0; }).length === 0">
                 Відсутні
             </v-flex>
+
             <v-flex xs12 v-for="(item, index) in orders.filter(function(order) {return order.ORDER.STATUS === 0; })" :key="index">
                 <v-card class="">
                     <v-card-text>
