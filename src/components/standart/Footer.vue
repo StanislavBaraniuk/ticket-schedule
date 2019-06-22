@@ -27,7 +27,7 @@
             </v-card-title>
 
             <v-card-actions class="grey darken-3 justify-center">
-                &copy;2018 — <pre> <strong>Stanislav Baraniuk</strong></pre>
+                &copy;2019 <pre> <strong></strong></pre>
             </v-card-actions>
         </v-card>
     </v-footer>
