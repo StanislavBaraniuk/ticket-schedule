@@ -49,8 +49,6 @@
                         NAME: this.NAME
                     });
 
-                    alert(resp.status);
-
                     if (resp.status === 200) {
                         window.location.reload();
                     } else if (resp.status === 409) {

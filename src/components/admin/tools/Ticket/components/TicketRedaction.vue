@@ -1,6 +1,5 @@
 <template>
     <v-container v-if="activeTicketRedactId.v === item.ID">
-
         <v-card class="inside-card">
             <small style="color: red">{{error}}</small>
             <v-layout row wrap>

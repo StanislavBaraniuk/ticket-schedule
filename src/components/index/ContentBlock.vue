@@ -1,5 +1,6 @@
 <template>
     <v-container class="content-block">
+
         <v-snackbar
                 v-model="snackbar.model"
                 :bottom="snackbar.y === 'bottom'"
@@ -61,7 +62,7 @@
                                 <v-flex xs12 sm6 md6 lg6>
                                     <v-stepper vertical class="positions">
                                         <v-stepper-step complete="" complete-icon="">
-                                            {{ stations[item.FROM_PLACE-1] }}
+                                            {{ stations.filter(function(v) { return v.ID === item.FROM_PLACE})[0].NAME }}
                                             <small>Відправлення о {{ item.FROM_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
 
@@ -79,9 +80,7 @@
                                         </v-stepper-content>
 
                                         <v-stepper-step complete="" complete-icon="">
-
-                                            <!--{{   stations[item.TO_PLACE-1] }}-->
-                                            {{   stations[stations.length-1] }}
+                                            {{   stations.filter(function(v) { return v.ID === item.TO_PLACE})[0].NAME }}
                                             <small>Прибуття о {{ item.TO_TIME | timeNormalizer }}</small>
                                         </v-stepper-step>
                                     </v-stepper>
@@ -89,11 +88,18 @@
                                 <v-flex xs12 sm6 md6 lg6>
                                     Маршрут
                                     <v-stepper vertical class="stations">
-                                        <v-stepper-step complete="" complete-icon="" v-for="(state, s_index) in item.STATIONS" :key="s_index">
-                                            {{ stations[s_index] }}
+                                        <v-stepper-step complete="" :complete-icon="true">
+                                            {{stations.filter(function(v) { return v.ID === item.FROM_PLACE})[0].NAME }}
                                             <small>Зупинка</small>
                                         </v-stepper-step>
-
+                                        <v-stepper-step complete="" complete-icon="" v-for="(state, s_index) in item.STATIONS" :key="s_index">
+                                            {{stations.filter(function(v) { return v.ID === parseInt(state)})[0].NAME }}
+                                            <small>Зупинка</small>
+                                        </v-stepper-step>
+                                        <v-stepper-step complete="" complete-icon="">
+                                            {{ stations.filter(function(v) { return v.ID === item.TO_PLACE})[0].NAME }}
+                                            <small>Зупинка</small>
+                                        </v-stepper-step>
                                         <v-stepper-content >
 
                                         </v-stepper-content>
@@ -175,7 +181,7 @@
                 tickets: "GET_ALL_TICKETS",
                 filter: "GET_FILTER",
                 isActive: "GET_IS_ACTIVE",
-                stations: 'GET_STATIONS',
+                stations: 'GET_STATIONS_LIST',
                 current_user: "GET_CURRENT_USER"
             })
         }

@@ -19,7 +19,7 @@ Vue.component('apexchart', VueApexCharts);
 window.axios = axios;
 window.api = api;
 window.store = store;
-let MODE = 'P';
+let MODE = 'D';
 
 Vue.use(Vuetify);
 Vue.use(VueResize);

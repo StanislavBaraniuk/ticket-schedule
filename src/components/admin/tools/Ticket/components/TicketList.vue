@@ -25,7 +25,7 @@
                         <v-flex xs12 sm12 md12 lg12>
                             <h3 class="way-h">Маршрут</h3>
                             <div class="text-xs-center" >
-                                <v-chip v-for="(station_number, index_s) in item.STATIONS" :key="index_s">{{ stations.filter(function(v) { return v.ID === parseInt(station_number) })[0].NAME }}</v-chip>
+                                <v-chip v-for="(station_number, index_s) in item.STATIONS" :key="index_s">{{ stations.filter(function(v) { return v.ID === parseInt(station_number) })[0] }}</v-chip>
                             </div>
                         </v-flex>
                     </v-layout>

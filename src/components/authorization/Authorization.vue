@@ -33,7 +33,6 @@
                                         label="Пароль"
                                         outline
                                         type="password"
-                                        :rules="passwordRules"
                                         v-model="password"
                                 ></v-text-field>
                             </v-flex>
@@ -155,9 +154,9 @@
                 }
             },
             login() {
-                if (/.[a-zA-Z0-9]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email) && /.(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(this.password)) {
+                // if (/.[a-zA-Z0-9]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email) && /.(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(this.password)) {
                     this.TRY_LOGIN(this, this.email, this.password);
-                }
+                // }
             },
             TRY_LOGIN: async (component, email, password) => {
                 let response = await window.api.user.login(email, password);
@@ -189,7 +188,7 @@
                     }
                 };
 
-                alert();
+                // alert();
                 if (/.[a-zA-Z/.]{1,}@[a-z]{1,}[.][a-z]{2,}/.test(this.email)) {
 
                     send(this, this.email);

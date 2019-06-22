@@ -160,7 +160,8 @@
                     if (data.status === 200) {
                         component.stations  = Object.values(data.data);
 
-                        component.$store.commit('SET_STATIONS',component.stations);
+                        component.$store.commit('SET_STATIONS', component.stations);
+                        console.log(component.stations)
                     }
                 }
             },
