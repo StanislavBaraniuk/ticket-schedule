@@ -19,7 +19,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fusioncharts": "^3.13.3-sr.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "underscore": "^1.9.1",
